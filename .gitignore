@@ -3,3 +3,4 @@ node_modules/
 dist/
 *.log
 *.mp4
+.env
