@@ -1,22 +1,33 @@
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogIn from "./SocialLogIn";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth/useAuth";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure/useAxiosSecure";
+import { useState } from "react";
+import SignUpLoading from "../../components/SignUpLoading/SignUpLoading";
+import { IoEyeOutline } from "react-icons/io5";
+import { FaRegEyeSlash } from "react-icons/fa";
 
 const SignUp = () => {
     const navigate = useNavigate();
+    const axiosSecure = useAxiosSecure();
+    const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const {
         register,
-        handleSubmit,
         watch,
+        handleSubmit,
         formState: { errors },
     } = useForm();
 
-    const { createUser } = useAuth();
-
-    const handleSingUp = (data) => {
+    const { createUser, updateUser } = useAuth();
+    const password = watch('password');
+    const location = useLocation();
+    const handleSignUp = (data) => {
+        setLoading(true);
         const profileImg = data.photo[0];
         const formData = new FormData();
         formData.append('image', profileImg);
@@ -24,27 +35,53 @@ const SignUp = () => {
             .then(res => {
                 const photoUrl = res.data.data.url;
                 console.log(photoUrl, data);
+
+                //create new user 
                 const newUser = {
-                    displayName: data.name,
+                    name: data.name,
                     email: data.email,
-                    photoUrl: photoUrl
+                    photoUrl,
+                    address: data.address,
+                    role: "user",
+                    status: "active"
                 };
+
                 createUser(data.email, data.password)
                     .then(res => {
-                        navigate('/');
-                        Swal.fire({
-                            position: "top-end",
-                            icon: "success",
-                            title: "User Log In Successfully",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        console.log(res.user);
+
+                        axiosSecure.post('/users', newUser)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    console.log('user created in database');
+                                }
+                            })
+                            .catch(err => console.log(err));
+
+                        const userProfile = {
+                            displayName: data.name,
+                            photoUrl: photoUrl
+                        };
+
+                        updateUser(userProfile)
+                            .then(() => {
+                                navigate(location?.state || "/");
+                                setLoading(false)
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "success",
+                                    title: "User Sign Up Successfully",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            });
                     })
                     .catch(err => console.log(err));
-
             });
-        // console.log(data)
+
+    }
+
+    if (loading) {
+        return <SignUpLoading />
     }
     return (
         <div className="w-10/12 flex justify-center items-center mx-auto">
@@ -53,7 +90,7 @@ const SignUp = () => {
                 <h1 className="text-4xl font-bold mb-2">Create an Account</h1>
                 <p className="mb-6">Sign Up with ZapShift</p>
 
-                <form onSubmit={handleSubmit(handleSingUp)}>
+                <form onSubmit={handleSubmit(handleSignUp)}>
                     <fieldset className="fieldset space-y-3">
                         {/* Name */}
                         <label className="label">Name</label>
@@ -88,17 +125,66 @@ const SignUp = () => {
                         {errors.email?.type === "required" && (
                             <p className="text-red-500">Email is required</p>
                         )}
+                        {/* Address */}
+                        <label className="label">Address</label>
+                        <input
+                            {...register("address", { required: true })}
+                            type="text"
+                            className="input input-bordered w-full"
+                            placeholder="Your Name"
+                        />
+                        {errors.address?.type === "required" && (
+                            <p className="text-red-500">Address is required</p>
+                        )}
                         {/* Password */}
                         <label className="label">Password</label>
-                        <input
-                            {...register("password", { required: true })}
-                            type="password"
+                        <div className="flex items-center text-xl relative"> <input
+                            {...register("password", {
+                                required: "Password is required",
+                                minLength: {
+                                    value: 6,
+                                    message: "Password must be at least 6 characters"
+                                },
+                                pattern: {
+                                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/,
+                                    message:
+                                        "Password must contain uppercase, lowercase, number, and special character"
+                                }
+                            })}
+
+                            type={showPassword ? "text" : "password"}
                             className="input input-bordered w-full"
                             placeholder="Password"
                         />
-                        {errors.password?.type === "required" && (
-                            <p className="text-red-500">Password is required</p>
+                            {
+                                !showPassword ? <IoEyeOutline onClick={() => setShowPassword(!showPassword)} className="absolute right-3" /> :
+                                    <FaRegEyeSlash onClick={() => setShowPassword(!showPassword)} className="absolute right-3" />
+                            }
+                        </div>
+                        {errors.password && (
+                            <p className="text-red-500">{errors.password.message}</p>
                         )}
+                        {/* Confirm password */}
+                        <label className="label"> Confirm Password</label>
+                        <div className="flex items-center text-xl relative">
+                            <input
+                                {...register("confirmPassword", {
+                                    required: "Confirm Password is required",
+                                    validate: value => value === password || "Passwords do not match"
+                                })}
+                                type={showConfirmPassword ? "text" : "password"}
+                                className="input input-bordered w-full"
+                                placeholder="Confirm Password"
+                            />
+                            {
+                                !showConfirmPassword ? <IoEyeOutline onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3" /> :
+                                    <FaRegEyeSlash onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3" />
+                            }
+                        </div>
+                        {errors.confirmPassword && (
+                            <p className="text-red-500">{errors.confirmPassword.message}</p>
+                        )}
+
                         <button type="submit" className="btn bg-lime-300 w-full mt-4">
                             Sign Up
                         </button>

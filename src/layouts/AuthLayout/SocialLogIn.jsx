@@ -1,9 +1,60 @@
+import { useLocation, useNavigate } from "react-router";
+import useAuth from "../../hooks/useAuth/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure/useAxiosSecure";
+import Swal from "sweetalert2";
+
 const SocialLogIn = () => {
+    const axiosSecure = useAxiosSecure();
+    const { googleSignIn } = useAuth();
+    const navigate = useNavigate();
+    const location=useLocation();
+    const handleSignIn = () => {
+        googleSignIn()
+            .then(res => {
+                const user = res.user;
+                const newUser = {
+                    displayName: user.displayName,
+                    email: user.email,
+                    role: "user",
+                    status: "active"
+                };
+
+                axiosSecure.post('/users', newUser)
+                    .then(res => {
+                        navigate(location?.state || "/");
+
+                        if (res.data.insertedId) {
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "User Sign In Successfully",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        if (error.response?.status === 409) {
+                            navigate('/');
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "Sign Up Successfully",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
+                    });
+            })
+            .catch(err => console.log(err));
+    };
+
     return (
         <div>
             <h1 className="text-xl text-center my-2">OR</h1>
 
             <button
+                onClick={handleSignIn}
                 type="button"
                 className="btn bg-white text-black border border-[#e5e5e5] w-full flex items-center justify-center gap-2"
             >

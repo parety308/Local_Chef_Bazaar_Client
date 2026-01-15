@@ -3,21 +3,29 @@ import SocialLogIn from "./SocialLogIn";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth/useAuth";
 import Swal from "sweetalert2";
+import { useState } from "react";
+import LogInLoader from "../../components/LogInLoader/LogInLoader";
+import { IoEyeOutline } from "react-icons/io5";
+import { FaRegEyeSlash } from "react-icons/fa";
 
 const Login = () => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
     } = useForm();
-    const { logInUser } = useAuth();
+    const { logInUser, forgetPassword } = useAuth();
+    const email=watch('email');
     const handleLogIn = (data) => {
-
+        setLoading(true);
         logInUser(data.email, data.password)
             .then(res => {
-                navigate('/')
+                navigate('/');
+                setLoading(false);
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
@@ -29,6 +37,16 @@ const Login = () => {
             })
             .catch(err => console.log(err));
 
+    }
+    const handleForgetPassword = () => {
+        forgetPassword(email)
+            .then(() => {
+
+            })
+            .catch(err => console.log(err));
+    }
+    if (loading) {
+        return <LogInLoader />
     }
     return (
         <div className="w-10/12 flex justify-center items-center mx-auto">
@@ -53,17 +71,22 @@ const Login = () => {
 
                         {/* Password */}
                         <label className="label">Password</label>
-                        <input
+                        <div className="flex items-center text-xl relative"> <input
                             {...register("password", { required: true })}
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             className="input input-bordered w-full"
                             placeholder="Password"
                         />
+                            {
+                                !showPassword ? <IoEyeOutline onClick={() => setShowPassword(!showPassword)} className="absolute right-3" /> :
+                                    <FaRegEyeSlash onClick={() => setShowPassword(!showPassword)} className="absolute right-3" />
+                            }
+                        </div>
                         {errors.password?.type === "required" && (
                             <p className="text-red-500">Password is required</p>
                         )}
 
-                        <div>
+                        <div onClick={handleForgetPassword}>
                             <a className="link link-hover text-sm">Forgot password?</a>
                         </div>
 

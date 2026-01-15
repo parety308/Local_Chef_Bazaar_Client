@@ -1,13 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router';
 import Logo from '../Logo/Logo';
+import useAuth from '../../hooks/useAuth/useAuth';
+import Loading from '../Loading/Loading';
 
 const Navbar = () => {
+    const { user, logOut } = useAuth();
+    const [loading, setLoading] = useState(false);
+    const handleLogOut = () => {
+        setLoading(true);
+        logOut().then(() => {
+            setLoading(false);
+        })
+            .catch(err => console.log(err));
+    }
+    if (loading) {
+        return <Loading />
+    }
+
     const links = <>
-        <li><NavLink to='/' className={({ isActive }) =>
-            isActive ? "text-primary underline" : "text-gray-500"}>Home</NavLink></li>
-        <li><NavLink to='/meals'>Meals</NavLink></li>
+        <li>
+            <NavLink
+                to='/'
+                className={({ isActive }) =>
+                    isActive ? "text-primary underline" : "text-gray-500"
+                }
+            >
+                Home
+            </NavLink>
+        </li>
+
+        <li>
+            <NavLink
+                to='/meals'
+                className={({ isActive }) =>
+                    isActive ? "text-primary underline" : "text-gray-500"
+                }
+            >
+                Meals
+            </NavLink>
+        </li>
+
+        {user && (
+            <li>
+                <NavLink
+                    to='/dashboard'
+                    className={({ isActive }) =>
+                        isActive ? "text-primary underline" : "text-gray-500"
+                    }
+                >
+                    Dashboard
+                </NavLink>
+            </li>
+        )}
     </>
+
     return (
         <div className="navbar bg-base-100 shadow-sm">
             <div className="navbar-start">
@@ -32,10 +79,22 @@ const Navbar = () => {
                     }
                 </ul>
             </div>
-            <div className="navbar-end gap-5 mr-5">
-                <Link to='/auth/login' className="btn btn-primary">Login</Link >
-                <Link to='/auth/signup' className="btn btn-accent">Sign Up</Link >
-            </div>
+            {
+                user ? (
+                    <div className="navbar-end gap-5 mr-5">
+                        <img src={user?.photoUrl} className='w-10 h-10 rounded-full' alt="" />
+                        <button onClick={handleLogOut} className="btn btn-accent">
+                            Sign Out
+                        </button>
+                    </div>
+                ) : (
+                    <div className="navbar-end gap-5 mr-5">
+                        <Link to="/auth/login" className="btn btn-primary">Login</Link>
+                        <Link to="/auth/signup" className="btn btn-accent">Sign Up</Link>
+                    </div>
+                )
+            }
+
         </div>
     );
 };

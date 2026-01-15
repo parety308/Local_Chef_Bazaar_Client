@@ -6,7 +6,6 @@ const RootLayout = () => {
     return (
         <div>
             <Navbar />
-            <h1 className="text-4xl">Root Layout</h1>
             <Outlet />
 
         </div>

@@ -4,6 +4,8 @@ import HomeLayout from "../layouts/HomeLayout/HomeLayout";
 import AuthLayout from "../layouts/AuthLayout/AuthLayout";
 import Login from "../layouts/AuthLayout/Login";
 import SignUp from "../layouts/AuthLayout/SignUp";
+import Dashboard from "../layouts/Dashboard/Dashboard";
+import MealsPage from "../pages/MealsPage/MealsPage";
 
 export const router = createBrowserRouter([
     {
@@ -13,6 +15,10 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 Component: HomeLayout
+            },
+            {
+                path: '/meals',
+                Component: MealsPage
             }
         ]
     },
@@ -25,9 +31,18 @@ export const router = createBrowserRouter([
                 Component: Login
             },
             {
-                path:'/auth/signup',
-                Component:SignUp
+                path: '/auth/signup',
+                Component: SignUp
+            }
+        ]
+    },
+    {
+        path: '/dashboard',
+        Component: Dashboard,
+        children: [
+            {
+                // path:'/dashboard/'
             }
         ]
     }
-])
+]);
