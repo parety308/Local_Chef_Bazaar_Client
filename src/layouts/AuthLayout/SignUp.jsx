@@ -42,7 +42,6 @@ const SignUp = () => {
                     email: data.email,
                     photoUrl,
                     address: data.address,
-                    role: "user",
                     status: "active"
                 };
 

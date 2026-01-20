@@ -1,7 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
+import useAuth from '../../hooks/useAuth/useAuth';
+import CustomerDashboard from './CustomerDashboard/CustomerDashboard';
+import AdminDashboard from './AdminDashboard/AdminDashboard';
+import ChefDashboard from './ChefDashboard/ChefDashboard';
 
 const Dashboard = () => {
+    const { user } = useAuth();
     return (
         <div className="drawer lg:drawer-open">
             <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -15,7 +20,11 @@ const Dashboard = () => {
                     <div className="px-4 text-3xl font-semibold">LocalChef</div>
                 </nav>
                 {/* Page content here */}
-                <div className="p-4">Page Content</div>
+                <div className='w-11/12 mx-auto'>
+                    {user.role == 'customer' && <CustomerDashboard />}
+                    {user.role == 'admin' && <AdminDashboard />}
+                    {user.role == 'chef' && <ChefDashboard />}
+                </div>
             </div>
 
             <div className="drawer-side is-drawer-close:overflow-visible">

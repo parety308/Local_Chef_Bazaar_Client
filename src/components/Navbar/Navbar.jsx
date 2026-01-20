@@ -43,7 +43,7 @@ const Navbar = () => {
 
         {user && (
             <li>
-                <NavLink
+                <NavLink 
                     to='/dashboard'
                     className={({ isActive }) =>
                         isActive ? "text-primary underline" : "text-gray-500"
@@ -64,13 +64,13 @@ const Navbar = () => {
                     </div>
                     <ul
                         tabIndex="-1"
-                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 p-2 shadow">
+                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 lg:p-2 shadow">
                         {
                             links
                         }
                     </ul>
                 </div>
-                <a><Logo /></a>
+                <Logo />
             </div>
             <div className="navbar-start hidden lg:flex">
                 <ul className="menu menu-horizontal px-1 gap-10">
@@ -88,9 +88,9 @@ const Navbar = () => {
                         </button>
                     </div>
                 ) : (
-                    <div className="navbar-end gap-5 mr-5">
+                    <div className="navbar-end gap-5 lg:mr-5 ">
                         <Link to="/auth/login" className="btn btn-primary">Login</Link>
-                        <Link to="/auth/signup" className="btn btn-accent">Sign Up</Link>
+                        <Link to="/auth/signup" className="btn btn-accent hidden lg:flex md:flex">Sign Up</Link>
                     </div>
                 )
             }

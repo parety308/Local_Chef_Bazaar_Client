@@ -15,7 +15,6 @@ const SocialLogIn = () => {
                 const newUser = {
                     displayName: user.displayName,
                     email: user.email,
-                    role: "user",
                     status: "active"
                 };
 
