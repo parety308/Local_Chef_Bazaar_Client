@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useParams, useNavigate } from 'react-router';
+import { useParams, useNavigate, NavLink } from 'react-router';
 import useAxiosSecure from '../../hooks/useAxiosSecure/useAxiosSecure';
 import Loading from '../../components/Loading/Loading';
 import { useState } from 'react';
@@ -31,6 +31,7 @@ const MealDetails = () => {
         }
     });
     const {
+        _id,
         foodName,
         chefName,
         foodImg,
@@ -49,8 +50,9 @@ const MealDetails = () => {
             foodName,
             ratings,
             review: e.target.reviewText.value,
-            customer: user.displayName,
-            customerImg: user.photoURL
+            user: user.displayName,
+            userEmail:user.email,
+            userImg: user.photoURL
         };
         axiosSecure.post('/reviews', review)
             .then(res => {
@@ -67,6 +69,46 @@ const MealDetails = () => {
                     });
                 }
             })
+
+    };
+
+    const handleFavourites = () => {
+        const newMeal = {
+            userEmail: user.email,
+            mealId: id,
+            mealName: foodName,
+            mealImg: foodImg,
+            chefId,
+            chefName,
+            price
+        };
+        axiosSecure.post('/favourites', newMeal)
+            .then(res => {
+                console.log(res.data);
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "This Meal Added Favourite",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+            .catch(error => {
+                if (error.response?.status === 400) {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Already Added!",
+                        text: "This meal is already in your favourites.",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Something went wrong!",
+                        text: "Please try again later.",
+                    });
+                }
+            });
+
 
     }
     // console.log(reviews);
@@ -130,13 +172,23 @@ const MealDetails = () => {
                         </div>
                     </div>
 
-                    {/* Order Button */}
-                    <button
-                        onClick={() => navigate(`/order/${chefId}`)}
-                        className="mt-8 bg-linear-to-r from-orange-500 to-red-500 text-white text-lg font-semibold py-3 rounded-xl hover:scale-105 transition-transform"
-                    >
-                        Order Now 🍽️
-                    </button>
+                    <div className="flex gap-4">
+                        {/* Order Button */}
+                        <NavLink
+                            to={`/order/${id}`}
+                            className="mt-8 bg-linear-to-r from-orange-500 to-red-500 text-white text-lg font-semibold py-3 px-6 rounded-xl hover:scale-105 transition-transform"
+                        >
+                            Order Now 🍽️
+                        </NavLink>
+
+                        {/* Favorite Button */}
+                        <NavLink
+                            onClick={() => handleFavourites(_id)}
+                            className="mt-8 bg-linear-to-r from-orange-500 to-red-500 text-white text-lg font-semibold py-3 px-6 rounded-xl hover:scale-105 transition-transform"
+                        >
+                            Add to Favourite
+                        </NavLink>
+                    </div>
                 </div>
             </div>
             <div className="w-10/12 mx-auto my-10 p-5 border rounded-xl shadow">
