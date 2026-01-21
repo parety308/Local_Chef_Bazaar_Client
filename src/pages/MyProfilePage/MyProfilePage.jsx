@@ -1,9 +1,12 @@
+import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure/useAxiosSecure";
 import useRole from "../../hooks/useRole/useRole";
 
 const MyProfilePage = () => {
     const { user } = useAuth();
     const { role } = useRole();
+    const axiosSecure = useAxiosSecure();
 
     // demo data (replace with real data later)
     const address = "Dhaka, Bangladesh";
@@ -14,11 +17,23 @@ const MyProfilePage = () => {
         const changeRole =
         {
             userName: user.displayName,
-            userEmail:user.email,
+            userEmail: user.email,
             requestType: role,
-            requestStatus: "pending", 
-            requestTime: "2025-11-27T15:30:00Z"
-        }
+            requestStatus: "pending",
+            requestTime: new Date()
+        };
+        axiosSecure.post('/users-request', changeRole)
+            .then(res => {
+                if (res.data.insertedId) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Application Has Been  Submitted",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
 
     }
 
