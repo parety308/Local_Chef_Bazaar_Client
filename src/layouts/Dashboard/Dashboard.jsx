@@ -12,6 +12,7 @@ import { CiSquareQuestion } from 'react-icons/ci';
 import { GiMeal } from 'react-icons/gi';
 import { TbCalendarQuestion, TbUserQuestion } from 'react-icons/tb';
 import Logo from '../../components/Logo/Logo';
+import { RxDashboard } from 'react-icons/rx';
 
 const Dashboard = () => {
     // const { user } = useAuth();
@@ -31,9 +32,6 @@ const Dashboard = () => {
                 </nav>
                 {/* Page content here */}
                 <div className='w-11/12 mx-auto'>
-                    {role == 'user' && <UserDashboard />}
-                    {role == 'admin' && <AdminDashboard />}
-                    {role == 'chef' && <ChefDashboard />}
                     <Outlet />
                 </div>
             </div>
@@ -52,7 +50,13 @@ const Dashboard = () => {
                             </ Link>
                         </li>
                         <li>
-                            <Link to='/' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Profile">
+                            <Link to='/dashboard' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="DashBoard">
+                                <RxDashboard/>
+                                <span className="is-drawer-close:hidden">DashBoard</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to='/dashboard/my-profile' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Profile">
                                 <CgProfile />
                                 <span className="is-drawer-close:hidden">My Profile</span>
                             </Link>

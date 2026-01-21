@@ -11,6 +11,11 @@ import MealDetails from "../pages/MealDetails/MealDetails";
 import OrderPage from "../pages/OrderPage/OrderPage";
 import FavouriteMeals from "../pages/FavouriteMeals/FavouriteMeals";
 import MyReviewPage from "../pages/MyReviewPage/MyReviewPage";
+import MyProfilePage from "../pages/MyProfilePage/MyProfilePage";
+import UserDashboard from "../layouts/Dashboard/UserDashboard/UserDashboard";
+import AdminDashboard from "../layouts/Dashboard/AdminDashboard/AdminDashboard";
+import ChefDashboard from "../layouts/Dashboard/ChefDashboard/ChefDashboard";
+import DashboardRedirect from "../layouts/Dashboard/DashboardRedirect/DashboardRedirect";
 
 export const router = createBrowserRouter([
     {
@@ -50,6 +55,23 @@ export const router = createBrowserRouter([
         element: <PrivateRoutes><Dashboard /></PrivateRoutes>,
         children: [
             {
+                index: true,
+                Component: DashboardRedirect
+            }
+            ,
+            {
+                path: 'user',
+                element: <UserDashboard />
+            },
+            {
+                path: 'admin',
+                element: <AdminDashboard />
+            },
+            {
+                path: 'chef',
+                element: <ChefDashboard />
+            },
+            {
                 path: '/dashboard/order/:id',
                 Component: OrderPage
             },
@@ -60,6 +82,10 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/reviews',
                 Component: MyReviewPage
+            },
+            {
+                path: '/dashboard/my-profile',
+                Component: MyProfilePage
             }
         ]
     }
