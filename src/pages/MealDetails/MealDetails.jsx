@@ -51,7 +51,7 @@ const MealDetails = () => {
             ratings,
             review: e.target.reviewText.value,
             user: user.displayName,
-            userEmail:user.email,
+            userEmail: user.email,
             userImg: user.photoURL
         };
         axiosSecure.post('/reviews', review)

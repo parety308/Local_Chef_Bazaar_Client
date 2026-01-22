@@ -8,7 +8,6 @@ import Dashboard from "../layouts/Dashboard/Dashboard";
 import MealsPage from "../pages/MealsPage/MealsPage";
 import PrivateRoutes from "./PrivateRoutes/PrivateRoutes";
 import MealDetails from "../pages/MealDetails/MealDetails";
-import OrderPage from "../pages/OrderPage/OrderPage";
 import FavouriteMeals from "../pages/FavouriteMeals/FavouriteMeals";
 import MyReviewPage from "../pages/MyReviewPage/MyReviewPage";
 import MyProfilePage from "../pages/MyProfilePage/MyProfilePage";
@@ -16,6 +15,8 @@ import UserDashboard from "../layouts/Dashboard/UserDashboard/UserDashboard";
 import AdminDashboard from "../layouts/Dashboard/AdminDashboard/AdminDashboard";
 import ChefDashboard from "../layouts/Dashboard/ChefDashboard/ChefDashboard";
 import DashboardRedirect from "../layouts/Dashboard/DashboardRedirect/DashboardRedirect";
+import MyOrdersPage from "../pages/MyOrdersPage/MyOrdersPage";
+import OrderForm from "../pages/OrderForm/OrderForm";
 
 export const router = createBrowserRouter([
     {
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
             {
                 path: '/meal-details/:id',
                 element: <PrivateRoutes><MealDetails /></PrivateRoutes>
+            },
+            {
+                path: '/order/:id',
+                element: <PrivateRoutes><OrderForm /></PrivateRoutes>
             }
         ]
     },
@@ -72,8 +77,8 @@ export const router = createBrowserRouter([
                 element: <ChefDashboard />
             },
             {
-                path: '/dashboard/order/:id',
-                Component: OrderPage
+                path: '/dashboard/my-orders',
+                Component: MyOrdersPage
             },
             {
                 path: '/dashboard/favorites',
