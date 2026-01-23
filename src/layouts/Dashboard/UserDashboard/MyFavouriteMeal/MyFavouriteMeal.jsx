@@ -1,10 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
-import useAuth from '../../hooks/useAuth/useAuth';
-import useAxiosSecure from '../../hooks/useAxiosSecure/useAxiosSecure';
-import Loading from '../../components/Loading/Loading';
-import Swal from 'sweetalert2';
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../../../hooks/useAuth/useAuth";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure/useAxiosSecure";
+import Loading from "../../../../components/Loading/Loading";
+import Swal from "sweetalert2";
 
-const FavouriteMeals = () => {
+const MyFavouriteMeal = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const { data: favouriteMeals = [], isLoading, refetch } = useQuery({
@@ -82,4 +82,4 @@ const FavouriteMeals = () => {
     );
 };
 
-export default FavouriteMeals;
+export default MyFavouriteMeal;

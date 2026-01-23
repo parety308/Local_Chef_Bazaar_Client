@@ -17,9 +17,9 @@ const useRole = () => {
             return res.data;
         }
     });
-
+    // console.log(data);
     return {
-        role: data?.role || 'user',
+        role: data?.role,
         isLoading
     };
 };

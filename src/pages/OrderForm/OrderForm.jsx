@@ -2,14 +2,15 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import Swal from "sweetalert2";
+import Loading from "../../components/Loading/Loading";
 
 const OrderForm = () => {
     const { id } = useParams();
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const { data: meal, isLoading, refetch } = useQuery({
         queryKey: ['meals', id],
         queryFn: async () => {
@@ -36,7 +37,7 @@ const OrderForm = () => {
             price: price * data.quantity,
             quantity: data.quantity,
             chefId,
-            paymentStatus: "Pending",
+            paymentStatus: "pending",
             userEmail: user.email,
             userAddress: data.userAddress,
             orderStatus: "pending",
@@ -66,7 +67,9 @@ const OrderForm = () => {
             }
         });
     };
-
+    if (isLoading) {
+        return <Loading />
+    }
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}

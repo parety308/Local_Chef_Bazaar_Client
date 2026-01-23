@@ -228,21 +228,24 @@ const MealDetails = () => {
                     {reviews.map((rev, idx) => (
                         <div key={idx} className="p-4 border rounded-lg mb-4 flex gap-4">
                             <img
-                                src={rev.customerImg}
+                                src={rev.userImg}
                                 className="w-24 h-20 object-cover rounded"
                                 alt=""
                             />
                             <div>
                                 <h4 className="font-bold">{rev.foodName}</h4>
                                 <p className="text-sm text-gray-600">
-                                    Reviewer: {rev.customer}
+                                    Reviewer: {rev.user}
                                 </p>
-                                <Rating
+                                <p className="text-sm text-gray-600">
+                                    Reviewer Email : {rev.userEmail}
+                                </p>
+                                <p className='flex gap-2'> Ratings : <Rating
                                     style={{ maxWidth: 120 }}
                                     value={rev.ratings}
                                     readOnly
-                                />
-                                <p className="mt-2">{rev.review}</p>
+                                /></p>
+                                <p className="mt-2">Review : {rev.review}</p>
                                 <p className="text-sm text-gray-500">Posted: {rev.date}</p>
                             </div>
                         </div>

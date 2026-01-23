@@ -7,18 +7,16 @@ const MyProfilePage = () => {
     const { user } = useAuth();
     const { role } = useRole();
     const axiosSecure = useAxiosSecure();
-
     // demo data (replace with real data later)
     const address = "Dhaka, Bangladesh";
     const status = "active";
     const chefId = "CHEF-1023";
-    // console.log(user);
-    const handleRoleChange = (role) => {
+    const handleRoleChange = (newRole) => {
         const changeRole =
         {
             userName: user.displayName,
             userEmail: user.email,
-            requestType: role,
+            requestType: newRole,
             requestStatus: "pending",
             requestTime: new Date()
         };

@@ -51,7 +51,7 @@ const Dashboard = () => {
                         </li>
                         <li>
                             <Link to='/dashboard' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="DashBoard">
-                                <RxDashboard/>
+                                <RxDashboard />
                                 <span className="is-drawer-close:hidden">DashBoard</span>
                             </Link>
                         </li>
@@ -67,7 +67,7 @@ const Dashboard = () => {
                         {
                             role == 'user' &&
                             <li>
-                                <Link to='/' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Orders">
+                                <Link to='/dashboard/my-orders' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Orders">
                                     <MdOutlineShoppingCart />
                                     <span className="is-drawer-close:hidden">My Orders</span>
                                 </Link>
@@ -76,7 +76,7 @@ const Dashboard = () => {
                         {
                             role == 'user' &&
                             <li>
-                                <Link to='/' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Reviews">
+                                <Link to='/dashboard/my-reviews' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Reviews">
                                     <MdOutlineReviews />
                                     <span className="is-drawer-close:hidden">My Reviews</span>
                                 </Link>
