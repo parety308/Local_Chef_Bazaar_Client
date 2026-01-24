@@ -86,7 +86,7 @@ const Dashboard = () => {
                         {
                             role == 'user' &&
                             <li>
-                                <Link to='/' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Favourite Meal">
+                                <Link to='/dashboard/my-favorites' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Favourite Meal">
                                     <MdFavoriteBorder />
                                     <span className="is-drawer-close:hidden">Favourite Meal</span>
                                 </Link>
@@ -116,7 +116,7 @@ const Dashboard = () => {
                         {
                             role == 'chef' &&
                             <li>
-                                <Link to='/' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Create meal">
+                                <Link to='/dashboard/create-meals' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Create meal">
                                     <MdCreateNewFolder />
                                     <span className="is-drawer-close:hidden">Create meal</span>
                                 </Link>
@@ -124,7 +124,7 @@ const Dashboard = () => {
                         }
                         {
                             role == 'chef' && <li>
-                                <Link to='/' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Meals">
+                                <Link to='/dashboard/my-meals' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Meals">
                                     <GiMeal />
                                     <span className="is-drawer-close:hidden">My Meals</span>
                                 </Link>
@@ -132,7 +132,7 @@ const Dashboard = () => {
                         }
                         {
                             role == 'chef' && <li>
-                                <Link to='/' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Order requests">
+                                <Link to='/dashboard/order-request' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Order requests">
                                     <TbCalendarQuestion />
                                     <span className="is-drawer-close:hidden">Order requests</span>
                                 </Link>

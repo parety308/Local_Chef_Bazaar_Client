@@ -15,7 +15,7 @@ const DailyMeals = () => {
     const latest6Meals = meals
         .sort((a, b) => new Date(b.createdAt.$date) - new Date(a.createdAt.$date)) // newest first
         .slice(0, 6);
-    // console.log(latest6Meals);
+    console.log(latest6Meals);
     return (
         < div className='my-15'>
             <h1 className="text-4xl text-center my-5 font-semibold">Today’s Special Meals</h1>

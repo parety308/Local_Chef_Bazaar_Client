@@ -17,6 +17,9 @@ import MyOrderPage from "../layouts/Dashboard/UserDashboard/MyOrderPage/MyOrderP
 import MyReviewsPage from "../layouts/Dashboard/UserDashboard/MyReviewsPage/MyReviewsPage";
 import MyFavouriteMeal from "../layouts/Dashboard/UserDashboard/MyFavouriteMeal/MyFavouriteMeal";
 import MyProfilePage from "../layouts/Dashboard/MyProfilePage";
+import CreateMealPage from "../layouts/Dashboard/ChefDashboard/CreateMealPage/CreateMealPage";
+import MyMealsPage from "../layouts/Dashboard/ChefDashboard/MyMealsPage/MyMealsPage";
+import OrderRequest from "../layouts/Dashboard/ChefDashboard/OrderRequest/OrderRequest";
 
 export const router = createBrowserRouter([
     {
@@ -76,6 +79,7 @@ export const router = createBrowserRouter([
                 path: 'chef',
                 element: <ChefDashboard />
             },
+            // User Lists
             {
                 path: '/dashboard/my-orders',
                 Component: MyOrderPage
@@ -91,6 +95,20 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/my-profile',
                 Component: MyProfilePage
+            },
+
+            //Chef Lists
+            {
+                path: '/dashboard/create-meals',
+                Component: CreateMealPage
+            },
+            {
+                path: '/dashboard/my-meals',
+                Component: MyMealsPage
+            },
+            {
+                path: '/dashboard/order-request',
+                Component: OrderRequest
             }
         ]
     }

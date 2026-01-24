@@ -8,10 +8,11 @@ const MyFavouriteMeal = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const { data: favouriteMeals = [], isLoading, refetch } = useQuery({
-        queryKey: ['favourites', user.email],
+        queryKey: ['favourites', user?.email],
+         enabled: !!user?.email,
         queryFn: async () => {
-            const res = axiosSecure.get(`/favourites/${user.email}`);
-            return (await res).data;
+            const res = await axiosSecure.get(`/favourites/${user.email}`);
+            return res.data;
         }
     });
     console.log(favouriteMeals)
@@ -19,7 +20,7 @@ const MyFavouriteMeal = () => {
         return <Loading />
     }
     const handleDelete = (id) => {
-        axiosSecure.delete(`favourites/${id}`)
+        axiosSecure.delete(`/favourites/${id}`)
             .then(res => {
                 if (res.data.deletedCount > 0) {
                     Swal.fire({
