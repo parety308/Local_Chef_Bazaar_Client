@@ -27,7 +27,7 @@ const letter = {
 
 /* Utility to split text into letters */
 const AnimatedText = ({ text }) => (
-  <motion.h1
+  <motion.div
     variants={container}
     initial="hidden"
     animate="visible"
@@ -42,7 +42,7 @@ const AnimatedText = ({ text }) => (
         {char === " " ? "\u00A0" : char}
       </motion.span>
     ))}
-  </motion.h1>
+  </motion.div>
 );
 
 const Banner = () => {

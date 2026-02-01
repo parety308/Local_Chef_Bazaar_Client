@@ -47,10 +47,11 @@ const MealDetails = () => {
         e.preventDefault();
         const review = {
             mealId: id,
-            foodName,
+            mealName: foodName,
+            mealImg: foodImg,
             ratings,
             review: e.target.reviewText.value,
-            user: user.displayName,
+            userName: user.displayName,
             userEmail: user.email,
             userImg: user.photoURL
         };
