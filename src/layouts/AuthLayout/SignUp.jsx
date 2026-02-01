@@ -1,5 +1,4 @@
 import { Link, useLocation, useNavigate } from "react-router";
-import SocialLogIn from "./SocialLogIn";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth/useAuth";
@@ -42,7 +41,8 @@ const SignUp = () => {
                     email: data.email,
                     photoUrl,
                     address: data.address,
-                    status: "active"
+                    status: "active",
+                    role: "user"
                 };
 
                 createUser(data.email, data.password)
@@ -187,8 +187,6 @@ const SignUp = () => {
                         <button type="submit" className="btn bg-lime-300 w-full mt-4">
                             Sign Up
                         </button>
-
-                        <SocialLogIn />
                     </fieldset>
                 </form>
 

@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router";
-import SocialLogIn from "./SocialLogIn";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth/useAuth";
 import Swal from "sweetalert2";
@@ -93,8 +92,6 @@ const Login = () => {
                         <button className="btn bg-lime-300 w-full mt-4">
                             Login
                         </button>
-
-                        <SocialLogIn />
                     </fieldset>
                 </form>
 

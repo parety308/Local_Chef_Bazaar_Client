@@ -1,11 +1,11 @@
 import { Navigate } from "react-router";
 import useRole from "../../../hooks/useRole/useRole";
+import Loading from "../../../components/Loading/Loading";
 
 const DashboardRedirect = () => {
-    const { role, roleLoading } = useRole();
-
-    if (roleLoading) return null;
-
+    const { role, isLoading } = useRole();
+    console.log(role);
+    if (isLoading) return <Loading />
     if (role === 'admin') return <Navigate to="/dashboard/admin" />;
     if (role === 'chef') return <Navigate to="/dashboard/chef" />;
     return <Navigate to="/dashboard/user" />;

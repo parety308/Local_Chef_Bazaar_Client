@@ -20,6 +20,8 @@ import MyProfilePage from "../layouts/Dashboard/MyProfilePage";
 import CreateMealPage from "../layouts/Dashboard/ChefDashboard/CreateMealPage/CreateMealPage";
 import MyMealsPage from "../layouts/Dashboard/ChefDashboard/MyMealsPage/MyMealsPage";
 import OrderRequest from "../layouts/Dashboard/ChefDashboard/OrderRequest/OrderRequest";
+import PaymentSuccessPage from "../layouts/Dashboard/UserDashboard/PaymentSuccessPage/PaymentSuccessPage";
+import PaymentCancelledPage from "../layouts/Dashboard/UserDashboard/PaymentCancelledPage/PaymentCancelledPage";
 
 export const router = createBrowserRouter([
     {
@@ -72,7 +74,7 @@ export const router = createBrowserRouter([
                 element: <UserDashboard />
             },
             {
-                path: 'admin',
+                path: '/dashboard/admin',
                 element: <AdminDashboard />
             },
             {
@@ -109,7 +111,14 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/order-request',
                 Component: OrderRequest
-            }
+            }, {
+                path: 'payment-success',
+                Component: PaymentSuccessPage
+            },
+            {
+                path: 'payment-cancelled',
+                Component: PaymentCancelledPage
+            },
         ]
     }
 ]);

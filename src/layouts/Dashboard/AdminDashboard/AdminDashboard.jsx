@@ -1,4 +1,3 @@
-import React from 'react';
 import { FaUserCircle, FaUsers, FaTasks, FaChartLine } from "react-icons/fa";
 
 const AdminDashboard = () => {
