@@ -76,6 +76,20 @@ const CreateMealPage = () => {
     }
   };
 
+  if (user.status === "fraud") {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center bg-red-50 p-10 rounded-xl shadow-lg">
+        <h2 className="text-3xl font-bold text-red-600 mb-4">🚫 Access Denied</h2>
+        <p className="text-lg text-red-500 mb-6">
+          Your account has been marked as <strong>fraud</strong>. <br />
+          You cannot create meals or access this page.
+        </p>
+        <p className="text-gray-700">
+          Please contact <strong>support</strong> if you think this is a mistake.
+        </p>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-gray-100 py-10">
       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow p-8">

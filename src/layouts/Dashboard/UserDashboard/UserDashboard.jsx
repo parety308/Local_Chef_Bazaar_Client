@@ -1,7 +1,9 @@
 import React from 'react';
 import { FaUserCircle, FaHeart, FaStar, FaShoppingBag } from "react-icons/fa";
+import { useNavigate } from 'react-router';
 
 const UserDashboard = () => {
+    const navigate = useNavigate();
     return (
         <div className="min-h-screen bg-gray-100 p-6">
             {/* Header */}
@@ -11,15 +13,15 @@ const UserDashboard = () => {
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                <div className="bg-white p-6 rounded-2xl shadow-md flex items-center gap-4">
+                <div className="bg-white p-6 rounded-2xl shadow-md flex items-center gap-4 cursor-pointer" onClick={() => navigate('/dashboard/my-profile')}>
                     <FaUserCircle className="text-4xl text-blue-500" />
-                    <div>
+                    <div >
                         <p className="text-gray-500">Profile</p>
                         <h2 className="text-xl font-semibold">View Info</h2>
                     </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl shadow-md flex items-center gap-4">
+                <div className="bg-white p-6 rounded-2xl shadow-md flex items-center gap-4 cursor-pointer" onClick={() => navigate('/dashboard/my-favorites')}>
                     <FaHeart className="text-4xl text-red-500" />
                     <div>
                         <p className="text-gray-500">Favorites</p>
@@ -27,7 +29,7 @@ const UserDashboard = () => {
                     </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl shadow-md flex items-center gap-4">
+                <div className="bg-white p-6 rounded-2xl shadow-md flex items-center gap-4 cursor-pointer" onClick={() => navigate('/dashboard/my-reviews')}>
                     <FaStar className="text-4xl text-yellow-500" />
                     <div>
                         <p className="text-gray-500">My Reviews</p>
@@ -35,7 +37,7 @@ const UserDashboard = () => {
                     </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl shadow-md flex items-center gap-4">
+                <div className="bg-white p-6 rounded-2xl shadow-md flex items-center gap-4 cursor-pointer" onClick={() => navigate('/dashboard/my-orders')}>
                     <FaShoppingBag className="text-4xl text-green-500" />
                     <div>
                         <p className="text-gray-500">Orders</p>

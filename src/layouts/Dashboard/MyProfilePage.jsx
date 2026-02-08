@@ -8,9 +8,9 @@ const MyProfilePage = () => {
     const { role } = useRole();
     const axiosSecure = useAxiosSecure();
     // demo data (replace with real data later)
-    const address = "Dhaka, Bangladesh";
-    const status = "active";
-    const chefId = "CHEF-1023";
+    // const address = "Dhaka, Bangladesh";
+    // const status = "active";
+    // const chefId = "CHEF-1023";
     const handleRoleChange = (newRole) => {
         const changeRole =
         {
@@ -56,7 +56,7 @@ const MyProfilePage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     <div>
                         <p className="text-gray-500">Address</p>
-                        <p className="font-semibold">{address}</p>
+                        <p className="font-semibold">{user?.address}</p>
                     </div>
 
                     <div>
@@ -69,19 +69,19 @@ const MyProfilePage = () => {
                     <div>
                         <p className="text-gray-500">Status</p>
                         <span
-                            className={`badge ${status === "active"
+                            className={`badge ${user?.status === "active"
                                 ? "badge-success"
                                 : "badge-error"
                                 }`}
                         >
-                            {status}
+                            {user?.status}
                         </span>
                     </div>
 
                     {role === 'chef' && (
                         <div>
                             <p className="text-gray-500">Chef ID</p>
-                            <p className="font-semibold text-orange-500">{chefId}</p>
+                            <p className="font-semibold text-orange-500">{user?.chefId}</p>
                         </div>
                     )}
                 </div>

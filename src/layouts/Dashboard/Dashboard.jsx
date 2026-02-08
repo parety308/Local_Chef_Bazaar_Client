@@ -1,14 +1,8 @@
-import React from 'react';
 import { Link, Outlet } from 'react-router';
-import useAuth from '../../hooks/useAuth/useAuth';
-import AdminDashboard from './AdminDashboard/AdminDashboard';
-import ChefDashboard from './ChefDashboard/ChefDashboard';
-import UserDashboard from './UserDashboard/UserDashboard';
 import { MdCreateNewFolder, MdFavoriteBorder, MdOutlineReviews, MdOutlineShoppingCart } from 'react-icons/md';
 import useRole from '../../hooks/useRole/useRole';
 import { CgProfile } from 'react-icons/cg';
-import { FaUserAstronaut } from 'react-icons/fa';
-import { CiSquareQuestion } from 'react-icons/ci';
+import { FaChartLine, FaUserAstronaut } from 'react-icons/fa';
 import { GiMeal } from 'react-icons/gi';
 import { TbCalendarQuestion, TbUserQuestion } from 'react-icons/tb';
 import Logo from '../../components/Logo/Logo';
@@ -97,7 +91,7 @@ const Dashboard = () => {
                         {
                             role == 'admin' &&
                             <li>
-                                <Link to='/' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage User">
+                                <Link to='/dashboard/manage-users' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage User">
                                     <FaUserAstronaut />
                                     <span className="is-drawer-close:hidden">Manage User</span>
                                 </Link>
@@ -105,9 +99,17 @@ const Dashboard = () => {
                         }
                         {
                             role == 'admin' && <li>
-                                <Link to='/' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Mange request">
+                                <Link to='/dashboard/manage-requests' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Request">
                                     <TbUserQuestion />
-                                    <span className="is-drawer-close:hidden">Mange request</span>
+                                    <span className="is-drawer-close:hidden">Manage Request</span>
+                                </Link>
+                            </li>
+                        }
+                        {
+                            role == 'admin' && <li>
+                                <Link to='/dashboard/platform-statistics' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Platform Statistics">
+                                    <FaChartLine />
+                                    <span className="is-drawer-close:hidden">Platform Statistics</span>
                                 </Link>
                             </li>
                         }

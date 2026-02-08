@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useParams, useNavigate, NavLink } from 'react-router';
+import { useParams, NavLink } from 'react-router';
 import useAxiosSecure from '../../hooks/useAxiosSecure/useAxiosSecure';
 import Loading from '../../components/Loading/Loading';
 import { useState } from 'react';
@@ -11,7 +11,6 @@ import Swal from 'sweetalert2';
 const MealDetails = () => {
     const [ratings, setRatings] = useState(3);
     const { id } = useParams();
-    const navigate = useNavigate();
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
     // console.log(id);
@@ -51,9 +50,10 @@ const MealDetails = () => {
             mealImg: foodImg,
             ratings,
             review: e.target.reviewText.value,
-            userName: user.displayName,
-            userEmail: user.email,
-            userImg: user.photoURL
+            reviewerName: user.displayName,
+            reviewerEmail: user.email,
+            reviewerImg: user.photoURL,
+            date: new Date().toISOString()
         };
         axiosSecure.post('/reviews', review)
             .then(res => {
@@ -81,7 +81,8 @@ const MealDetails = () => {
             mealImg: foodImg,
             chefId,
             chefName,
-            price
+            price,
+            added_date: new Date().toISOString()
         };
         axiosSecure.post('/favourites', newMeal)
             .then(res => {
@@ -125,7 +126,7 @@ const MealDetails = () => {
                     <img
                         src={foodImg}
                         alt={foodName}
-                        className="w-full h-[420px] object-cover rounded-2xl"
+                        className="w-full h-105 object-cover rounded-2xl"
                     />
                     <span className="absolute top-4 left-4 bg-yellow-400 text-black px-4 py-1 rounded-full font-semibold">
                         ⭐ {rating}
@@ -229,17 +230,17 @@ const MealDetails = () => {
                     {reviews.map((rev, idx) => (
                         <div key={idx} className="p-4 border rounded-lg mb-4 flex gap-4">
                             <img
-                                src={rev.userImg}
+                                src={rev.reviewerImg}
                                 className="w-24 h-20 object-cover rounded"
                                 alt=""
                             />
                             <div>
                                 <h4 className="font-bold">{rev.foodName}</h4>
                                 <p className="text-sm text-gray-600">
-                                    Reviewer: {rev.user}
+                                    Reviewer: {rev.reviewerName}
                                 </p>
                                 <p className="text-sm text-gray-600">
-                                    Reviewer Email : {rev.userEmail}
+                                    Reviewer Email : {rev.reviewerEmail}
                                 </p>
                                 <p className='flex gap-2'> Ratings : <Rating
                                     style={{ maxWidth: 120 }}

@@ -134,7 +134,7 @@ const MyOrderPage = () => {
                   >
                     Waiting for Acceptance ⏳
                   </button>
-                ) : (
+                ) : meal.orderStatus === "accepted" ? (
                   // ✅ Accepted & Ready for Payment
                   <button
                     onClick={() => handlePayment(meal)}
@@ -142,7 +142,7 @@ const MyOrderPage = () => {
                   >
                     Pay Now 💳
                   </button>
-                )}
+                ) : null}
               </div>
             </div>
           ))}

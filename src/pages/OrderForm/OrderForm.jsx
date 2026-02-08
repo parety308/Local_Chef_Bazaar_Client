@@ -10,25 +10,18 @@ const OrderForm = () => {
     const { id } = useParams();
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
-    // const navigate = useNavigate();
-    const { data: meal, isLoading, refetch } = useQuery({
+
+    const { data: meal, isLoading } = useQuery({
         queryKey: ['meals', id],
         queryFn: async () => {
             const res = await axiosSecure.get(`/meals/${id}`);
             return res.data;
         }
     });
-    const {
-        _id,
-        foodName,
-        price,
-        chefId
-    } = meal || {};
-    const {
-        register,
-        handleSubmit,
-        formState: { errors }
-    } = useForm();
+
+    const { _id, foodName, price, chefId } = meal || {};
+
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = (data) => {
         const orderData = {
@@ -42,40 +35,57 @@ const OrderForm = () => {
             userAddress: data.userAddress,
             orderStatus: "pending",
             orderTime: new Date()
-
         };
+
         Swal.fire({
             title: "Are you sure to Order?",
-            text: `you pay ${orderData.price} for ${orderData.mealName}`,
+            text: `You pay ৳${orderData.price} for ${orderData.mealName}`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Yes, Order it!"
         }).then((result) => {
             if (result.isConfirmed) {
                 axiosSecure.post('/orders', orderData)
                     .then(res => {
                         if (res.data.insertedId) {
                             Swal.fire({
-                                title: "Taken!",
-                                text: "Your Order Has Been Taken.",
+                                title: "Success!",
+                                text: "Your order has been placed.",
                                 icon: "success"
                             });
                         }
-                    })
+                    });
             }
         });
     };
+
     if (isLoading) {
-        return <Loading />
+        return <Loading />;
     }
+
+    // Block access if user is fraud
+    if (user.status === "fraud") {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[60vh] text-center bg-red-50 p-10 rounded-xl shadow-lg">
+                <h2 className="text-3xl font-bold text-red-600 mb-4">🚫 Access Denied</h2>
+                <p className="text-lg text-red-500 mb-6">
+                    Your account has been marked as <strong>fraud</strong>. <br />
+                    You cannot place any orders or access this page.
+                </p>
+                <p className="text-gray-700">
+                    Please contact <strong>support</strong> if you think this is a mistake.
+                </p>
+            </div>
+        );
+    }
+
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
             className="bg-white p-6 rounded-xl shadow-lg space-y-4"
         >
-
             {/* Meal Name */}
             <div>
                 <label className="label">Meal Name</label>

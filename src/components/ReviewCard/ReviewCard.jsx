@@ -3,12 +3,13 @@ import { FaUtensils, FaStar, FaCheckCircle } from 'react-icons/fa';
 
 const ReviewCard = ({ review, onOpenModal }) => {
     const {
-        userName,
+        reviewerName,
         mealName,
         review: reviewText,
-        userImg,
+        reviewerImg,
         ratings,
-        mealImg
+        mealImg,
+        reviewerEmail
     } = review;
 
     return (
@@ -39,12 +40,13 @@ const ReviewCard = ({ review, onOpenModal }) => {
 
                 <div className="flex items-center gap-4">
                     <img
-                        src={userImg}
-                        alt={userName}
+                        src={reviewerImg}
+                        alt={reviewerName}
                         className="w-12 h-12 rounded-full"
                     />
                     <div>
-                        <h4 className="font-semibold">{userName}</h4>
+                        <h4 className="font-semibold">{reviewerName}</h4>
+                        <p className="text-xs text-gray-600">{reviewerEmail}</p>
                         <div className="flex items-center gap-1 text-xs bg-[#E8DCC6] px-2 py-1 rounded-full w-fit">
                             <FaCheckCircle className="text-green-600" />
                             Verified Buyer

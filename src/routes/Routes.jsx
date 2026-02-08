@@ -22,6 +22,9 @@ import MyMealsPage from "../layouts/Dashboard/ChefDashboard/MyMealsPage/MyMealsP
 import OrderRequest from "../layouts/Dashboard/ChefDashboard/OrderRequest/OrderRequest";
 import PaymentSuccessPage from "../layouts/Dashboard/UserDashboard/PaymentSuccessPage/PaymentSuccessPage";
 import PaymentCancelledPage from "../layouts/Dashboard/UserDashboard/PaymentCancelledPage/PaymentCancelledPage";
+import ManageUser from "../layouts/Dashboard/AdminDashboard/ManageUser/ManageUser";
+import ManageRequest from "../layouts/Dashboard/AdminDashboard/ManageRequest/ManageRequest";
+import PlatformStatistics from "../layouts/Dashboard/AdminDashboard/PlatformStatistics/PlatformStatistics";
 
 export const router = createBrowserRouter([
     {
@@ -111,7 +114,22 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/order-request',
                 Component: OrderRequest
-            }, {
+            },
+
+            //admin lists will be added here
+            {
+                path: '/dashboard/manage-users',
+                Component: ManageUser
+            },
+            {
+                path: '/dashboard/manage-requests',
+                Component: ManageRequest
+            },
+            {
+                path: '/dashboard/platform-statistics',
+                Component: PlatformStatistics
+            },
+            {
                 path: 'payment-success',
                 Component: PaymentSuccessPage
             },

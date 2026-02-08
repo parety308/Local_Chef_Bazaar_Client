@@ -98,7 +98,7 @@ const ReviewSection = () => {
           slideShadows: true,
         }}
         autoplay={{
-          delay: 2000,
+          delay: 1000,
           disableOnInteraction: false,
         }}
         pagination={{ clickable: true }}
@@ -117,11 +117,13 @@ const ReviewSection = () => {
 
       {/* -------------------- MODAL -------------------- */}
       {activeReview && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={handleCloseModal}>
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
             className="bg-white max-w-lg w-full rounded-2xl p-6 relative shadow-xl"
+            onClick={(e) => e.stopPropagation()}
           >
             {/* Close */}
             <button
@@ -137,12 +139,12 @@ const ReviewSection = () => {
 
             <div className="flex items-center gap-3 mb-4">
               <img
-                src={activeReview.userImg}
-                alt={activeReview.userName}
+                src={activeReview.reviewerImg}
+                alt={activeReview.reviewerName}
                 className="w-10 h-10 rounded-full"
               />
               <div>
-                <p className="font-semibold">{activeReview.userName}</p>
+                <p className="font-semibold">{activeReview.reviewerName}</p>
                 <div className="flex gap-1 text-[#F4B400]">
                   {[...Array(activeReview.ratings)].map((_, i) => (
                     <FaStar key={i} />
