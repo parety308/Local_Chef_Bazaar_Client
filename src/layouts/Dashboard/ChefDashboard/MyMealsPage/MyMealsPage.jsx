@@ -5,10 +5,12 @@ import useAxiosSecure from '../../../../hooks/useAxiosSecure/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import Loading from '../../../../components/Loading/Loading';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router';
 
 const MyMealsPage = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate();
 
     const updateModalRef = useRef(null);
     const [selectedMeal, setSelectedMeal] = useState(null);
@@ -102,7 +104,7 @@ const MyMealsPage = () => {
                     </p>
 
                     {/* Call-to-Action Button */}
-                    <button className="px-6 py-3 bg-gradient-to-r from-green-400 to-teal-500 hover:from-teal-500 hover:to-green-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
+                    <button onClick={() => navigate('/dashboard/create-meals')} className="px-6 py-3 bg-gradient-to-r from-green-400 to-teal-500 hover:from-teal-500 hover:to-green-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
                         Add New Meal ➕
                     </button>
                 </div>

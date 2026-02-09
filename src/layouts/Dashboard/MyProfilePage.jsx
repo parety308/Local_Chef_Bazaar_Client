@@ -15,7 +15,6 @@ const MyProfilePage = () => {
             return res.data;
         }
     });
-    // console.log(userData);
     const handleRoleChange = (newRole) => {
         const changeRole =
         {

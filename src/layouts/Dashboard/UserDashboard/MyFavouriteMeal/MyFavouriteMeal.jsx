@@ -3,10 +3,12 @@ import useAuth from "../../../../hooks/useAuth/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure/useAxiosSecure";
 import Loading from "../../../../components/Loading/Loading";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const MyFavouriteMeal = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate();
     const { data: favouriteMeals = [], isLoading, refetch } = useQuery({
         queryKey: ['favourites', user?.email],
         enabled: !!user?.email,
@@ -15,7 +17,6 @@ const MyFavouriteMeal = () => {
             return res.data;
         }
     });
-    console.log(favouriteMeals)
     if (isLoading) {
         return <Loading />
     }
@@ -75,7 +76,7 @@ const MyFavouriteMeal = () => {
                     </p>
 
                     {/* Call-to-Action Button */}
-                    <button className="px-6 py-3 bg-gradient-to-r from-pink-400 to-red-500 hover:from-red-500 hover:to-pink-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
+                    <button onClick={() => navigate('/meals')} className="px-6 py-3 bg-gradient-to-r from-pink-400 to-red-500 hover:from-red-500 hover:to-pink-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
                         Explore Meals 🍽️
                     </button>
                 </div>

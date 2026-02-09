@@ -2,9 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure/useAxiosSecure';
 import Loading from '../../../../components/Loading/Loading';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router';
 
 const ManageRequest = () => {
     const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate();
     const { data: requests = [], isLoading, refetch } = useQuery({
         queryKey: ['requests'],
         queryFn: async () => {
@@ -66,8 +68,8 @@ const ManageRequest = () => {
                     </p>
 
                     {/* Optional Call-to-Action Button */}
-                    <button className="px-6 py-3 bg-gradient-to-r from-blue-400 to-indigo-500 hover:from-indigo-500 hover:to-blue-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
-                        Invite Users ✉️
+                    <button onClick={() => navigate('/dashboard')} className="px-6 py-3 bg-gradient-to-r from-blue-400 to-indigo-500 hover:from-indigo-500 hover:to-blue-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
+                        Dashboard ✉️
                     </button>
                 </div>
             )}

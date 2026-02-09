@@ -36,8 +36,6 @@ const AuthProvider = ({ children }) => {
                 const loggedUser = { email: currentUser.email};
                 axiosSecure.post('/get-token', loggedUser)
                     .then(data => {
-                        console.log('token response : ', data.data.token);
-                        localStorage.setItem('access-token', data.data.token);
                     })
             }
             setLoading(false);

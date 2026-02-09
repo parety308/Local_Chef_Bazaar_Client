@@ -11,7 +11,6 @@ import { RxDashboard } from 'react-icons/rx';
 const Dashboard = () => {
     // const { user } = useAuth();
     const { role } = useRole();
-    // console.log(role);
     return (
         <div className="drawer lg:drawer-open">
             <title>Dashboard</title>

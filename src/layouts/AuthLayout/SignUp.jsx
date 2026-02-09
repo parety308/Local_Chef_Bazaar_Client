@@ -33,7 +33,6 @@ const SignUp = () => {
         axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMG_API_HOST}`, formData)
             .then(res => {
                 const photoUrl = res.data.data.url;
-                console.log(photoUrl, data);
 
                 //create new user 
                 const newUser = {

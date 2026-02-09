@@ -3,10 +3,12 @@ import useAuth from '../../../../hooks/useAuth/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure/useAxiosSecure';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router';
 
 const ManageUser = () => {
     // const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate();
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
@@ -18,7 +20,6 @@ const ManageUser = () => {
     const handleMakeFraud = (email) => {
         axiosSecure.patch(`/users/${email}`, { status: 'fraud' })
             .then(res => {
-                // console.log(res.data);
                 if (res.data.modifiedCount > 0) {
                     Swal.fire({
                         position: "top-end",
@@ -65,8 +66,8 @@ const ManageUser = () => {
                     </p>
 
                     {/* Call-to-Action Button */}
-                    <button className="px-6 py-3 bg-gradient-to-r from-purple-400 to-indigo-500 hover:from-indigo-500 hover:to-purple-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
-                        Invite Users ✉️
+                    <button onClick={() => navigate('/dashboard')} className="px-6 py-3 bg-gradient-to-r from-purple-400 to-indigo-500 hover:from-indigo-500 hover:to-purple-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
+                        Dashboard ✉️
                     </button>
                 </div>
             )}

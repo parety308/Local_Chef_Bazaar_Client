@@ -32,7 +32,6 @@ const Login = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-                console.log(res.user)
             })
             .catch(err => console.log(err));
 

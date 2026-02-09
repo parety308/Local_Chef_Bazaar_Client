@@ -13,7 +13,6 @@ const MealDetails = () => {
     const { id } = useParams();
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
-    // console.log(id);
     const { data: meal, isLoading, refetch } = useQuery({
         queryKey: ['meals', id],
         queryFn: async () => {
@@ -86,7 +85,6 @@ const MealDetails = () => {
         };
         axiosSecure.post('/favourites', newMeal)
             .then(res => {
-                console.log(res.data);
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
@@ -113,7 +111,6 @@ const MealDetails = () => {
 
 
     }
-    // console.log(reviews);
     if (isLoading || reviewLoading) {
         return <Loading />
     }
