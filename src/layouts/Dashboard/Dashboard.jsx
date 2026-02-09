@@ -14,6 +14,7 @@ const Dashboard = () => {
     // console.log(role);
     return (
         <div className="drawer lg:drawer-open">
+            <title>Dashboard</title>
             <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content">
                 {/* Navbar */}

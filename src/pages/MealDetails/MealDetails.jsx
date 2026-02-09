@@ -120,7 +120,7 @@ const MealDetails = () => {
     return (
         <>
             <div className="w-10/12 mx-auto my-10 p-6 grid grid-cols-1 md:grid-cols-2 gap-10 bg-white shadow-xl rounded-2xl">
-
+                <title>Meal Details</title>
                 {/* Image Section */}
                 <div className="relative">
                     <img

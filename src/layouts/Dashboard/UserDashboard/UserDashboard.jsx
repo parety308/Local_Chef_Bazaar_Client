@@ -6,6 +6,7 @@ const UserDashboard = () => {
     const navigate = useNavigate();
     return (
         <div className="min-h-screen bg-gray-100 p-6">
+            <title>User Dashboard</title>
             {/* Header */}
             <h1 className="text-4xl font-bold mb-8 text-gray-800">
                 User Dashboard 👋

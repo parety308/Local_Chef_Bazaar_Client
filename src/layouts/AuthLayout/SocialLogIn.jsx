@@ -50,8 +50,9 @@ const SocialLogIn = () => {
 
     return (
         <div>
+            <title>Social Login - LocalBazaar</title>
             <h1 className="text-xl text-center my-2">OR</h1>
-
+             
             <button
                 onClick={handleSignIn}
                 type="button"

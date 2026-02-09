@@ -9,7 +9,7 @@ const MyFavouriteMeal = () => {
     const axiosSecure = useAxiosSecure();
     const { data: favouriteMeals = [], isLoading, refetch } = useQuery({
         queryKey: ['favourites', user?.email],
-         enabled: !!user?.email,
+        enabled: !!user?.email,
         queryFn: async () => {
             const res = await axiosSecure.get(`/favourites/${user.email}`);
             return res.data;
@@ -45,6 +45,42 @@ const MyFavouriteMeal = () => {
     }
     return (
         <div className='w-10/12 mx-auto my-15'>
+            <title>Favourite Meals - Dashboard</title>
+            {favouriteMeals.length === 0 && (
+                <div className="flex flex-col items-center justify-center py-20 bg-white shadow-lg rounded-xl mx-5 md:mx-auto max-w-md">
+                    {/* Icon */}
+                    <div className="bg-pink-100 p-5 rounded-full mb-6">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-12 w-12 text-pink-500"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.682l-7.682-7.682a4.5 4.5 0 010-6.364z"
+                            />
+                        </svg>
+                    </div>
+
+                    {/* Message */}
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-center">
+                        No Favourite Meals Yet ❤️
+                    </h2>
+                    <p className="text-gray-500 mb-6 text-center max-w-xs md:max-w-sm">
+                        You haven’t added any meals to your favourites. Explore meals and start saving your favorites!
+                    </p>
+
+                    {/* Call-to-Action Button */}
+                    <button className="px-6 py-3 bg-gradient-to-r from-pink-400 to-red-500 hover:from-red-500 hover:to-pink-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
+                        Explore Meals 🍽️
+                    </button>
+                </div>
+            )}
+
             <h1 className="text-3xl my-10">Favourite Meals : {favouriteMeals.length}</h1>
             <div className="overflow-x-auto">
                 <table className="table">

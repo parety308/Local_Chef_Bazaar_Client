@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 const ManageRequest = () => {
     const axiosSecure = useAxiosSecure();
-    const { data: requests = [], isLoading,refetch } = useQuery({
+    const { data: requests = [], isLoading, refetch } = useQuery({
         queryKey: ['requests'],
         queryFn: async () => {
             const res = await axiosSecure.get('/users-request');
@@ -13,8 +13,8 @@ const ManageRequest = () => {
         }
     });
 
-    const handleAccept = (userEmail,requestType) => {
-        axiosSecure.patch(`/users-request/${userEmail}`, { requestStatus: 'approved' ,requestType})
+    const handleAccept = (userEmail, requestType) => {
+        axiosSecure.patch(`/users-request/${userEmail}`, { requestStatus: 'approved', requestType })
             .then(res => {
                 if (res.data.result.modifiedCount > 0) {
                     Swal.fire({
@@ -35,6 +35,43 @@ const ManageRequest = () => {
 
     return (
         <div className="p-6">
+            <title>Manage Requests</title>
+
+            {requests.length === 0 && (
+                <div className="flex flex-col items-center justify-center py-20 bg-white shadow-lg rounded-xl mx-5 md:mx-auto max-w-md">
+                    {/* Icon */}
+                    <div className="bg-blue-100 p-5 rounded-full mb-6">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-12 w-12 text-blue-500"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                        </svg>
+                    </div>
+
+                    {/* Message */}
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-center">
+                        No Requests Found 📭
+                    </h2>
+                    <p className="text-gray-500 mb-6 text-center max-w-xs md:max-w-sm">
+                        There are currently no user requests to manage. Check back later or invite users to submit requests.
+                    </p>
+
+                    {/* Optional Call-to-Action Button */}
+                    <button className="px-6 py-3 bg-gradient-to-r from-blue-400 to-indigo-500 hover:from-indigo-500 hover:to-blue-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
+                        Invite Users ✉️
+                    </button>
+                </div>
+            )}
+
             <h1 className="text-3xl font-bold mb-6">Manage Requests</h1>
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white border border-gray-200 rounded-lg">
@@ -61,7 +98,7 @@ const ManageRequest = () => {
                                 </td>
                                 <td className="py-4 text-center px-6 border-b">{req.requestTime}</td>
                                 <td className="py-4  px-6 border-b text-center flex justify-center gap-2">
-                                    <button onClick={() => handleAccept(req.userEmail,req.requestType)} className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded">
+                                    <button onClick={() => handleAccept(req.userEmail, req.requestType)} className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded">
                                         Accept
                                     </button>
                                     <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded">

@@ -48,6 +48,7 @@ const DailyMeals = () => {
     console.log(latest6Meals);
     return (
         < div className='my-15'>
+            {/* <title>Today's Special Meals</title> */}
             <AnimatedTitle text="Today’s Special Meals" />
             <div className='grid lg:grid-cols-3 gap-5 '>
                 {

@@ -49,10 +49,11 @@ const Login = () => {
     }
     return (
         <div className="w-10/12 flex justify-center items-center mx-auto">
+            <title>Login - LocalBazaar</title>
             {/* Form */}
             <div className="w-100 flex flex-col justify-center bg-base-100 shadow-sm p-6 my-10 rounded-lg">
                 <h1 className="text-5xl font-bold mb-2">Welcome Back</h1>
-                <p className="mb-6">Login with ZapShift</p>
+                <p className="mb-6">Login with LocalBazaar</p>
 
                 <form onSubmit={handleSubmit(handleLogIn)}>
                     <fieldset className="fieldset space-y-3">

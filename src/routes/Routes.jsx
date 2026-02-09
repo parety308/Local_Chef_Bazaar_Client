@@ -25,6 +25,9 @@ import PaymentCancelledPage from "../layouts/Dashboard/UserDashboard/PaymentCanc
 import ManageUser from "../layouts/Dashboard/AdminDashboard/ManageUser/ManageUser";
 import ManageRequest from "../layouts/Dashboard/AdminDashboard/ManageRequest/ManageRequest";
 import PlatformStatistics from "../layouts/Dashboard/AdminDashboard/PlatformStatistics/PlatformStatistics";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import AdminRoute from "./AdminRoute/AdminRoute";
+import ChefRoute from "./ChefRoute/ChefRoute";
 
 export const router = createBrowserRouter([
     {
@@ -105,29 +108,29 @@ export const router = createBrowserRouter([
             //Chef Lists
             {
                 path: '/dashboard/create-meals',
-                Component: CreateMealPage
+                element: <ChefRoute><CreateMealPage /></ChefRoute>
             },
             {
                 path: '/dashboard/my-meals',
-                Component: MyMealsPage
+                element: <ChefRoute><MyMealsPage /></ChefRoute>
             },
             {
                 path: '/dashboard/order-request',
-                Component: OrderRequest
+                element: <ChefRoute><OrderRequest /></ChefRoute>
             },
 
             //admin lists will be added here
             {
                 path: '/dashboard/manage-users',
-                Component: ManageUser
+                element: <AdminRoute><ManageUser /></AdminRoute>
             },
             {
                 path: '/dashboard/manage-requests',
-                Component: ManageRequest
+                element: <AdminRoute><ManageRequest /></AdminRoute>
             },
             {
                 path: '/dashboard/platform-statistics',
-                Component: PlatformStatistics
+                element: <AdminRoute><PlatformStatistics /></AdminRoute>
             },
             {
                 path: 'payment-success',
@@ -138,5 +141,9 @@ export const router = createBrowserRouter([
                 Component: PaymentCancelledPage
             },
         ]
+    },
+    {
+        path: '*',
+        Component: ErrorPage
     }
 ]);

@@ -6,6 +6,7 @@ const ChefDashboard = () => {
     const navigate = useNavigate();
     return (
         <div className="min-h-screen  p-8">
+            <title>Chef Dashboard</title>
             {/* Header */}
             <h1 className="text-4xl font-bold mb-10 text-gray-800">
                 Chef Dashboard 👨‍🍳

@@ -6,6 +6,7 @@ import ReviewSection from '../../components/ReviewSection/ReviewSection';
 const HomeLayout = () => {
     return (
         <div className='w-11/12 mx-auto my-10'>
+            <title>Home</title>
             <div className='rounded-xl'> <Banner /></div>
             <div><DailyMeals /></div>
             <div><ReviewSection/></div>

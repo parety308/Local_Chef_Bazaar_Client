@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
 import Loading from "../../components/Loading/Loading";
 
@@ -10,6 +10,7 @@ const OrderForm = () => {
     const { id } = useParams();
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate();
 
     const { data: meal, isLoading } = useQuery({
         queryKey: ['meals', id],
@@ -50,6 +51,7 @@ const OrderForm = () => {
                 axiosSecure.post('/orders', orderData)
                     .then(res => {
                         if (res.data.insertedId) {
+                            navigate('/dashboard/my-orders');
                             Swal.fire({
                                 title: "Success!",
                                 text: "Your order has been placed.",
@@ -86,6 +88,7 @@ const OrderForm = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="bg-white p-6 rounded-xl shadow-lg space-y-4"
         >
+            <title>Order Form</title>
             {/* Meal Name */}
             <div>
                 <label className="label">Meal Name</label>

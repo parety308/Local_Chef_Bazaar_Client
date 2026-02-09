@@ -92,6 +92,7 @@ const CreateMealPage = () => {
   }
   return (
     <div className="min-h-screen bg-gray-100 py-10">
+      <title>Create New Meal</title>
       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow p-8">
         <h2 className="text-3xl font-bold mb-8 text-center">
           Create New Meal

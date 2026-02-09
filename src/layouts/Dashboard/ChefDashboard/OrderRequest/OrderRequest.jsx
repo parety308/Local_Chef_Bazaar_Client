@@ -50,6 +50,43 @@ const OrderRequest = () => {
 
     return (
         <div className="w-11/12 mx-auto my-10">
+            <title>Order Requests</title>
+
+            {orders.length === 0 && (
+                <div className="flex flex-col items-center justify-center py-20 bg-white shadow-md rounded-xl mx-5 md:mx-auto max-w-md">
+                    {/* Icon */}
+                    <div className="bg-blue-100 p-5 rounded-full mb-6">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-12 w-12 text-blue-500"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M9 17v-2a4 4 0 014-4h3m-7 6h7M3 7h18M5 7v12a2 2 0 002 2h10a2 2 0 002-2V7M5 7l1-4h12l1 4"
+                            />
+                        </svg>
+                    </div>
+
+                    {/* Message */}
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-center">
+                        No Order Requests Yet 📭
+                    </h2>
+                    <p className="text-gray-500 mb-6 text-center max-w-xs md:max-w-sm">
+                        You haven’t sent any order requests yet. Start exploring meals and request your favorite dishes!
+                    </p>
+
+                    {/* Call-to-Action Button */}
+                    <button className="px-6 py-3 bg-gradient-to-r from-blue-400 to-indigo-500 hover:from-indigo-500 hover:to-blue-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
+                        Explore Meals 🍽️
+                    </button>
+                </div>
+            )}
+
             <h1 className="text-3xl font-bold mb-6">
                 Ordered Requests : {orders.length}
             </h1>
@@ -133,8 +170,8 @@ const OrderRequest = () => {
                                     <span className="font-medium">Payment Status:</span>
                                     <span
                                         className={`ml-2 px-3 py-1 rounded-full text-sm ${meal.paymentStatus === "paid"
-                                                ? "bg-green-100 text-green-700"
-                                                : "bg-yellow-100 text-yellow-700"
+                                            ? "bg-green-100 text-green-700"
+                                            : "bg-yellow-100 text-yellow-700"
                                             }`}
                                     >
                                         {meal.paymentStatus}

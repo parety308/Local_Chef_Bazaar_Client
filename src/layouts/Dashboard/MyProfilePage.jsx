@@ -2,20 +2,25 @@ import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure/useAxiosSecure";
 import useRole from "../../hooks/useRole/useRole";
+import { useQuery } from "@tanstack/react-query";
 
 const MyProfilePage = () => {
     const { user } = useAuth();
     const { role } = useRole();
     const axiosSecure = useAxiosSecure();
-    // demo data (replace with real data later)
-    // const address = "Dhaka, Bangladesh";
-    // const status = "active";
-    // const chefId = "CHEF-1023";
+    const { data: userData = {}, isLoading } = useQuery({
+        queryKey: ['users', user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/users-role/${user.email}`);
+            return res.data;
+        }
+    });
+    // console.log(userData);
     const handleRoleChange = (newRole) => {
         const changeRole =
         {
-            userName: user.displayName,
-            userEmail: user.email,
+            userName: userData?.name,
+            userEmail: userData?.email,
             requestType: newRole,
             requestStatus: "pending",
             requestTime: new Date()
@@ -37,51 +42,52 @@ const MyProfilePage = () => {
 
     return (
         <div className="min-h-screen bg-gray-100 flex justify-center items-center p-6">
+            <title>My Profile</title>
             <div className="bg-white w-full max-w-2xl rounded-2xl shadow-lg p-8">
 
                 {/* Header */}
                 <div className="flex flex-col items-center mb-8">
                     <img
-                        src={user?.photoURL}
+                        src={userData?.photoUrl}
                         alt="User"
                         className="w-28 h-28 rounded-full object-cover border-4 border-orange-400 mb-4"
                     />
                     <h2 className="text-2xl font-bold text-gray-800">
-                        {user?.displayName || "User Name"}
+                        {userData?.name || "User Name"}
                     </h2>
-                    <p className="text-gray-500">{user?.email || "user@example.com"}</p>
+                    <p className="text-gray-500">{userData?.email || "user@example.com"}</p>
                 </div>
 
                 {/* Info Section */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     <div>
                         <p className="text-gray-500">Address</p>
-                        <p className="font-semibold">{user?.address}</p>
+                        <p className="font-semibold">{userData?.address}</p>
                     </div>
 
                     <div>
                         <p className="text-gray-500">Role</p>
                         <span className="badge badge-outline badge-primary">
-                            {role}
+                            {userData?.role}
                         </span>
                     </div>
 
                     <div>
                         <p className="text-gray-500">Status</p>
                         <span
-                            className={`badge ${user?.status === "active"
+                            className={`badge ${userData?.status === "active"
                                 ? "badge-success"
                                 : "badge-error"
                                 }`}
                         >
-                            {user?.status}
+                            {userData?.status}
                         </span>
                     </div>
 
                     {role === 'chef' && (
                         <div>
                             <p className="text-gray-500">Chef ID</p>
-                            <p className="font-semibold text-orange-500">{user?.chefId}</p>
+                            <p className="font-semibold text-orange-500">{userData?.chefId}</p>
                         </div>
                     )}
                 </div>

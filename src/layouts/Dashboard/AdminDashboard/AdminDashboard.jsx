@@ -3,6 +3,7 @@ import { FaUserCircle, FaUsers, FaTasks, FaChartLine } from "react-icons/fa";
 const AdminDashboard = () => {
     return (
         <div className="p-8">
+                <title>Admin Dashboard</title>
             {/* Header */}
             <h1 className="text-4xl font-bold mb-10 text-gray-800">
                 Admin Dashboard

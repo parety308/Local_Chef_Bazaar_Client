@@ -56,7 +56,7 @@ const MyMealsPage = () => {
     // UPDATE SUBMIT
     const handleUpdateData = async (data) => {
         try {
-            const res = await axiosSecure.patch(`meals/${selectedMeal._id}`,data);
+            const res = await axiosSecure.patch(`meals/${selectedMeal._id}`, data);
 
             if (res.data.modifiedCount) {
                 Swal.fire("Updated!", "Meal updated successfully.", "success");
@@ -72,6 +72,42 @@ const MyMealsPage = () => {
 
     return (
         <div className="min-h-screen py-10">
+            <title>My Meals</title>
+            {meals.length === 0 && (
+                <div className="flex flex-col items-center justify-center py-20 bg-white shadow-md rounded-xl mx-5 md:mx-auto max-w-md">
+                    {/* Icon */}
+                    <div className="bg-green-100 p-5 rounded-full mb-6">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-12 w-12 text-green-500"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M3 12h18M12 3v18"
+                            />
+                        </svg>
+                    </div>
+
+                    {/* Message */}
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-center">
+                        No Meals Found 🍽️
+                    </h2>
+                    <p className="text-gray-500 mb-6 text-center max-w-xs md:max-w-sm">
+                        You haven’t added any meals yet. Start adding your delicious meals to share with everyone!
+                    </p>
+
+                    {/* Call-to-Action Button */}
+                    <button className="px-6 py-3 bg-gradient-to-r from-green-400 to-teal-500 hover:from-teal-500 hover:to-green-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
+                        Add New Meal ➕
+                    </button>
+                </div>
+            )}
+
             <div className="w-11/12 mx-auto">
 
                 <h2 className="text-3xl font-bold text-center mb-10">

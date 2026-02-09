@@ -60,6 +60,7 @@ const MealsPage = () => {
 
   return (
     <div className="my-15 w-11/12 mx-auto">
+      <title>All Meals</title>
       <AnimatedTitle text="All Meals" />
 
       <div className="grid lg:grid-cols-3 gap-5 md:grid-cols-2 sm:grid-cols-1">

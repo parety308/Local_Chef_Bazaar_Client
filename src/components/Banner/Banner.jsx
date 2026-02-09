@@ -109,7 +109,7 @@ const Banner = () => {
               Join LocalChefBazaar and sell your homemade food
             </p>
             <Link
-              to="/become-chef"
+              to="/dashboard/my-profile"
               className="bg-green-500 px-6 py-3 rounded-xl font-semibold hover:bg-green-600 transition inline-block"
             >
               Become a Local Chef
@@ -138,7 +138,7 @@ const Banner = () => {
               Secure payments & real-time order tracking
             </p>
             <Link
-              to="/order"
+              to="/dashboard/my-orders"
               className="bg-blue-500 px-6 py-3 rounded-xl font-semibold hover:bg-blue-600 transition inline-block"
             >
               Order Now

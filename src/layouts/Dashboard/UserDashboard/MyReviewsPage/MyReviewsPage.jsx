@@ -101,6 +101,44 @@ const MyReviewsPage = () => {
 
     return (
         <div className="w-11/12 mx-auto my-10">
+            <title>My Reviews - Dashboard</title>
+
+            {reviews.length === 0 && (
+                <div className="flex flex-col items-center justify-center py-20 bg-white shadow-md rounded-xl mx-5 md:mx-0">
+                    {/* Icon */}
+                    <div className="bg-yellow-100 p-5 rounded-full mb-6">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-12 w-12 text-yellow-500"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M5 13l4 4L19 7"
+                            />
+                        </svg>
+                    </div>
+
+                    {/* Message */}
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-center">
+                        No Reviews Yet 😔
+                    </h2>
+                    <p className="text-gray-500 mb-6 text-center max-w-xs md:max-w-md">
+                        You haven’t added any reviews. Explore our meals and share your valuable feedback!
+                    </p>
+
+                    {/* Call-to-Action Button */}
+                    <button className="px-6 py-3 bg-gradient-to-r from-green-400 to-teal-500 hover:from-teal-500 hover:to-green-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
+                        Explore Meals 🍽️
+                    </button>
+                </div>
+            )}
+
+
             <h1 className="text-4xl mb-6">Total Reviews : {reviews.length}</h1>
 
             <div className="overflow-x-auto bg-white rounded-xl shadow">

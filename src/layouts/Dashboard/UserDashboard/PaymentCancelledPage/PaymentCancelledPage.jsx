@@ -3,6 +3,7 @@ import { Link } from "react-router";
 const PaymentCancelledPage = () => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-red-100 px-4">
+                <title>Payment Cancelled - Dashboard</title>
             <div className="bg-white shadow-xl rounded-2xl p-8 max-w-md w-full text-center">
                 
                 {/* Cancel Icon */}
