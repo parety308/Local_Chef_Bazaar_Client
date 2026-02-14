@@ -110,67 +110,69 @@ const MyMealsPage = () => {
                 </div>
             )}
 
-            <div className="w-11/12 mx-auto">
+            {meals.length > 0 && (
+                <div className="w-11/12 mx-auto">
 
-                <h2 className="text-3xl font-bold text-center mb-10">
-                    My Meals
-                </h2>
+                    <h2 className="text-3xl font-bold text-center mb-10">
+                        My Meals
+                    </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {meals.map(meal => (
-                        <div key={meal._id} className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {meals.map(meal => (
+                            <div key={meal._id} className="bg-white rounded-2xl shadow-lg overflow-hidden">
 
-                            <img
-                                src={meal.mealImg}
-                                alt={meal.mealName}
-                                className="w-full h-56 object-cover"
-                            />
+                                <img
+                                    src={meal.mealImg}
+                                    alt={meal.mealName}
+                                    className="w-full h-56 object-cover"
+                                />
 
-                            <div className="p-6 space-y-2">
-                                <div className="flex justify-between">
-                                    <h3 className="text-xl font-bold">
-                                        {meal.mealName}
-                                    </h3>
-                                    <span className="font-semibold">
-                                        ${meal.price}
-                                    </span>
-                                </div>
+                                <div className="p-6 space-y-2">
+                                    <div className="flex justify-between">
+                                        <h3 className="text-xl font-bold">
+                                            {meal.mealName}
+                                        </h3>
+                                        <span className="font-semibold">
+                                            ${meal.price}
+                                        </span>
+                                    </div>
 
-                                <p>⭐ {meal.rating}</p>
+                                    <p>⭐ {meal.rating}</p>
 
-                                <p className="text-sm">
-                                    <b>Ingredients:</b> {meal.ingredients}
-                                </p>
+                                    <p className="text-sm">
+                                        <b>Ingredients:</b> {meal.ingredients}
+                                    </p>
 
-                                <p className="text-sm">
-                                    <b>Delivery:</b> {meal.estimatedDeliveryTime} mins
-                                </p>
+                                    <p className="text-sm">
+                                        <b>Delivery:</b> {meal.estimatedDeliveryTime} mins
+                                    </p>
 
-                                <div className="border-t pt-2 text-sm">
-                                    <p><b>Chef:</b> {meal.chefName}</p>
-                                    <p><b>Chef ID:</b> {meal.chefId}</p>
-                                </div>
+                                    <div className="border-t pt-2 text-sm">
+                                        <p><b>Chef:</b> {meal.chefName}</p>
+                                        <p><b>Chef ID:</b> {meal.chefId}</p>
+                                    </div>
 
-                                <div className="flex gap-2 pt-3">
-                                    <button
-                                        onClick={() => handleDelete(meal._id)}
-                                        className="btn btn-sm btn-outline btn-error flex-1"
-                                    >
-                                        Delete
-                                    </button>
+                                    <div className="flex gap-2 pt-3">
+                                        <button
+                                            onClick={() => handleDelete(meal._id)}
+                                            className="btn btn-sm btn-outline btn-error flex-1"
+                                        >
+                                            Delete
+                                        </button>
 
-                                    <button
-                                        onClick={() => handleUpdate(meal)}
-                                        className="btn btn-sm btn-outline btn-primary flex-1"
-                                    >
-                                        Update
-                                    </button>
+                                        <button
+                                            onClick={() => handleUpdate(meal)}
+                                            className="btn btn-sm btn-outline btn-primary flex-1"
+                                        >
+                                            Update
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
 
             {/* UPDATE MODAL */}
             <dialog ref={updateModalRef} className="modal modal-bottom sm:modal-middle">

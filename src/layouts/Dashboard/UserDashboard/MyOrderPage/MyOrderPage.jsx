@@ -55,7 +55,7 @@ const MyOrderPage = () => {
           disabled
           className="btn w-full bg-gray-400 text-white cursor-not-allowed"
         >
-          Paid ✅
+          Paid .
         </button>
       );
     }
@@ -133,65 +133,67 @@ const MyOrderPage = () => {
         )}
 
         {/* Orders Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {orders.map((meal) => (
-            <div
-              key={meal._id}
-              className="bg-white rounded-2xl shadow-md p-6 border border-gray-200"
-            >
-              {/* Meal Name */}
-              <h2 className="text-xl font-bold text-gray-800 mb-3">
-                {meal.mealName}
-              </h2>
+        {orders.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {orders.map((meal) => (
+              <div
+                key={meal._id}
+                className="bg-white rounded-2xl shadow-md p-6 border border-gray-200"
+              >
+                {/* Meal Name */}
+                <h2 className="text-xl font-bold text-gray-800 mb-3">
+                  {meal.mealName}
+                </h2>
 
-              {/* Meal Info */}
-              <div className="space-y-2 text-sm text-gray-600">
-                <p>
-                  <span className="font-semibold">Price:</span> {meal.price}৳
-                </p>
-                <p>
-                  <span className="font-semibold">Quantity:</span> {meal.quantity}
-                </p>
-                <p>
-                  <span className="font-semibold">Order Status:</span>{" "}
-                  <span
-                    className={`badge ${meal.orderStatus === "pending"
-                      ? "badge-warning"
-                      : meal.orderStatus === "accepted"
-                        ? "badge-success"
-                        : "badge-error"
-                      }`}
-                  >
-                    {meal.orderStatus}
-                  </span>
-                </p>
-                <p>
-                  <span className="font-semibold">Payment Status:</span>{" "}
-                  <span
-                    className={`badge ${meal.paymentStatus === "pending"
-                      ? "badge-warning"
-                      : "badge-success"
-                      }`}
-                  >
-                    {meal.paymentStatus}
-                  </span>
-                </p>
-                <p>
-                  <span className="font-semibold">Delivery Time:</span> 30 mins
-                </p>
-                <p>
-                  <span className="font-semibold">Chef Name:</span> Chef Rahim
-                </p>
-                <p>
-                  <span className="font-semibold">Chef ID:</span> CHEF-1023
-                </p>
+                {/* Meal Info */}
+                <div className="space-y-2 text-sm text-gray-600">
+                  <p>
+                    <span className="font-semibold">Price:</span> {meal.price}৳
+                  </p>
+                  <p>
+                    <span className="font-semibold">Quantity:</span> {meal.quantity}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Order Status:</span>{" "}
+                    <span
+                      className={`badge ${meal.orderStatus === "pending"
+                        ? "badge-warning"
+                        : meal.orderStatus === "accepted"
+                          ? "badge-success"
+                          : "badge-error"
+                        }`}
+                    >
+                      {meal.orderStatus}
+                    </span>
+                  </p>
+                  <p>
+                    <span className="font-semibold">Payment Status:</span>{" "}
+                    <span
+                      className={`badge ${meal.paymentStatus === "pending"
+                        ? "badge-warning"
+                        : "badge-success"
+                        }`}
+                    >
+                      {meal.paymentStatus}
+                    </span>
+                  </p>
+                  <p>
+                    <span className="font-semibold">Delivery Time:</span> 30 mins
+                  </p>
+                  <p>
+                    <span className="font-semibold">Chef Name:</span> Chef Rahim
+                  </p>
+                  <p>
+                    <span className="font-semibold">Chef ID:</span> CHEF-1023
+                  </p>
+                </div>
+
+                {/* Action Button */}
+                <div className="mt-5">{renderActionButton(meal)}</div>
               </div>
-
-              {/* Action Button */}
-              <div className="mt-5">{renderActionButton(meal)}</div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

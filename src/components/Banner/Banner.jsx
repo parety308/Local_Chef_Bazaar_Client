@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router";
 import { useState } from "react";
 
-/* Parent controls stagger */
+/* Parent stagger animation */
 const container = {
   hidden: { opacity: 1 },
   visible: {
@@ -15,7 +15,7 @@ const container = {
   },
 };
 
-/* Each letter animation */
+/* Letter animation */
 const letter = {
   hidden: { opacity: 0, y: 40 },
   visible: {
@@ -25,20 +25,16 @@ const letter = {
   },
 };
 
-/* Utility to split text into letters */
+/* Animated text component */
 const AnimatedText = ({ text }) => (
   <motion.div
     variants={container}
     initial="hidden"
     animate="visible"
-    className="text-4xl font-bold mb-4 flex flex-wrap"
+    className="text-2xl md:text-4xl font-bold mb-4 flex flex-wrap"
   >
     {text.split("").map((char, index) => (
-      <motion.span
-        key={index}
-        variants={letter}
-        className="inline-block"
-      >
+      <motion.span key={index} variants={letter}>
         {char === " " ? "\u00A0" : char}
       </motion.span>
     ))}
@@ -47,6 +43,28 @@ const AnimatedText = ({ text }) => (
 
 const Banner = () => {
   const [activeSlide, setActiveSlide] = useState(0);
+
+  /* reusable slide layout */
+  const SlideContent = ({ index, title, desc, btnText, link, color }) => (
+    <div className="absolute inset-0 bg-black/50 flex items-center">
+      <motion.div
+        key={`slide-${index}-${activeSlide}`}
+        initial="hidden"
+        animate={activeSlide === index ? "visible" : "hidden"}
+        className="ml-6 md:ml-14 text-white max-w-xl"
+      >
+        <AnimatedText text={title} />
+        <p className="mb-6 text-sm md:text-lg">{desc}</p>
+
+        <Link
+          to={link}
+          className={`px-6 py-3 rounded-xl font-semibold transition inline-block ${color}`}
+        >
+          {btnText}
+        </Link>
+      </motion.div>
+    </div>
+  );
 
   return (
     <Carousel
@@ -61,90 +79,57 @@ const Banner = () => {
       className="my-5"
     >
       {/* Slide 1 */}
-      <div className="relative h-[450px]">
+      <div className="relative h-[350px] md:h-[450px]">
         <img
           src="https://i.ibb.co/nqzCQvSQ/image.png"
-          className="h-full w-full object-cover"
           alt="Home Cooked Meals"
+          className="h-full w-full object-cover"
         />
 
-        <div className="absolute inset-0 bg-black/50 flex items-center">
-          <motion.div
-            key={`slide-1-${activeSlide}`}
-            initial="hidden"
-            animate={activeSlide === 0 ? "visible" : "hidden"}
-            className="ml-10 text-white max-w-xl"
-          >
-            <AnimatedText text="Fresh Home-Cooked Meals Near You" />
-            <p className="mb-6">
-              Discover daily menus from trusted local chefs
-            </p>
-            <Link
-              to="/meals"
-              className="bg-orange-500 px-6 py-3 rounded-xl font-semibold hover:bg-orange-600 transition inline-block"
-            >
-              Explore Today’s Menu
-            </Link>
-          </motion.div>
-        </div>
+        <SlideContent
+          index={0}
+          title="Fresh Home-Cooked Meals Near You"
+          desc="Discover daily menus from trusted local chefs"
+          btnText="Explore Today’s Menu"
+          link="/meals"
+          color="bg-orange-500 hover:bg-orange-600"
+        />
       </div>
 
       {/* Slide 2 */}
-      <div className="relative h-[450px]">
+      <div className="relative h-[350px] md:h-[450px]">
         <img
           src="https://i.ibb.co/B5LPfqGD/image.png"
-          className="h-full w-full object-cover"
           alt="Become a Chef"
+          className="h-full w-full object-cover"
         />
 
-        <div className="absolute inset-0 bg-black/50 flex items-center">
-          <motion.div
-            key={`slide-2-${activeSlide}`}
-            initial="hidden"
-            animate={activeSlide === 1 ? "visible" : "hidden"}
-            className="ml-10 text-white max-w-xl"
-          >
-            <AnimatedText text="Cook at Home. Earn with Pride." />
-            <p className="mb-6">
-              Join LocalChefBazaar and sell your homemade food
-            </p>
-            <Link
-              to="/dashboard/my-profile"
-              className="bg-green-500 px-6 py-3 rounded-xl font-semibold hover:bg-green-600 transition inline-block"
-            >
-              Become a Local Chef
-            </Link>
-          </motion.div>
-        </div>
+        <SlideContent
+          index={1}
+          title="Cook at Home. Earn with Pride."
+          desc="Join LocalChefBazaar and sell your homemade food"
+          btnText="Become a Local Chef"
+          link="/dashboard/my-profile"
+          color="bg-green-500 hover:bg-green-600"
+        />
       </div>
 
       {/* Slide 3 */}
-      <div className="relative h-[450px]">
+      <div className="relative h-[350px] md:h-[450px]">
         <img
           src="https://i.ibb.co/7NS33ywT/image.png"
-          className="h-full w-full object-cover"
           alt="Fast Delivery"
+          className="h-full w-full object-cover"
         />
 
-        <div className="absolute inset-0 bg-black/50 flex items-center">
-          <motion.div
-            key={`slide-3-${activeSlide}`}
-            initial="hidden"
-            animate={activeSlide === 2 ? "visible" : "hidden"}
-            className="ml-10 text-white max-w-xl"
-          >
-            <AnimatedText text="Healthy •Affordable •Homemade" />
-            <p className="mb-6">
-              Secure payments & real-time order tracking
-            </p>
-            <Link
-              to="/dashboard/my-orders"
-              className="bg-blue-500 px-6 py-3 rounded-xl font-semibold hover:bg-blue-600 transition inline-block"
-            >
-              Order Now
-            </Link>
-          </motion.div>
-        </div>
+        <SlideContent
+          index={2}
+          title="Healthy • Affordable •Homemade"
+          desc="Secure payments & real-time order tracking"
+          btnText="Order Now"
+          link="/dashboard/my-orders"
+          color="bg-blue-500 hover:bg-blue-600"
+        />
       </div>
     </Carousel>
   );

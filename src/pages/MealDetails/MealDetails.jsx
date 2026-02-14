@@ -13,6 +13,15 @@ const MealDetails = () => {
     const { id } = useParams();
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
+    const { data: currentUser = null } = useQuery({
+        queryKey: ['user', user?.email],
+        enabled: !!user?.email,
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/users-role/${user.email}`);
+            return res.data;
+        }
+    });
+    // console.log(currentUser);
     const { data: meal, isLoading, refetch } = useQuery({
         queryKey: ['meals', id],
         queryFn: async () => {
@@ -49,9 +58,9 @@ const MealDetails = () => {
             mealImg: foodImg,
             ratings,
             review: e.target.reviewText.value,
-            reviewerName: user.displayName,
-            reviewerEmail: user.email,
-            reviewerImg: user.photoURL,
+            reviewerName: currentUser?.name,
+            reviewerEmail: currentUser.email,
+            reviewerImg: currentUser?.photoUrl,
             date: new Date().toISOString()
         };
         axiosSecure.post('/reviews', review)
@@ -74,7 +83,8 @@ const MealDetails = () => {
 
     const handleFavourites = () => {
         const newMeal = {
-            userEmail: user.email,
+            userEmail: currentUser.email,
+            userName: currentUser.name,
             mealId: id,
             mealName: foodName,
             mealImg: foodImg,
@@ -114,145 +124,186 @@ const MealDetails = () => {
     if (isLoading || reviewLoading) {
         return <Loading />
     }
+
     return (
-        <>
-            <div className="w-10/12 mx-auto my-10 p-6 grid grid-cols-1 md:grid-cols-2 gap-10 bg-white shadow-xl rounded-2xl">
-                <title>Meal Details</title>
-                {/* Image Section */}
-                <div className="relative">
+        <div className="bg-gradient-to-b from-orange-50 to-white min-h-screen pb-20">
+            <title>Meal Details</title>
+
+            {/* ===== HERO SECTION ===== */}
+            <div className="w-11/12 lg:w-10/12 mx-auto grid lg:grid-cols-3 gap-10 pt-10">
+
+                {/* IMAGE AREA */}
+                <div className="lg:col-span-2 relative group">
                     <img
                         src={foodImg}
                         alt={foodName}
-                        className="w-full h-105 object-cover rounded-2xl"
+                        className="w-full h-[520px] object-cover rounded-3xl shadow-xl"
                     />
-                    <span className="absolute top-4 left-4 bg-yellow-400 text-black px-4 py-1 rounded-full font-semibold">
+
+                    {/* overlay gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-3xl"></div>
+
+                    {/* floating rating */}
+                    <div className="absolute top-5 left-5 bg-white/90 backdrop-blur-md px-5 py-2 rounded-full shadow-lg font-semibold">
                         ⭐ {rating}
-                    </span>
-                </div>
-
-                {/* Details Section */}
-                <div className="flex flex-col justify-between">
-                    <div>
-                        <h1 className="text-4xl font-bold text-gray-800">{foodName}</h1>
-                        <p className="text-gray-500 mt-2">
-                            Prepared by <span className="font-semibold text-gray-700">{chefName}</span>
-                        </p>
-
-                        <p className="text-3xl font-bold text-green-600 mt-4">
-                            ৳ {price}
-                        </p>
-
-                        {/* Ingredients */}
-                        <div className="mt-6">
-                            <h3 className="text-xl font-semibold mb-2">Ingredients</h3>
-                            <ul className="list-disc list-inside text-gray-600 space-y-1">
-                                {ingredients.map((item, index) => (
-                                    <li key={index}>{item}</li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        {/* Delivery Info */}
-                        <div className="mt-6 grid grid-cols-2 gap-4">
-                            <div className="bg-gray-100 p-4 rounded-xl">
-                                <p className="text-sm text-gray-500">Delivery Area</p>
-                                <p className="font-semibold">{deliveryArea}</p>
-                            </div>
-                            <div className="bg-gray-100 p-4 rounded-xl">
-                                <p className="text-sm text-gray-500">Delivery Time</p>
-                                <p className="font-semibold">{estimatedDeliveryTime} mins</p>
-                            </div>
-                        </div>
-
-                        {/* Chef Info */}
-                        <div className="mt-6 bg-gray-50 p-4 rounded-xl">
-                            <p><span className="font-semibold">Chef Experience:</span> {chefExperience} years</p>
-                            <p><span className="font-semibold">Chef ID:</span> #{chefId}</p>
-                        </div>
                     </div>
 
-                    <div className="flex gap-4">
-                        {/* Order Button */}
+                    {/* floating favourite */}
+                    <button
+                        onClick={handleFavourites}
+                        className="absolute top-5 right-5 bg-white p-3 rounded-full shadow-lg hover:scale-110 transition"
+                    >
+                        ❤️
+                    </button>
+
+                    {/* title overlay */}
+                    <div className="absolute bottom-6 left-6 text-white">
+                        <h1 className="text-4xl font-bold drop-shadow-lg">
+                            {foodName}
+                        </h1>
+                        <p className="opacity-90">Chef : {chefName}</p>
+                        <p className="opacity-90">Chef id : #{chefId}</p>
+                    </div>
+                </div>
+
+                {/* ===== STICKY ORDER CARD ===== */}
+                <div className="sticky top-24 h-fit">
+                    <div className="bg-white/80 backdrop-blur-xl p-8 rounded-3xl shadow-xl border">
+
+                        <p className="text-gray-500">Price</p>
+                        <h2 className="text-4xl font-bold text-orange-500 mb-6">
+                            ৳ {price}
+                        </h2>
+
+                        <div className="space-y-4 text-sm">
+                            <div className="flex justify-between">
+                                <span>Delivery Area</span>
+                                <span className="font-semibold">{deliveryArea}</span>
+                            </div>
+
+                            <div className="flex justify-between">
+                                <span>Delivery Time</span>
+                                <span className="font-semibold">
+                                    {estimatedDeliveryTime} mins
+                                </span>
+                            </div>
+
+                            <div className="flex justify-between">
+                                <span>Chef Experience</span>
+                                <span className="font-semibold">
+                                    {chefExperience} yrs
+                                </span>
+                            </div>
+                        </div>
+
                         <NavLink
                             to={`/order/${id}`}
-                            className="mt-8 bg-linear-to-r from-orange-500 to-red-500 text-white text-lg font-semibold py-3 px-6 rounded-xl hover:scale-105 transition-transform"
+                            className="block text-center mt-8 bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-xl font-semibold hover:scale-105 transition"
                         >
-                            Order Now 🍽️
-                        </NavLink>
-
-                        {/* Favorite Button */}
-                        <NavLink
-                            onClick={() => handleFavourites(_id)}
-                            className="mt-8 bg-linear-to-r from-orange-500 to-red-500 text-white text-lg font-semibold py-3 px-6 rounded-xl hover:scale-105 transition-transform"
-                        >
-                            Add to Favourite
+                            🍽 Order Now
                         </NavLink>
                     </div>
                 </div>
             </div>
-            <div className="w-10/12 mx-auto my-10 p-5 border rounded-xl shadow">
-                <h2 className="text-3xl font-bold mb-4 text-green-700">
-                    Ratings & Reviews
-                </h2>
 
-                {/* REVIEW FORM */}
-                <form onSubmit={handleReview} className="mb-8">
-                    <label className="font-semibold text-xl">Your Rating:</label>
-                    <div className="my-3 flex items-center gap-2">
+            {/* ===== INGREDIENTS ===== */}
+            <div className="w-11/12 lg:w-10/12 mx-auto mt-12">
+                <div className="bg-white rounded-3xl shadow-lg p-8">
+                    <h2 className="text-2xl font-bold mb-5">Ingredients</h2>
+
+                    <div className="flex flex-wrap gap-3">
+                        {ingredients.map((item, i) => (
+                            <span
+                                key={i}
+                                className="px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-medium hover:scale-105 transition"
+                            >
+                                {item}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* ===== REVIEWS ===== */}
+            <div className="w-11/12 lg:w-10/12 mx-auto mt-12">
+                <div className="bg-white rounded-3xl shadow-lg p-8">
+
+                    <h2 className="text-3xl font-bold text-orange-600 mb-8">
+                        Ratings & Reviews
+                    </h2>
+
+                    {/* REVIEW FORM */}
+                    <form onSubmit={handleReview} className="mb-12">
+                        <p className="font-semibold mb-2">Your Rating</p>
+
                         <Rating
                             style={{ maxWidth: 180 }}
                             value={ratings}
                             onChange={setRatings}
                         />
-                    </div>
 
-                    <textarea
-                        className="textarea textarea-bordered w-full"
-                        placeholder="Write your review..."
-                        name='reviewText'
-                        required
-                    ></textarea>
+                        <textarea
+                            name="reviewText"
+                            required
+                            placeholder="Tell others how the food tasted..."
+                            className="w-full border rounded-xl p-4 mt-4 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                        />
 
-                    <button type="submit" className="btn btn-success mt-3">
-                        Submit Review
-                    </button>
-                </form>
-                <div>
-                    <h3 className="text-2xl font-semibold mb-3">Customers Reviews:</h3>
+                        <button className="mt-4 bg-orange-500 text-white px-6 py-2 rounded-xl hover:bg-orange-600 transition">
+                            Submit Review
+                        </button>
+                    </form>
 
-                    {reviews.length === 0 && (
-                        <p className="text-gray-500">No reviews yet. Be the first!</p>
-                    )}
+                    {/* REVIEWS LIST */}
+                    <div className="space-y-6">
+                        {reviews.length === 0 && (
+                            <p className="text-gray-400">No reviews yet.</p>
+                        )}
 
-                    {reviews.map((rev, idx) => (
-                        <div key={idx} className="p-4 border rounded-lg mb-4 flex gap-4">
-                            <img
-                                src={rev.reviewerImg}
-                                className="w-24 h-20 object-cover rounded"
-                                alt=""
-                            />
-                            <div>
-                                <h4 className="font-bold">{rev.foodName}</h4>
-                                <p className="text-sm text-gray-600">
-                                    Reviewer: {rev.reviewerName}
-                                </p>
-                                <p className="text-sm text-gray-600">
-                                    Reviewer Email : {rev.reviewerEmail}
-                                </p>
-                                <p className='flex gap-2'> Ratings : <Rating
-                                    style={{ maxWidth: 120 }}
-                                    value={rev.ratings}
-                                    readOnly
-                                /></p>
-                                <p className="mt-2">Review : {rev.review}</p>
-                                <p className="text-sm text-gray-500">Posted: {rev.date}</p>
+                        {reviews.map((rev, idx) => (
+                            <div
+                                key={idx}
+                                className="flex gap-4 p-5 rounded-2xl border hover:shadow-lg transition"
+                            >
+                                <img
+                                    src={rev.reviewerImg}
+                                    className="w-14 h-14 rounded-full object-cover ring-2 ring-orange-200"
+                                    alt=""
+                                />
+
+                                <div className="flex-1">
+                                    <div className="flex justify-between">
+                                        <h4 className="font-bold flex items-center gap-2">
+                                            {rev.reviewerName}
+                                            <span className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">
+                                                ✔ verified
+                                            </span>
+                                        </h4>
+
+                                        <span className="text-sm text-gray-400">
+                                            {new Date(rev.date).toLocaleDateString()}
+                                        </span>
+                                    </div>
+
+                                    <Rating
+                                        style={{ maxWidth: 120 }}
+                                        value={rev.ratings}
+                                        readOnly
+                                    />
+
+                                    <p className="mt-2 text-gray-700 leading-relaxed">
+                                        {rev.review}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
-            </div >
-        </>
+            </div>
+        </div>
     );
+
+
 };
 
 export default MealDetails;

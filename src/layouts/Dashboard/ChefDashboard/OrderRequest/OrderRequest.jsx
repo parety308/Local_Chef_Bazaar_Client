@@ -1,4 +1,3 @@
-import React from "react";
 import useAuth from "../../../../hooks/useAuth/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
@@ -9,7 +8,6 @@ const OrderRequest = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
 
-    // ✅ Fetch Orders Only for This Chef
     const {
         data: orders = [],
         isLoading,
@@ -22,7 +20,6 @@ const OrderRequest = () => {
         },
     });
 
-    // ✅ Update Order Status Handler
     const handleUpdate = async (id, status) => {
         try {
             const res = await axiosSecure.patch(`/orders/${id}`, {
@@ -37,8 +34,6 @@ const OrderRequest = () => {
                     showConfirmButton: false,
                     timer: 1500,
                 });
-
-                // ✅ Live Update
                 refetch();
             }
         } catch (error) {
@@ -54,7 +49,6 @@ const OrderRequest = () => {
 
             {orders.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-20 bg-white shadow-md rounded-xl mx-5 md:mx-auto max-w-md">
-                    {/* Icon */}
                     <div className="bg-blue-100 p-5 rounded-full mb-6">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -72,45 +66,31 @@ const OrderRequest = () => {
                         </svg>
                     </div>
 
-                    {/* Message */}
                     <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-center">
                         No Order Requests Yet 📭
                     </h2>
                     <p className="text-gray-500 mb-6 text-center max-w-xs md:max-w-sm">
-                        You haven’t sent any order requests yet. Start exploring meals and request your favorite dishes!
+                        You haven't sent any order requests yet. Start exploring meals and request your favorite dishes!
                     </p>
 
-                    {/* Call-to-Action Button */}
-                    <button className="px-6 py-3 bg-gradient-to-r from-blue-400 to-indigo-500 hover:from-indigo-500 hover:to-blue-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
+                    <button className="px-6 py-3 bg-linear-to-r from-blue-400 to-indigo-500 hover:from-indigo-500 hover:to-blue-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
                         Explore Meals 🍽️
                     </button>
                 </div>
             )}
 
-            <h1 className="text-3xl font-bold mb-6">
-                Ordered Requests : {orders.length}
-            </h1>
+            {orders.length > 0 && (
+            <div>
+                <h1 className="text-3xl font-bold mb-6">
+                    Ordered Requests : {orders.length}
+                </h1>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {orders.map((meal) => {
-                    // -----------------------------
-                    // ✅ Button Rules Logic
-                    // -----------------------------
-
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {orders.map((meal) => {
                     const isCancelled = meal.orderStatus === "cancelled";
                     const isPending = meal.orderStatus === "pending";
                     const isAccepted = meal.orderStatus === "accepted";
                     const isDelivered = meal.orderStatus === "delivered";
-
-                    // Cancel & Accept Enabled Only When Pending
-                    const disableCancel = !isPending;
-                    const disableAccept = !isPending;
-
-                    // Deliver Enabled Only When Accepted
-                    const disableDeliver = !isAccepted;
-
-                    // If Cancelled or Delivered → All Disabled
-                    const allDisabled = isCancelled || isDelivered;
 
                     return (
                         <div
@@ -122,19 +102,14 @@ const OrderRequest = () => {
                                 <h2 className="text-xl font-semibold text-gray-800">
                                     🍔 Meal Name : {meal.mealName}
                                 </h2>
-
                                 <p className="text-gray-600">
                                     <span className="font-medium">Price:</span> ${meal.price}
                                 </p>
-
                                 <p className="text-gray-600">
                                     <span className="font-medium">Quantity:</span> {meal.quantity}
                                 </p>
-
-                                {/* Order Status */}
                                 <p className="text-gray-600">
                                     <span className="font-medium">Order Status:</span>
-
                                     <span
                                         className={`ml-2 px-3 py-1 rounded-full text-sm 
                     ${isPending
@@ -149,23 +124,15 @@ const OrderRequest = () => {
                                         {meal.orderStatus}
                                     </span>
                                 </p>
-
                                 <p className="text-gray-600">
-                                    <span className="font-medium">User Email:</span>{" "}
-                                    {meal.userEmail}
+                                    <span className="font-medium">User Email:</span> {meal.userEmail}
                                 </p>
-
                                 <p className="text-gray-600">
-                                    <span className="font-medium">Order Time:</span>{" "}
-                                    {meal.orderTime}
+                                    <span className="font-medium">Order Time:</span> {meal.orderTime}
                                 </p>
-
                                 <p className="text-gray-600">
-                                    <span className="font-medium">User Address:</span>{" "}
-                                    {meal.userAddress}
+                                    <span className="font-medium">User Address:</span> {meal.userAddress}
                                 </p>
-
-                                {/* Payment Status */}
                                 <p className="text-gray-600">
                                     <span className="font-medium">Payment Status:</span>
                                     <span
@@ -181,53 +148,68 @@ const OrderRequest = () => {
 
                             {/* Action Buttons */}
                             <div className="flex justify-between mt-6 gap-3">
-                                {/* Cancel Button */}
-                                <button
-                                    disabled={disableCancel || allDisabled}
-                                    onClick={() => handleUpdate(meal._id, "cancelled")}
-                                    className={`w-full py-2 rounded-xl font-semibold transition 
-                  ${disableCancel || allDisabled
-                                            ? "bg-gray-300 cursor-not-allowed"
-                                            : "bg-red-500 hover:bg-red-600 text-white"
-                                        }`}
-                                >
-                                    Cancel
-                                </button>
+                                {/* Cancel Button - Show only if pending */}
+                                {isPending && (
+                                    <button
+                                        onClick={() => handleUpdate(meal._id, "cancelled")}
+                                        className="w-full py-2 rounded-xl font-semibold transition bg-red-500 hover:bg-red-600 text-white"
+                                    >
+                                        Cancel
+                                    </button>
+                                )}
 
-                                {/* Accept Button */}
-                                <button
-                                    disabled={disableAccept || allDisabled}
-                                    onClick={() => handleUpdate(meal._id, "accepted")}
-                                    className={`w-full py-2 rounded-xl font-semibold transition 
-                  ${disableAccept || allDisabled
-                                            ? "bg-gray-300 cursor-not-allowed"
-                                            : "bg-blue-500 hover:bg-blue-600 text-white"
-                                        }`}
-                                >
-                                    Accept
-                                </button>
+                                {/* Accept Button - Show only if pending */}
+                                {isPending ? (
+                                    <button
+                                        onClick={() => handleUpdate(meal._id, "accepted")}
+                                        className="w-full py-2 rounded-xl font-semibold transition bg-blue-500 hover:bg-blue-600 text-white"
+                                    >
+                                        Accept
+                                    </button>
+                                )
+                                    : isAccepted ? (
+                                        <button
+                                            disabled
+                                            className="w-full py-2 rounded-xl font-semibold bg-gray-300 text-gray-600 cursor-not-allowed"
+                                        >
+                                            Accepted
+                                        </button>
+                                    )
+                                        : (
+                                            <button
+                                                disabled
+                                                className="w-full py-2 rounded-xl font-semibold bg-gray-300 text-gray-600 cursor-not-allowed"
+                                            >
+                                                Not Accepted Yet
+                                            </button>
+                                        )}
 
-                                {/* Deliver Button */}
-                                <button
-                                    disabled={disableDeliver || allDisabled}
-                                    onClick={() => handleUpdate(meal._id, "delivered")}
-                                    className={`w-full py-2 rounded-xl font-semibold transition 
-                  ${disableDeliver || allDisabled
-                                            ? "bg-gray-300 cursor-not-allowed"
-                                            : "bg-green-500 hover:bg-green-600 text-white"
-                                        }`}
-                                >
-                                    Deliver
-                                </button>
+                                {/* Deliver Button - Show only if accepted and paid */}
+                                {isAccepted && meal.paymentStatus === "paid" ? (
+                                    <button
+                                        onClick={() => handleUpdate(meal._id, "delivered")}
+                                        className="w-full py-2 rounded-xl font-semibold transition bg-green-500 hover:bg-green-600 text-white"
+                                    >
+                                        Deliver
+                                    </button>
+                                )
+                                    : isAccepted && (
+                                        <button
+                                            disabled
+                                            className="w-full py-2 rounded-xl font-semibold bg-gray-300 text-gray-600 cursor-not-allowed"
+                                        >
+                                            Awaiting Payment
+                                        </button>
+                                    )
+                                }
                             </div>
 
-                            {/* Extra Text */}
+                            {/* Status Messages */}
                             {isDelivered && (
                                 <p className="text-center mt-4 text-green-600 font-bold">
-                                    ✅ Delivered Successfully
+                                    . Delivered Successfully
                                 </p>
                             )}
-
                             {isCancelled && (
                                 <p className="text-center mt-4 text-red-600 font-bold">
                                     ❌ Order Cancelled
@@ -235,8 +217,10 @@ const OrderRequest = () => {
                             )}
                         </div>
                     );
-                })}
+                    })}
+                </div>
             </div>
+            )}
         </div>
     );
 };

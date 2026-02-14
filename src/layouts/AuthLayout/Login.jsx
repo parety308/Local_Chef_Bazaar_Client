@@ -6,6 +6,7 @@ import { useState } from "react";
 import LogInLoader from "../../components/LogInLoader/LogInLoader";
 import { IoEyeOutline } from "react-icons/io5";
 import { FaRegEyeSlash } from "react-icons/fa";
+import SocialLogIn from "./SocialLogIn";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Login = () => {
         formState: { errors },
     } = useForm();
     const { logInUser, forgetPassword } = useAuth();
-    const email=watch('email');
+    const email = watch('email');
     const handleLogIn = (data) => {
         setLoading(true);
         logInUser(data.email, data.password)
@@ -33,7 +34,15 @@ const Login = () => {
                     timer: 1500
                 });
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                setLoading(false);
+                Swal.fire({
+                    icon: "error",
+                    title: "Login Failed",
+                    text: err.message
+                });
+            });
+
 
     }
     const handleForgetPassword = () => {
@@ -85,9 +94,9 @@ const Login = () => {
                             <p className="text-red-500">Password is required</p>
                         )}
 
-                        <div onClick={handleForgetPassword}>
+                        <button type="button" onClick={handleForgetPassword}>
                             <a className="link link-hover text-sm">Forgot password?</a>
-                        </div>
+                        </button>
 
                         <button className="btn bg-lime-300 w-full mt-4">
                             Login
@@ -101,7 +110,9 @@ const Login = () => {
                 >
                     Have no account? Go to signup
                 </Link>
+                <SocialLogIn />
             </div>
+
         </div>
     );
 };

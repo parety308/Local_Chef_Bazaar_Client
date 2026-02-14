@@ -8,6 +8,7 @@ import { useState } from "react";
 import SignUpLoading from "../../components/SignUpLoading/SignUpLoading";
 import { IoEyeOutline } from "react-icons/io5";
 import { FaRegEyeSlash } from "react-icons/fa";
+import SocialLogIn from "./SocialLogIn";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -73,7 +74,10 @@ const SignUp = () => {
                                 });
                             });
                     })
-                    .catch(err => console.log(err));
+                    .catch(err => {
+                        setLoading(false);
+                        Swal.fire("Error", err.message, "error");
+                    });
             });
 
     }
@@ -130,7 +134,7 @@ const SignUp = () => {
                             {...register("address", { required: true })}
                             type="text"
                             className="input input-bordered w-full"
-                            placeholder="Your Name"
+                            placeholder="Your Address"
                         />
                         {errors.address?.type === "required" && (
                             <p className="text-red-500">Address is required</p>
@@ -196,6 +200,7 @@ const SignUp = () => {
                 >
                     Already have an account? Login
                 </Link>
+                <SocialLogIn />
             </div>
 
         </div>

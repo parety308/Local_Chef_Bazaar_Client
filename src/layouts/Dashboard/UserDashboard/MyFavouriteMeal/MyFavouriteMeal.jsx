@@ -76,12 +76,14 @@ const MyFavouriteMeal = () => {
                     </p>
 
                     {/* Call-to-Action Button */}
-                    <button onClick={() => navigate('/meals')} className="px-6 py-3 bg-gradient-to-r from-pink-400 to-red-500 hover:from-red-500 hover:to-pink-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
+                    <button onClick={() => navigate('/meals')} className="px-6 py-3 bg-linear-to-r from-pink-400 to-red-500 hover:from-red-500 hover:to-pink-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
                         Explore Meals 🍽️
                     </button>
                 </div>
             )}
-
+           {
+            favouriteMeals.length > 0 && (
+            <>
             <h1 className="text-3xl my-10">Favourite Meals : {favouriteMeals.length}</h1>
             <div className="overflow-x-auto">
                 <table className="table">
@@ -116,6 +118,8 @@ const MyFavouriteMeal = () => {
                     </tbody>
                 </table>
             </div>
+            </>
+            )}
         </div>
     );
 };

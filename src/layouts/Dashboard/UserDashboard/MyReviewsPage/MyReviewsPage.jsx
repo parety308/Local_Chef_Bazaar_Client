@@ -75,7 +75,7 @@ const MyReviewsPage = () => {
 
         try {
             const res = await axiosSecure.patch(
-                `/my-reviews/${currentReview.id}`, // ✅ FIX HERE
+                `/my-reviews/${currentReview.id}`, // . FIX HERE
                 updatedData
             );
 
@@ -132,77 +132,81 @@ const MyReviewsPage = () => {
                     </p>
 
                     {/* Call-to-Action Button */}
-                    <button className="px-6 py-3 bg-gradient-to-r from-green-400 to-teal-500 hover:from-teal-500 hover:to-green-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
+                    <button className="px-6 py-3 bg-linear-to-r from-green-400 to-teal-500 hover:from-teal-500 hover:to-green-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
                         Explore Meals 🍽️
                     </button>
                 </div>
             )}
 
 
-            <h1 className="text-4xl mb-6">Total Reviews : {reviews.length}</h1>
+            {reviews.length > 0 && (
+                <>
+                    <h1 className="text-4xl mb-6">Total Reviews : {reviews.length}</h1>
 
-            <div className="overflow-x-auto bg-white rounded-xl shadow">
-                <table className="table">
-                    <thead className="bg-gray-100">
-                        <tr>
-                            <th className="text-center">#</th>
-                            <th className="text-center">Meal Name</th>
-                            <th className="text-center">Rating ⭐</th>
-                            <th className="text-center">Comment</th>
-                            <th className="text-center">Date</th>
-                            <th className="text-center">Actions</th>
-                        </tr>
-                    </thead>
+                    <div className="overflow-x-auto bg-white rounded-xl shadow">
+                        <table className="table">
+                            <thead className="bg-gray-100">
+                                <tr>
+                                    <th className="text-center">#</th>
+                                    <th className="text-center">Meal Name</th>
+                                    <th className="text-center">Rating ⭐</th>
+                                    <th className="text-center">Comment</th>
+                                    <th className="text-center">Date</th>
+                                    <th className="text-center">Actions</th>
+                                </tr>
+                            </thead>
 
-                    <tbody>
-                        {reviews.map((review, index) => (
-                            <tr key={review._id}>
-                                <td className="text-center">{index + 1}</td>
+                            <tbody>
+                                {reviews.map((review, index) => (
+                                    <tr key={review._id}>
+                                        <td className="text-center">{index + 1}</td>
 
-                                <td className="font-semibold text-center">
-                                    {review.foodName}
-                                </td>
+                                        <td className="font-semibold text-center">
+                                            {review.foodName}
+                                        </td>
 
-                                <td className="text-center">
-                                    <span className="badge badge-warning">
-                                        {review.ratings}
-                                    </span>
-                                </td>
+                                        <td className="text-center">
+                                            <span className="badge badge-warning">
+                                                {review.ratings}
+                                            </span>
+                                        </td>
 
-                                <td className="max-w-xs truncate text-center">
-                                    {review.review}
-                                </td>
+                                        <td className="max-w-xs truncate text-center">
+                                            {review.review}
+                                        </td>
 
-                                <td className="text-center">
-                                    {new Date(review.date).toLocaleDateString()}
-                                </td>
+                                        <td className="text-center">
+                                            {new Date(review.date).toLocaleDateString()}
+                                        </td>
 
-                                <td className="flex gap-2 justify-center">
-                                    <button
-                                        onClick={() => handleDelete(review._id)}
-                                        className="btn btn-sm text-red-500"
-                                    >
-                                        Delete
-                                    </button>
+                                        <td className="flex gap-2 justify-center">
+                                            <button
+                                                onClick={() => handleDelete(review._id)}
+                                                className="btn btn-sm text-red-500"
+                                            >
+                                                Delete
+                                            </button>
 
-                                    <button
-                                        onClick={() =>
-                                            handleUpdate(
-                                                review._id,
-                                                review.review,
-                                                review.ratings
-                                            )
-                                        }
-                                        className="btn btn-sm text-green-500"
-                                    >
-                                        Update
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                                            <button
+                                                onClick={() =>
+                                                    handleUpdate(
+                                                        review._id,
+                                                        review.review,
+                                                        review.ratings
+                                                    )
+                                                }
+                                                className="btn btn-sm text-green-500"
+                                            >
+                                                Update
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </>
+            )}
 
             {/* UPDATE MODAL */}
             <dialog ref={updateModalRef} className="modal modal-bottom sm:modal-middle">

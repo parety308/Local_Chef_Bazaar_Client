@@ -7,15 +7,19 @@ const SocialLogIn = () => {
     const axiosSecure = useAxiosSecure();
     const { googleSignIn } = useAuth();
     const navigate = useNavigate();
-    const location=useLocation();
+    const location = useLocation();
     const handleSignIn = () => {
         googleSignIn()
             .then(res => {
                 const user = res.user;
+                console.log(user);
                 const newUser = {
-                    displayName: user.displayName,
+                    name: user.displayName,
                     email: user.email,
-                    status: "active"
+                    photoUrl: user.photoURL,
+                    address: "Dhaka, Bangladesh",
+                    status: "active",
+                    role: "user"
                 };
 
                 axiosSecure.post('/users', newUser)
@@ -52,7 +56,7 @@ const SocialLogIn = () => {
         <div>
             <title>Social Login - LocalBazaar</title>
             <h1 className="text-xl text-center my-2">OR</h1>
-             
+
             <button
                 onClick={handleSignIn}
                 type="button"
@@ -73,7 +77,7 @@ const SocialLogIn = () => {
                         <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55" />
                     </g>
                 </svg>
-                Login with Google
+                Signin with Google
             </button>
         </div>
     );

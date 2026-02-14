@@ -2,6 +2,7 @@ import React from 'react';
 import Banner from '../../components/Banner/Banner';
 import DailyMeals from '../../components/DailyMeals/DailyMeals';
 import ReviewSection from '../../components/ReviewSection/ReviewSection';
+import MeetOurChef from '../../components/MeetOurChef/MeetOurChef';
 
 const HomeLayout = () => {
     return (
@@ -10,6 +11,7 @@ const HomeLayout = () => {
             <div className='rounded-xl'> <Banner /></div>
             <div><DailyMeals /></div>
             <div><ReviewSection/></div>
+            <div><MeetOurChef/></div>
         </div>
     );
 };

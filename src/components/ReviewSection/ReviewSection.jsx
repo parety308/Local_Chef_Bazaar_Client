@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectCoverflow, Pagination } from 'swiper/modules';
 
@@ -12,42 +11,13 @@ import useAxiosSecure from '../../hooks/useAxiosSecure/useAxiosSecure';
 import ReviewCard from '../ReviewCard/ReviewCard';
 import { FaStar } from 'react-icons/fa';
 
-/* -------------------- Animated Title -------------------- */
-const container = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.08 },
-  },
-};
-
-const letterVariant = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-};
-
-const AnimatedTitle = ({ text }) => (
-  <motion.h1
-    variants={container}
-    initial="hidden"
-    animate="visible"
-    className="text-5xl text-center my-5 font-bold flex justify-center"
-  >
-    {text.split('').map((char, index) => (
-      <motion.span key={index} variants={letterVariant} className="inline-block">
-        {char === ' ' ? '\u00A0' : char}
-      </motion.span>
-    ))}
-  </motion.h1>
-);
-
-/* -------------------- Review Section -------------------- */
 const ReviewSection = () => {
   const axiosSecure = useAxiosSecure();
 
   const [swiperRef, setSwiperRef] = useState(null);
   const [activeReview, setActiveReview] = useState(null);
 
-  const { data: reviews = [] } = useQuery({
+  const { data: reviews = [], isLoading, isError, error } = useQuery({
     queryKey: ['reviews'],
     queryFn: async () => {
       const res = await axiosSecure.get('/all-reviews');
@@ -55,7 +25,12 @@ const ReviewSection = () => {
     },
   });
 
-  /* ---------- Modal Handlers ---------- */
+  useEffect(() => {
+    if (swiperRef && reviews.length > 0) {
+      swiperRef.autoplay.start();
+    }
+  }, [swiperRef, reviews]);
+
   const handleOpenModal = (review) => {
     setActiveReview(review);
     swiperRef?.autoplay?.stop();
@@ -66,62 +41,83 @@ const ReviewSection = () => {
     swiperRef?.autoplay?.start();
   };
 
+  if (isLoading) {
+    return (
+      <div className="text-center py-20 text-xl font-semibold">
+        Loading reviews...
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="text-center py-20 text-xl font-semibold text-red-500">
+        Error loading reviews: {error.message}
+      </div>
+    );
+  }
+
   return (
     <div className="my-16">
-      {/* Heading */}
-      <div className="text-center mb-24">
-        <AnimatedTitle text="What Our Customers Say" />
+      {/* Simple Static Title */}
+      <div className="text-center mb-12">
+        <h2 className="text-4xl font-bold text-gray-800 mb-2">
+          What Our Customers Say
+        </h2>
         <p className="text-gray-600">
           Real feedback from real food lovers 🍽️
         </p>
       </div>
 
       {/* Swiper */}
-      <Swiper
-        onSwiper={setSwiperRef}
-        loop
-        effect="coverflow"
-        grabCursor
-        centeredSlides
-        slidesPerView={3}
-        breakpoints={{
-          0: { slidesPerView: 1 },
-          768: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
-        }}
-        coverflowEffect={{
-          rotate: 30,
-          stretch: 50,
-          depth: 200,
-          modifier: 1,
-          scale: 0.75,
-          slideShadows: true,
-        }}
-        autoplay={{
-          delay: 1000,
-          disableOnInteraction: false,
-        }}
-        pagination={{ clickable: true }}
-        modules={[EffectCoverflow, Pagination, Autoplay]}
-        className="mySwiper"
-      >
-        {reviews.map((review) => (
-          <SwiperSlide key={review._id} className="flex justify-center">
-            <ReviewCard
-              review={review}
-              onOpenModal={handleOpenModal}
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {reviews.length > 0 && (
+        <Swiper
+          onSwiper={setSwiperRef}
+          loop
+          effect="coverflow"
+          grabCursor
+          centeredSlides
+          slidesPerView={3}
+          breakpoints={{
+            0: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          }}
+          coverflowEffect={{
+            rotate: 30,
+            stretch: 50,
+            depth: 200,
+            modifier: 1,
+            scale: 0.75,
+            slideShadows: true,
+          }}
+          autoplay={{
+            delay: 1200,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          pagination={{ clickable: true }}
+          modules={[EffectCoverflow, Pagination, Autoplay]}
+          className="mySwiper"
+        >
+          {reviews.map((review) => (
+            <SwiperSlide key={review._id} className="flex justify-center">
+              <ReviewCard
+                review={review}
+                onOpenModal={handleOpenModal}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
 
-      {/* -------------------- MODAL -------------------- */}
+      {/* Modal */}
       {activeReview && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={handleCloseModal}>
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          onClick={handleCloseModal}
+        >
+          <div
             className="bg-white max-w-lg w-full rounded-2xl p-6 relative shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
@@ -153,10 +149,8 @@ const ReviewSection = () => {
               </div>
             </div>
 
-            <p className="text-gray-700 leading-relaxed">
-              {activeReview.review}
-            </p>
-          </motion.div>
+            <p className="text-gray-700 leading-relaxed">{activeReview.review}</p>
+          </div>
         </div>
       )}
     </div>

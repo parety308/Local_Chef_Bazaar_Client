@@ -4,71 +4,54 @@ import useAuth from "../../../../hooks/useAuth/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure/useAxiosSecure";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const CreateMealPage = () => {
   const { register, handleSubmit, reset } = useForm();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
 
   const onSubmit = async (data) => {
     try {
-      const {
-        foodName,
-        chefName,
-        price,
-        rating,
-        ingredients,
-        deliveryTime,
-        chefExperience,
-        chefId,
-        userEmail,
-        mealImage,
-      } = data;
-
-      // ✅ Image check
-      const imageFile = mealImage?.[0];
+      const imageFile = data.mealImage?.[0];
       if (!imageFile) {
         Swal.fire("Error", "Please select an image", "error");
         return;
       }
 
-      // ✅ Upload image to imgbb
       const formData = new FormData();
       formData.append("image", imageFile);
-
       const imgRes = await axios.post(
         `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMG_API_HOST}`,
         formData
       );
-
       const mealImg = imgRes.data.data.url;
 
-      // ✅ Ingredients → array
-      const ingredientsArray = ingredients
+      const ingredientsArray = data.ingredients
         .split(",")
         .map((item) => item.trim());
 
-      // ✅ Final meal object
       const newMeal = {
-        mealName: foodName,
-        chefName,
-        chefId,
-        userEmail,
+        mealName: data.foodName,
+        chefName: data.chefName,
+        chefId: data.chefId,
+        userEmail: data.userEmail,
         mealImg,
-        price: Number(price),
-        rating: Number(rating),
+        price: Number(data.price),
+        rating: Number(data.rating),
         ingredients: ingredientsArray,
-        estimatedDeliveryTime: Number(deliveryTime),
-        chefExperience: Number(chefExperience),
+        estimatedDeliveryTime: Number(data.deliveryTime),
+        chefExperience: Number(data.chefExperience),
         createdAt: new Date(),
       };
 
-      // ✅ Save to database
       const res = await axiosSecure.post("/meals", newMeal);
 
       if (res.data.insertedId) {
         Swal.fire("Created!", "Your Meal is Created.", "success");
         reset();
+        navigate("/dashboard/my-meals");
       }
     } catch (error) {
       console.error(error);
@@ -90,12 +73,14 @@ const CreateMealPage = () => {
       </div>
     );
   }
+
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
-      <title>Create New Meal</title>
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow p-8">
-        <h2 className="text-3xl font-bold mb-8 text-center">
-          Create New Meal
+    <div className="min-h-screen bg-gradient-to-r from-[#fef9f0] to-[#fff6f6] py-12">
+      <title>Create Meal | Chef Dashboard</title>
+      <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-xl p-10 border border-gray-100">
+        {/* Header */}
+         <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+          🍽 Create a New Meal
         </h2>
 
         <form
@@ -108,7 +93,8 @@ const CreateMealPage = () => {
             <input
               type="text"
               {...register("foodName", { required: true })}
-              className="input input-bordered w-full"
+              className="input input-bordered w-full focus:ring-2 focus:ring-orange-400 focus:outline-none transition"
+              placeholder="Ex: Chicken Biryani"
             />
           </div>
 
@@ -120,7 +106,7 @@ const CreateMealPage = () => {
               {...register("chefName")}
               defaultValue={user?.displayName}
               readOnly
-              className="input input-bordered w-full bg-gray-100"
+              className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
             />
           </div>
 
@@ -140,7 +126,8 @@ const CreateMealPage = () => {
             <input
               type="number"
               {...register("price", { required: true })}
-              className="input input-bordered w-full"
+              className="input input-bordered w-full focus:ring-2 focus:ring-green-400 transition"
+              placeholder="Ex: 12"
             />
           </div>
 
@@ -149,14 +136,14 @@ const CreateMealPage = () => {
             <label className="label font-semibold">Rating</label>
             <select
               {...register("rating", { required: true })}
-              className="select select-bordered w-full"
+              className="select select-bordered w-full focus:ring-2 focus:ring-yellow-400 transition"
             >
               <option value="">Select rating</option>
-              <option value="1">⭐ 1</option>
-              <option value="2">⭐⭐ 2</option>
-              <option value="3">⭐⭐⭐ 3</option>
-              <option value="4">⭐⭐⭐⭐ 4</option>
-              <option value="5">⭐⭐⭐⭐⭐ 5</option>
+              {[1, 2, 3, 4, 5].map((i) => (
+                <option key={i} value={i}>
+                  {"⭐".repeat(i)} {i}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -165,8 +152,8 @@ const CreateMealPage = () => {
             <label className="label font-semibold">Ingredients</label>
             <textarea
               {...register("ingredients", { required: true })}
-              placeholder="Rice, Mutton, Potato"
-              className="textarea textarea-bordered w-full"
+              placeholder="Ex: Rice, Mutton, Potato"
+              className="textarea textarea-bordered w-full focus:ring-2 focus:ring-pink-400 transition"
             />
           </div>
 
@@ -178,7 +165,7 @@ const CreateMealPage = () => {
             <input
               type="number"
               {...register("deliveryTime")}
-              className="input input-bordered w-full"
+              className="input input-bordered w-full focus:ring-2 focus:ring-blue-400 transition"
             />
           </div>
 
@@ -190,7 +177,7 @@ const CreateMealPage = () => {
             <input
               type="number"
               {...register("chefExperience")}
-              className="input input-bordered w-full"
+              className="input input-bordered w-full focus:ring-2 focus:ring-purple-400 transition"
             />
           </div>
 
@@ -201,7 +188,7 @@ const CreateMealPage = () => {
               type="text"
               {...register("chefId")}
               defaultValue={user?.chefId}
-              className="input input-bordered w-full bg-gray-100"
+              className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
             />
           </div>
 
@@ -213,13 +200,13 @@ const CreateMealPage = () => {
               {...register("userEmail")}
               defaultValue={user?.email}
               readOnly
-              className="input input-bordered w-full bg-gray-100"
+              className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
             />
           </div>
 
           {/* Submit */}
           <div className="md:col-span-2 text-center mt-6">
-            <button type="submit" className="btn btn-primary px-10">
+            <button className="btn bg-gradient-to-r from-orange-400 to-pink-500 hover:from-pink-500 hover:to-orange-400 text-white px-10 py-3 text-lg font-semibold shadow-lg transition-all rounded-full">
               Create Meal
             </button>
           </div>
