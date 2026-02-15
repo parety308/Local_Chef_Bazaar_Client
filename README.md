@@ -55,15 +55,18 @@ Home chefs can sell food easily without opening a restaurant.
 - TanStack Query
 - Tailwind CSS
 - Framer Motion
+- DaisyUi
 
 ### Backend
 - Node.js
 - Express.js
 - MongoDB
+- Stripe-Payment Gateway
 
 ### Authentication
 - Firebase Authentication
 - JWT Token
+- HTTPS Cookies
 
 ## 📄 Pages Overview
 
@@ -84,7 +87,7 @@ Home chefs can sell food easily without opening a restaurant.
 ## ⚙️ Installation & Setup
 
 ### Clone repository
-git clone repo-link
+git clone https://github.com/parety308/Local_Chef_Bazaar_Client
 
 ### Install dependencies
 npm install
