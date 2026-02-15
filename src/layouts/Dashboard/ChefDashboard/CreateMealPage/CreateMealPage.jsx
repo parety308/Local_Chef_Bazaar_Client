@@ -5,6 +5,7 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure/useAxiosSecure";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
+import { useQuery } from "@tanstack/react-query";
 
 const CreateMealPage = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -12,6 +13,14 @@ const CreateMealPage = () => {
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
 
+  const { data: currentUser = null } = useQuery({
+    queryKey: ['user', user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users-role/${user.email}`);
+      return res.data;
+    }
+  });
   const onSubmit = async (data) => {
     try {
       const imageFile = data.mealImage?.[0];
@@ -26,23 +35,24 @@ const CreateMealPage = () => {
         `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMG_API_HOST}`,
         formData
       );
-      const mealImg = imgRes.data.data.url;
+      const foodImg = imgRes.data.data.url;
 
       const ingredientsArray = data.ingredients
         .split(",")
         .map((item) => item.trim());
 
       const newMeal = {
-        mealName: data.foodName,
+        foodName: data.foodName,
         chefName: data.chefName,
         chefId: data.chefId,
         userEmail: data.userEmail,
-        mealImg,
+        foodImg,
         price: Number(data.price),
         rating: Number(data.rating),
         ingredients: ingredientsArray,
         estimatedDeliveryTime: Number(data.deliveryTime),
         chefExperience: Number(data.chefExperience),
+        deliveryArea: currentUser?.address || "Not provided",
         createdAt: new Date(),
       };
 
@@ -79,7 +89,7 @@ const CreateMealPage = () => {
       <title>Create Meal | Chef Dashboard</title>
       <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-xl p-10 border border-gray-100">
         {/* Header */}
-         <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
           🍽 Create a New Meal
         </h2>
 
@@ -187,7 +197,7 @@ const CreateMealPage = () => {
             <input
               type="text"
               {...register("chefId")}
-              defaultValue={user?.chefId}
+              defaultValue={currentUser?.chefId}
               className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
             />
           </div>
@@ -198,7 +208,7 @@ const CreateMealPage = () => {
             <input
               type="email"
               {...register("userEmail")}
-              defaultValue={user?.email}
+              defaultValue={currentUser?.email}
               readOnly
               className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
             />

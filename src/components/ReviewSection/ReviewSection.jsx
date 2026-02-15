@@ -19,6 +19,7 @@ const ReviewSection = () => {
 
   const { data: reviews = [], isLoading, isError, error } = useQuery({
     queryKey: ['reviews'],
+    enabled: !!axiosSecure,
     queryFn: async () => {
       const res = await axiosSecure.get('/all-reviews');
       return res.data;

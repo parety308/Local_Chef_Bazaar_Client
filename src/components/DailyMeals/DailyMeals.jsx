@@ -5,7 +5,7 @@ import MealCard from '../MealCard/MealCard';
 
 const DailyMeals = () => {
     const axiosSecure = useAxiosSecure();
-    const { data: meals = [], isLoading, isError, error } = useQuery({
+    const { data: latestMeals = [], isLoading, isError, error } = useQuery({
         queryKey: ['meals'],
         queryFn: async () => {
             const res = await axiosSecure.get('/meals');
@@ -13,9 +13,6 @@ const DailyMeals = () => {
         }
     });
 
-    const latest6Meals = meals
-        .sort((a, b) => new Date(b.createdAt.$date) - new Date(a.createdAt.$date)) // newest first
-        .slice(0, 6);
 
     if (isLoading) {
         return <div className="text-center my-10 text-gray-500">Loading meals...</div>;
@@ -32,7 +29,7 @@ const DailyMeals = () => {
             </h2>
 
             <div className='grid lg:grid-cols-3 gap-5'>
-                {latest6Meals.map(meal => (
+                {latestMeals.map(meal => (
                     <MealCard key={meal._id} meal={meal} />
                 ))}
             </div>

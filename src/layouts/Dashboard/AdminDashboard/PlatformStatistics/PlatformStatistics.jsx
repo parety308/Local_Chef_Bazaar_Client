@@ -32,8 +32,8 @@ const PlatformStatistics = () => {
         }
     });
     const orderData = [
-        { name: "Pending", value: orders?.pending || 7 },
-        { name: "Delivered", value: orders?.delivered || 5 },
+        { name: "Pending", value: orders?.pending || 0},
+        { name: "Delivered", value: orders?.delivered || 0},
     ];
 
     const { data: totalPayment = 0, isLoading: isPaymentLoading } = useQuery({
