@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth/useAuth";
 import Swal from "sweetalert2";
@@ -10,6 +10,7 @@ import SocialLogIn from "./SocialLogIn";
 
 const Login = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const {
@@ -24,7 +25,7 @@ const Login = () => {
         setLoading(true);
         logInUser(data.email, data.password)
             .then(res => {
-                navigate('/');
+                navigate(location?.state || "/");
                 setLoading(false);
                 Swal.fire({
                     position: "top-end",

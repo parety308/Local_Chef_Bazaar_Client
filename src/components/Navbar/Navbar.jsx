@@ -5,15 +5,16 @@ import useAuth from '../../hooks/useAuth/useAuth';
 import Loading from '../Loading/Loading';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../hooks/useAxiosSecure/useAxiosSecure';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase/firebase.init';
 
 const Navbar = () => {
     const { user, logOut } = useAuth();
     const axiosSecure = useAxiosSecure();
     const [logoutLoading, setLogoutLoading] = useState(false);
-
     const handleLogOut = () => {
         setLogoutLoading(true);
-        logOut()
+        signOut(auth)
             .then(() => setLogoutLoading(false))
             .catch(err => {
                 console.log(err);
@@ -21,13 +22,13 @@ const Navbar = () => {
             });
     };
 
-    if (logoutLoading) return <Loading />;
 
-    const { data: currentUser = null } = useQuery({
+
+    const { data: currentUser } = useQuery({
         queryKey: ['user', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/users-role/${user.email}`);
+            const res = await axiosSecure.get(`/users-role/${user?.email}`);
             return res.data;
         }
     });
@@ -71,6 +72,7 @@ const Navbar = () => {
         </>
     );
 
+    if (logoutLoading) return <Loading />;
     return (
         <div className="navbar bg-base-100 shadow-sm px-3">
             {/* -------- LEFT -------- */}
@@ -108,7 +110,7 @@ const Navbar = () => {
             </div>
 
             {/* -------- RIGHT -------- */}
-            {user && currentUser ? (
+            {user ? (
                 <div className="navbar-end gap-4">
                     {/* Avatar dropdown */}
                     <div className="dropdown dropdown-end">

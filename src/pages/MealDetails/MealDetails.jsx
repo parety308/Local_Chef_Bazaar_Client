@@ -21,7 +21,6 @@ const MealDetails = () => {
             return res.data;
         }
     });
-    // console.log(currentUser);
     const { data: meal, isLoading, refetch } = useQuery({
         queryKey: ['meals', id],
         queryFn: async () => {

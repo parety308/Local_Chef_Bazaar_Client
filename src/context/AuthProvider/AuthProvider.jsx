@@ -6,7 +6,7 @@ import Loading from '../../components/Loading/Loading';
 import useAxiosSecure from '../../hooks/useAxiosSecure/useAxiosSecure';
 const provider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
     const axiosSecure = useAxiosSecure();
     const createUser = (email, password) => {
@@ -30,20 +30,21 @@ const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
+        setLoading(true);
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
             if (currentUser) {
-                const loggedUser = { email: currentUser.email};
+                const loggedUser = { email: currentUser?.email };
                 axiosSecure.post('/get-token', loggedUser)
                     .then(data => {
+                        setLoading(false);
                     })
             }
             setLoading(false);
         });
 
         return () => unsubscribe();
-    }, []);
-
+    }, [user?.email, axiosSecure]);
 
     const userInfo = {
         createUser,

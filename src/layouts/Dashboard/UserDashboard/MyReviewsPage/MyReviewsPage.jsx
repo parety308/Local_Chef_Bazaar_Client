@@ -32,6 +32,7 @@ const MyReviewsPage = () => {
             return res.data;
         },
     });
+    console.log(reviews);
 
     // delete review
     const handleDelete = (id) => {
@@ -162,7 +163,7 @@ const MyReviewsPage = () => {
                                         <td className="text-center">{index + 1}</td>
 
                                         <td className="font-semibold text-center">
-                                            {review.foodName}
+                                            {review.mealName}
                                         </td>
 
                                         <td className="text-center">

@@ -51,32 +51,26 @@ const SignUp = () => {
                         axiosSecure.post('/users', newUser)
                             .then(res => {
                                 if (res.data.insertedId) {
-                                    console.log('user created in database');
+                                    const userProfile = {
+                                        displayName: data.name,
+                                        photoUrl: photoUrl
+                                    };
+                                    updateUser(userProfile)
+                                        .then(() => {
+                                            navigate(location?.state || "/");
+                                            setLoading(false)
+                                            Swal.fire({
+                                                position: "top-end",
+                                                icon: "success",
+                                                title: "User Sign Up Successfully",
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                            });
+                                        });
                                 }
-                            })
-                            .catch(err => console.log(err));
-
-                        const userProfile = {
-                            displayName: data.name,
-                            photoUrl: photoUrl
-                        };
-
-                        updateUser(userProfile)
-                            .then(() => {
-                                navigate(location?.state || "/");
-                                setLoading(false)
-                                Swal.fire({
-                                    position: "top-end",
-                                    icon: "success",
-                                    title: "User Sign Up Successfully",
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                });
                             });
-                    })
-                    .catch(err => {
-                        setLoading(false);
-                        Swal.fire("Error", err.message, "error");
+
+
                     });
             });
 

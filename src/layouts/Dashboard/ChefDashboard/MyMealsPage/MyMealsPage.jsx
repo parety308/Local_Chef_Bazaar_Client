@@ -122,15 +122,15 @@ const MyMealsPage = () => {
                             <div key={meal._id} className="bg-white rounded-2xl shadow-lg overflow-hidden">
 
                                 <img
-                                    src={meal.mealImg}
-                                    alt={meal.mealName}
+                                    src={meal.foodImg}
+                                    alt={meal.foodName}
                                     className="w-full h-56 object-cover"
                                 />
 
                                 <div className="p-6 space-y-2">
                                     <div className="flex justify-between">
                                         <h3 className="text-xl font-bold">
-                                            {meal.mealName}
+                                            {meal.foodName}
                                         </h3>
                                         <span className="font-semibold">
                                             ${meal.price}

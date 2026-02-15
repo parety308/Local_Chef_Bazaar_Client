@@ -19,7 +19,6 @@ const PaymentSuccessPage = () => {
 
         // Step 1: get payment data from session
         const { data: paymentData } = await axiosSecure.get(`/payment-success?session_id=${sessionId}`);
-        // console.log("paymentData:", paymentData);
 
         // Step 2: get full payment info from backend
         const paymentId = paymentData?.paymentInfo?.insertedId;
@@ -29,7 +28,6 @@ const PaymentSuccessPage = () => {
         }
 
         const { data: paymentDetails } = await axiosSecure.get(`/payments/${paymentId}`);
-        // console.log("paymentInfo:", paymentDetails);
 
         setPaymentInfo(paymentDetails);
       } catch (err) {
