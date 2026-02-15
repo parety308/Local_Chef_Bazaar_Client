@@ -6,8 +6,8 @@ Users can explore meals, place orders, track requests, and leave reviews.
 Home chefs can sell food easily without opening a restaurant.
 
 ## 🌐 Live Website
-🔗 https://local-chef-bazaar-online.netlify.app
-🔗 email-password-auth-61ee5.web.app
+🔗 https://local-chef-bazaar-online.netlify.app<br>
+🔗 https://email-password-auth-61ee5.web.app <br>
 🔗 https://email-password-auth-61ee5.firebaseapp.com
 
 ## 💻 Client Repository
