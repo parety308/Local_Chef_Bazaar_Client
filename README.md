@@ -5,16 +5,22 @@ LocalChefBazaar is a MERN stack web application that connects home chefs with cu
 Users can explore meals, place orders, track requests, and leave reviews. 
 Home chefs can sell food easily without opening a restaurant.
 
+
 ## 🌐 Live Website
 🔗 https://local-chef-bazaar-online.netlify.app<br>
-🔗 https://email-password-auth-61ee5.web.app <br>
-🔗 https://email-password-auth-61ee5.firebaseapp.com
+🔗 https://email-password-auth-61ee5.web.app<br>
+🔗 https://email-password-auth-61ee5.firebaseapp.com<br>
 
 ## 💻 Client Repository
 🔗 https://github.com/parety308/Local_Chef_Bazaar_Client
 
 ## ⚙️ Server Repository
 🔗 https://github.com/parety308/Local_Chef_Bazaar_Server
+
+## 🎯 Project Purpose
+
+The goal of this project is to create a platform where local home chefs can sell homemade food while customers can easily discover and order meals online.
+
 
 ## ✨ Key Features
 
@@ -63,10 +69,14 @@ Home chefs can sell food easily without opening a restaurant.
 - MongoDB
 - Stripe-Payment Gateway
 
-### Authentication
-- Firebase Authentication
-- JWT Token
-- HTTPS Cookies
+## 🔒 Security Features
+
+- JWT authentication
+- Protected routes
+- Role-based authorization
+- Secure HTTP-only cookies
+- Axios secure interceptor
+
 
 ## 📄 Pages Overview
 
@@ -86,17 +96,38 @@ Home chefs can sell food easily without opening a restaurant.
 
 ## ⚙️ Installation & Setup
 
-### Clone repository
+### 1️⃣ Clone Client
 git clone https://github.com/parety308/Local_Chef_Bazaar_Client
 
-### Install dependencies
+cd Local_Chef_Bazaar_Client
 npm install
-
-### Run client
 npm run dev
 
-### Run server
+### 2️⃣ Clone Server
+git clone https://github.com/parety308/Local_Chef_Bazaar_Server
+
+cd Local_Chef_Bazaar_Server
+npm install
 nodemon index.js
+
+
+## 🔐 Environment Variables
+
+Create a `.env` file in both client and server.
+
+### Client (.env)
+
+- VITE_API_URL=your_server_url
+- VITE_FIREBASE_API_KEY=xxxx
+- VITE_AUTH_DOMAIN=xxxx
+
+### Server (.env)
+- PORT=3000
+- DB_USER=your_mongodb_user
+- DB_PASS=your_mongodb_password
+- JWT_SECRET=your_secret
+- STRIPE_SECRET_KEY=xxxx
+
 
 ## 🚀 Challenges Faced
 - Implementing role-based routing
@@ -108,7 +139,19 @@ nodemon index.js
 - Authentication flow
 - Backend data handling
 
+## 🚀 Deployment
+
+Client: Netlify  
+Server: Render / Vercel / Railway  
+Database: MongoDB Atlas  
+Authentication: Firebase
+
 ## 👨‍💻 Author
 
-MD Parvez Hasan  
+**MD Parvez Hasan**  
 MERN Stack Developer
+
+- 📧 Email: parvezyesrat17032024@gmail.com 
+- 📱 Phone: +8801876097788 
+- 💼 LinkedIn: www.linkedin.com/in/md-parvez-hasan-967729344  
+- 🐙 GitHub:https://github.com/parety308
