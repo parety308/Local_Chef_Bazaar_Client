@@ -1,14 +1,21 @@
-import React from 'react';
+import React from "react";
 
 const Footer = () => {
     return (
         <div>
             {/* Main Footer */}
-            <footer className="footer sm:footer-horizontal bg-base-300 text-base-content flex justify-between items-center px-8 py-5">
-
+            <footer className="
+                footer sm:footer-horizontal
+                bg-gray-100 dark:bg-gray-900
+                text-gray-700 dark:text-gray-300
+                flex justify-between items-center
+                px-8 py-5 transition-colors duration-300
+            ">
                 {/* Contact Details */}
                 <nav>
-                    <h6 className="footer-title">Contact</h6>
+                    <h6 className="footer-title text-gray-900 dark:text-white">
+                        Contact
+                    </h6>
                     <p>Email: parvezyesrat17032024@gmail.com</p>
                     <p>Phone: +8801876097788</p>
                     <p>Chattogram, Bangladesh</p>
@@ -16,14 +23,22 @@ const Footer = () => {
 
                 {/* Company */}
                 <nav>
-                    <h6 className="footer-title">Company</h6>
-                    <a className="link link-hover">About us</a>
-                    <a className="link link-hover">Contact</a>
+                    <h6 className="footer-title text-gray-900 dark:text-white">
+                        Company
+                    </h6>
+                    <a className="link link-hover hover:text-primary">
+                        About us
+                    </a>
+                    <a className="link link-hover hover:text-primary">
+                        Contact
+                    </a>
                 </nav>
 
-                {/* Working Hours ✅ (Added) */}
+                {/* Working Hours */}
                 <nav>
-                    <h6 className="footer-title">Working Hours</h6>
+                    <h6 className="footer-title text-gray-900 dark:text-white">
+                        Working Hours
+                    </h6>
                     <p>Mon - Fri: 9:00 AM - 6:00 PM</p>
                     <p>Saturday: 10:00 AM - 4:00 PM</p>
                     <p>Sunday: Closed</p>
@@ -31,13 +46,25 @@ const Footer = () => {
 
                 {/* Social Media */}
                 <nav>
-                    <h6 className="footer-title">Social</h6>
-                    <div className="grid grid-flow-col gap-4">
+                    <h6 className="footer-title text-gray-900 dark:text-white">
+                        Social
+                    </h6>
 
+                    <div className="grid grid-flow-col gap-4">
                         {/* Twitter */}
-                        <a href="https://twitter.com" target="_blank" rel="noreferrer">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" className="fill-current">
+                        <a
+                            href="https://twitter.com"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="hover:text-blue-500 transition"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                className="fill-current"
+                            >
                                 <path d="M24 4.557c-.883.392-1.832.656-2.828.775
                                 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127
                                 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515
@@ -52,9 +79,19 @@ const Footer = () => {
                         </a>
 
                         {/* YouTube */}
-                        <a href="https://youtube.com" target="_blank" rel="noreferrer">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" className="fill-current">
+                        <a
+                            href="https://youtube.com"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="hover:text-red-500 transition"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                className="fill-current"
+                            >
                                 <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23
                                 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484
                                 8.549 4.385 8.816 3.6.245 11.626.246 15.23
@@ -64,21 +101,35 @@ const Footer = () => {
                         </a>
 
                         {/* Facebook */}
-                        <a href="https://facebook.com" target="_blank" rel="noreferrer">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" className="fill-current">
+                        <a
+                            href="https://facebook.com"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="hover:text-blue-600 transition"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                className="fill-current"
+                            >
                                 <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4
                                 v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808
                                 c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
                             </svg>
                         </a>
-
                     </div>
                 </nav>
             </footer>
 
-            {/* Copyright Section */}
-            <footer className="footer footer-center bg-gray-500 text-white p-4">
+            {/* Copyright */}
+            <footer className="
+                footer footer-center
+                bg-gray-600 dark:bg-black
+                text-white dark:text-gray-400
+                p-4 transition-colors duration-300
+            ">
                 <aside>
                     <p>
                         Copyright © {new Date().getFullYear()} - All rights reserved by LocalBazaar
