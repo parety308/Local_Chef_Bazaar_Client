@@ -8,7 +8,6 @@ const ManageRequest = () => {
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
 
-    // Fetch requests
     const { data: requests = [], isLoading, refetch } = useQuery({
         queryKey: ['requests'],
         queryFn: async () => {
@@ -17,9 +16,11 @@ const ManageRequest = () => {
         }
     });
 
-    // Accept or Reject request
     const handleRequest = (userEmail, requestType, status) => {
-        axiosSecure.patch(`/users-request/${userEmail}`, { requestStatus: status, requestType })
+        axiosSecure.patch(`/users-request/${userEmail}`, {
+            requestStatus: status,
+            requestType
+        })
             .then(res => {
                 const modifiedCount = res.data.result?.modifiedCount || 0;
 
@@ -40,8 +41,7 @@ const ManageRequest = () => {
                     });
                 }
             })
-            .catch(err => {
-                console.error(err);
+            .catch(() => {
                 Swal.fire({
                     icon: 'error',
                     title: 'Server Error',
@@ -53,15 +53,22 @@ const ManageRequest = () => {
     if (isLoading) return <Loading />;
 
     return (
-        <div className="p-6">
+        <div className="p-6 min-h-screen
+            bg-gray-50 text-gray-800
+            dark:bg-gray-900 dark:text-gray-200">
+
             <title>Manage Requests</title>
 
             {requests.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-20 bg-white shadow-lg rounded-xl mx-5 md:mx-auto max-w-md">
-                    <div className="bg-blue-100 p-5 rounded-full mb-6">
+                <div className="flex flex-col items-center justify-center py-20
+                    bg-white dark:bg-gray-800
+                    shadow-lg rounded-xl mx-5 md:mx-auto max-w-md
+                    border border-gray-200 dark:border-gray-700">
+
+                    <div className="bg-blue-100 dark:bg-blue-900/40 p-5 rounded-full mb-6">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-12 w-12 text-blue-500"
+                            className="h-12 w-12 text-blue-500 dark:text-blue-400"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -75,54 +82,99 @@ const ManageRequest = () => {
                         </svg>
                     </div>
 
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-center">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-2 text-center">
                         No Requests Found 📭
                     </h2>
-                    <p className="text-gray-500 mb-6 text-center max-w-xs md:max-w-sm">
-                        There are currently no user requests to manage. Check back later or invite users to submit requests.
+
+                    <p className="text-gray-500 dark:text-gray-400 mb-6 text-center max-w-sm">
+                        There are currently no user requests to manage.
                     </p>
 
-                    <button onClick={() => navigate('/dashboard')} className="px-6 py-3 bg-gradient-to-r from-blue-400 to-indigo-500 hover:from-indigo-500 hover:to-blue-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
+                    <button
+                        onClick={() => navigate('/dashboard')}
+                        className="px-6 py-3
+                        bg-gradient-to-r from-blue-400 to-indigo-500
+                        hover:from-indigo-500 hover:to-blue-400
+                        text-white font-semibold rounded-full
+                        shadow-lg transition duration-300"
+                    >
                         Dashboard ✉️
                     </button>
                 </div>
             ) : (
                 <>
-                    <h1 className="text-3xl font-bold mb-6">Manage Requests</h1>
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-                            <thead className="bg-gray-100">
+                    <h1 className="text-3xl font-bold mb-6">
+                        Manage Requests
+                    </h1>
+
+                    <div className="overflow-x-auto rounded-lg border
+                        border-gray-200 dark:border-gray-700">
+
+                        <table className="min-w-full
+                            bg-white dark:bg-gray-800">
+
+                            {/* TABLE HEADER */}
+                            <thead className="bg-gray-100 dark:bg-gray-700">
                                 <tr>
-                                    <th className="py-3 px-6 text-center border-b">User Name</th>
-                                    <th className="py-3 px-6 text-center border-b">User Email</th>
-                                    <th className="py-3 px-6 text-center border-b">Request Type</th>
-                                    <th className="py-3 px-6 text-center border-b">Request Status</th>
-                                    <th className="py-3 px-6 text-center border-b">Request Time</th>
-                                    <th className="py-3 px-6 text-center border-b">Action</th>
+                                    <th className="py-3 px-6 border-b dark:border-gray-600">User Name</th>
+                                    <th className="py-3 px-6 border-b dark:border-gray-600">User Email</th>
+                                    <th className="py-3 px-6 border-b dark:border-gray-600">Request Type</th>
+                                    <th className="py-3 px-6 border-b dark:border-gray-600">Status</th>
+                                    <th className="py-3 px-6 border-b dark:border-gray-600">Request Time</th>
+                                    <th className="py-3 px-6 border-b dark:border-gray-600">Action</th>
                                 </tr>
                             </thead>
+
+                            {/* TABLE BODY */}
                             <tbody>
                                 {requests.map((req) => (
-                                    <tr key={req._id} className="hover:bg-gray-50">
-                                        <td className="py-4 text-center px-6 border-b">{req.userName}</td>
-                                        <td className="py-4 text-center px-6 border-b">{req.userEmail}</td>
-                                        <td className="py-4 text-center px-6 border-b capitalize">{req.requestType}</td>
-                                        <td className="py-4 text-center px-6 border-b capitalize">
-                                            {req.requestStatus === 'pending' && <span className="text-yellow-500 font-semibold">{req.requestStatus}</span>}
-                                            {req.requestStatus === 'approved' && <span className="text-green-500 font-semibold">{req.requestStatus}</span>}
-                                            {req.requestStatus === 'rejected' && <span className="text-red-500 font-semibold">{req.requestStatus}</span>}
+                                    <tr
+                                        key={req._id}
+                                        className="hover:bg-gray-50
+                                        dark:hover:bg-gray-700/60 transition"
+                                    >
+                                        <td className="py-4 px-6 text-center border-b dark:border-gray-700">
+                                            {req.userName}
                                         </td>
-                                        <td className="py-4 text-center px-6 border-b">{req.requestTime}</td>
-                                        <td className="py-4 px-6 border-b text-center flex justify-center gap-2">
+
+                                        <td className="py-4 px-6 text-center border-b dark:border-gray-700">
+                                            {req.userEmail}
+                                        </td>
+
+                                        <td className="py-4 px-6 text-center border-b dark:border-gray-700 capitalize">
+                                            {req.requestType}
+                                        </td>
+
+                                        <td className="py-4 px-6 text-center border-b dark:border-gray-700 capitalize font-semibold">
+                                            {req.requestStatus === 'pending' &&
+                                                <span className="text-yellow-500">pending</span>}
+                                            {req.requestStatus === 'approved' &&
+                                                <span className="text-green-500">approved</span>}
+                                            {req.requestStatus === 'rejected' &&
+                                                <span className="text-red-500">rejected</span>}
+                                        </td>
+
+                                        <td className="py-4 px-6 text-center border-b dark:border-gray-700">
+                                            {req.requestTime}
+                                        </td>
+
+                                        <td className="py-4 px-6 border-b dark:border-gray-700 text-center flex justify-center gap-2">
                                             <button
-                                                onClick={() => handleRequest(req.userEmail, req.requestType, 'approved')}
-                                                className="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded"
+                                                onClick={() =>
+                                                    handleRequest(req.userEmail, req.requestType, 'approved')
+                                                }
+                                                className="bg-green-500 hover:bg-green-600
+                                                text-white px-4 py-1 rounded transition"
                                             >
                                                 Accept
                                             </button>
+
                                             <button
-                                                onClick={() => handleRequest(req.userEmail, req.requestType, 'rejected')}
-                                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded"
+                                                onClick={() =>
+                                                    handleRequest(req.userEmail, req.requestType, 'rejected')
+                                                }
+                                                className="bg-red-500 hover:bg-red-600
+                                                text-white px-4 py-1 rounded transition"
                                             >
                                                 Reject
                                             </button>
@@ -130,6 +182,7 @@ const ManageRequest = () => {
                                     </tr>
                                 ))}
                             </tbody>
+
                         </table>
                     </div>
                 </>

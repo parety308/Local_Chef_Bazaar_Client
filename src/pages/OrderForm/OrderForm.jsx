@@ -22,9 +22,15 @@ const OrderForm = () => {
 
   const { _id, foodName, price, chefId } = meal || {};
 
-  const { register, handleSubmit, formState: { errors },watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm();
+
   const quantity = watch("quantity") || 1;
-const totalPrice = price * quantity;
+  const totalPrice = price * quantity;
 
   const onSubmit = (data) => {
     const orderData = {
@@ -37,7 +43,7 @@ const totalPrice = price * quantity;
       userEmail: user.email,
       userAddress: data.userAddress,
       orderStatus: "pending",
-      orderTime: new Date()
+      orderTime: new Date(),
     };
 
     Swal.fire({
@@ -45,129 +51,214 @@ const totalPrice = price * quantity;
       text: `You pay ৳${orderData.price} for ${orderData.mealName}`,
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Order it!"
+      confirmButtonText: "Yes, Order it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.post('/orders', orderData)
-          .then(res => {
-            if (res.data.insertedId) {
-              navigate('/dashboard/my-orders');
-              Swal.fire({
-                title: "Success!",
-                text: "Your order has been placed.",
-                icon: "success"
-              });
-            }
-          });
+        axiosSecure.post("/orders", orderData).then((res) => {
+          if (res.data.insertedId) {
+            navigate("/dashboard/my-orders");
+            Swal.fire({
+              title: "Success!",
+              text: "Your order has been placed.",
+              icon: "success",
+            });
+          }
+        });
       }
     });
   };
 
   if (isLoading) return <Loading />;
 
+  /* ===== FRAUD BLOCK ===== */
   if (user.status === "fraud") {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center bg-red-50 p-10 rounded-xl shadow-xl">
-        <h2 className="text-3xl font-bold text-red-600 mb-4">🚫 Access Denied</h2>
-        <p className="text-lg text-red-500 mb-6">
-          Your account has been marked as <strong>fraud</strong>. <br />
-          You cannot place any orders or access this page.
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center
+        bg-red-50 dark:bg-red-900/20
+        p-10 rounded-xl shadow-xl">
+
+        <h2 className="text-3xl font-bold text-red-600 dark:text-red-400 mb-4">
+          🚫 Access Denied
+        </h2>
+
+        <p className="text-lg text-red-500 dark:text-red-300 mb-6">
+          Your account has been marked as <strong>fraud</strong>.
+          <br /> You cannot place orders.
         </p>
-        <p className="text-gray-700">
-          Please contact <strong>support</strong> if you think this is a mistake.
+
+        <p className="text-gray-700 dark:text-gray-300">
+          Please contact support if this is a mistake.
         </p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white flex justify-center items-start py-10 px-4">
+    <div
+      className="
+      min-h-screen
+      bg-gradient-to-b
+      from-orange-50 to-white
+      dark:from-gray-900 dark:to-gray-950
+      flex justify-center items-start
+      py-10 px-4
+    "
+    >
+      <title>Order Form</title>
+
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-lg bg-white shadow-2xl rounded-3xl p-8 space-y-6 border border-gray-100"
+        className="
+        w-full max-w-lg
+        bg-white dark:bg-gray-900
+        shadow-2xl
+        rounded-3xl
+        p-8 space-y-6
+        border border-gray-100 dark:border-gray-700
+      "
       >
-        <title>Order Form</title>
-        <h1 className="text-3xl font-bold text-orange-600 mb-4 text-center">
+        {/* TITLE */}
+        <h1 className="text-3xl font-bold text-orange-600 dark:text-orange-400 text-center">
           Order Your Meal
         </h1>
-        <p className="text-gray-500 text-center mb-6">
+
+        <p className="text-gray-500 dark:text-gray-400 text-center">
           Confirm your order details below and enjoy your meal!
         </p>
 
-        {/* Meal Name */}
+        {/* MEAL NAME */}
         <div className="space-y-1">
-          <label className="font-semibold text-gray-700">Meal Name</label>
+          <label className="font-semibold text-gray-700 dark:text-gray-300">
+            Meal Name
+          </label>
+
           <input
             type="text"
             value={foodName}
             readOnly
-            className="input input-bordered w-full bg-gray-50 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-400 focus:outline-none"
+            className="
+              input input-bordered w-full
+              bg-gray-50 dark:bg-gray-800
+              border-gray-200 dark:border-gray-600
+              text-gray-800 dark:text-gray-200
+              rounded-xl
+            "
           />
         </div>
 
-        {/* Price */}
+        {/* PRICE */}
         <div className="space-y-1">
-          <label className="font-semibold text-gray-700">Price (per unit)</label>
+          <label className="font-semibold text-gray-700 dark:text-gray-300">
+            Price (per unit)
+          </label>
+
           <input
             type="text"
             value={`৳ ${price}`}
             readOnly
-            className="input input-bordered w-full bg-gray-50 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-400 focus:outline-none"
+            className="
+              input input-bordered w-full
+              bg-gray-50 dark:bg-gray-800
+              border-gray-200 dark:border-gray-600
+              text-gray-800 dark:text-gray-200
+              rounded-xl
+            "
           />
         </div>
 
-        {/* Quantity */}
+        {/* QUANTITY */}
         <div className="space-y-1">
-          <label className="font-semibold text-gray-700">Quantity</label>
+          <label className="font-semibold text-gray-700 dark:text-gray-300">
+            Quantity
+          </label>
+
           <input
             type="number"
             min="1"
             defaultValue={1}
             {...register("quantity", { required: true, min: 1 })}
-            className="input input-bordered w-full rounded-xl focus:ring-2 focus:ring-orange-400 focus:outline-none"
+            className="
+              input input-bordered w-full rounded-xl
+              bg-white dark:bg-gray-800
+              border-gray-300 dark:border-gray-600
+              text-gray-800 dark:text-gray-200
+              focus:ring-2 focus:ring-orange-400
+            "
           />
+
           {errors.quantity && (
             <p className="text-red-500 text-sm">Quantity is required</p>
           )}
         </div>
 
-        {/* User Email */}
+        {/* EMAIL */}
         <div className="space-y-1">
-          <label className="font-semibold text-gray-700">Email</label>
+          <label className="font-semibold text-gray-700 dark:text-gray-300">
+            Email
+          </label>
+
           <input
             type="email"
             value={user?.email}
             readOnly
-            className="input input-bordered w-full bg-gray-50 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-400 focus:outline-none"
+            className="
+              input input-bordered w-full
+              bg-gray-50 dark:bg-gray-800
+              border-gray-200 dark:border-gray-600
+              text-gray-800 dark:text-gray-200
+              rounded-xl
+            "
           />
         </div>
 
-        {/* Address */}
+        {/* ADDRESS */}
         <div className="space-y-1">
-          <label className="font-semibold text-gray-700">Delivery Address</label>
+          <label className="font-semibold text-gray-700 dark:text-gray-300">
+            Delivery Address
+          </label>
+
           <textarea
             {...register("userAddress", { required: true })}
-            className="textarea textarea-bordered w-full rounded-xl focus:ring-2 focus:ring-orange-400 focus:outline-none"
             placeholder="Enter your delivery address"
+            className="
+              textarea textarea-bordered w-full rounded-xl
+              bg-white dark:bg-gray-800
+              border-gray-300 dark:border-gray-600
+              text-gray-800 dark:text-gray-200
+              focus:ring-2 focus:ring-orange-400
+            "
           />
+
           {errors.userAddress && (
             <p className="text-red-500 text-sm">Address is required</p>
           )}
         </div>
 
-        {/* Total Price Display */}
+        {/* TOTAL */}
         <div className="text-center">
-          <p className="text-gray-600 font-medium">
-            Total: <span className="text-orange-500 font-bold">৳ {totalPrice}</span>
+          <p className="text-gray-600 dark:text-gray-300 font-medium">
+            Total:
+            <span className="text-orange-500 dark:text-orange-400 font-bold ml-1">
+              ৳ {totalPrice}
+            </span>
           </p>
         </div>
 
-        {/* Confirm Button */}
+        {/* BUTTON */}
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 rounded-2xl font-semibold hover:scale-105 transition-transform shadow-lg"
+          className="
+            w-full
+            bg-gradient-to-r from-orange-500 to-red-500
+            hover:from-orange-600 hover:to-red-600
+            text-white
+            py-3
+            rounded-2xl
+            font-semibold
+            transition-transform
+            hover:scale-105
+            shadow-lg
+          "
         >
           Confirm Order 🍽️
         </button>

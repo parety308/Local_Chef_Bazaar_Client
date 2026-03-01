@@ -9,17 +9,14 @@ const MyReviewsPage = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
 
-    // modal ref
     const updateModalRef = useRef(null);
 
-    // current review state
     const [currentReview, setCurrentReview] = useState({
         id: "",
         rating: "",
         comment: "",
     });
 
-    // get reviews
     const {
         data: reviews = [],
         isLoading,
@@ -32,9 +29,7 @@ const MyReviewsPage = () => {
             return res.data;
         },
     });
-    console.log(reviews);
 
-    // delete review
     const handleDelete = (id) => {
         Swal.fire({
             title: "Are you sure?",
@@ -54,18 +49,11 @@ const MyReviewsPage = () => {
         });
     };
 
-    // open update modal
     const handleUpdate = (id, review, rating) => {
-        setCurrentReview({
-            id,
-            rating,
-            comment: review,
-        });
-
+        setCurrentReview({ id, rating, comment: review });
         updateModalRef.current.showModal();
     };
 
-    // submit update
     const handleUpdateReview = async (e) => {
         e.preventDefault();
 
@@ -76,7 +64,7 @@ const MyReviewsPage = () => {
 
         try {
             const res = await axiosSecure.patch(
-                `/my-reviews/${currentReview.id}`, // . FIX HERE
+                `/my-reviews/${currentReview.id}`,
                 updatedData
             );
 
@@ -84,7 +72,7 @@ const MyReviewsPage = () => {
                 Swal.fire({
                     icon: "success",
                     title: "Updated!",
-                    text: "Your review has been updated successfully",
+                    text: "Your review updated successfully",
                     timer: 1500,
                     showConfirmButton: false,
                 });
@@ -92,22 +80,25 @@ const MyReviewsPage = () => {
                 updateModalRef.current.close();
                 refetch();
             }
-        } catch (error) {
+        } catch {
             Swal.fire("Error", "Failed to update review", "error");
         }
     };
 
-
     if (isLoading) return <Loading />;
 
     return (
-        <div className="w-11/12 mx-auto lg:my-10">
+        <div className="w-11/12 mx-auto lg:my-10 text-gray-800 dark:text-gray-200">
             <title>My Reviews - Dashboard</title>
 
+            {/* EMPTY STATE */}
             {reviews.length === 0 && (
-                <div className="flex flex-col items-center justify-center  bg-white shadow-md rounded-xl mx-5 md:mx-0">
-                    {/* Icon */}
-                    <div className="bg-yellow-100 p-5 rounded-full mb-6">
+                <div className="flex flex-col items-center justify-center
+                    bg-white dark:bg-gray-800
+                    shadow-md rounded-xl p-10
+                    border border-gray-200 dark:border-gray-700">
+
+                    <div className="bg-yellow-100 dark:bg-yellow-900/40 p-5 rounded-full mb-6">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-12 w-12 text-yellow-500"
@@ -116,37 +107,40 @@ const MyReviewsPage = () => {
                             stroke="currentColor"
                             strokeWidth={2}
                         >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M5 13l4 4L19 7"
-                            />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
 
-                    {/* Message */}
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-center">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-2 text-center">
                         No Reviews Yet 😔
                     </h2>
-                    <p className="text-gray-500 mb-6 text-center max-w-xs md:max-w-md">
-                        You haven’t added any reviews. Explore our meals and share your valuable feedback!
+
+                    <p className="text-gray-500 dark:text-gray-400 mb-6 text-center max-w-md">
+                        You haven’t added any reviews yet.
                     </p>
 
-                    {/* Call-to-Action Button */}
-                    <button className="px-6 py-3 bg-linear-to-r from-green-400 to-teal-500 hover:from-teal-500 hover:to-green-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
+                    <button className="px-6 py-3 bg-gradient-to-r from-green-400 to-teal-500
+                        hover:from-teal-500 hover:to-green-400
+                        text-white font-semibold rounded-full shadow-lg transition">
                         Explore Meals 🍽️
                     </button>
                 </div>
             )}
 
-
+            {/* TABLE */}
             {reviews.length > 0 && (
                 <>
-                    <h1 className="text-4xl mb-6 font-semibold">Total Reviews : {reviews.length}</h1>
+                    <h1 className="text-4xl mb-6 font-semibold">
+                        Total Reviews : {reviews.length}
+                    </h1>
 
-                    <div className="overflow-x-auto bg-white rounded-xl shadow">
+                    <div className="overflow-x-auto
+                        bg-white dark:bg-gray-800
+                        rounded-xl shadow
+                        border border-gray-200 dark:border-gray-700">
+
                         <table className="table">
-                            <thead className="bg-gray-100">
+                            <thead className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
                                 <tr>
                                     <th className="text-center">#</th>
                                     <th className="text-center">Meal Name</th>
@@ -157,9 +151,12 @@ const MyReviewsPage = () => {
                                 </tr>
                             </thead>
 
-                            <tbody>
+                            <tbody className="dark:text-gray-300">
                                 {reviews.map((review, index) => (
-                                    <tr key={review._id}>
+                                    <tr
+                                        key={review._id}
+                                        className="hover:bg-gray-50 dark:hover:bg-gray-700/40 transition"
+                                    >
                                         <td className="text-center">{index + 1}</td>
 
                                         <td className="font-semibold text-center">
@@ -211,11 +208,16 @@ const MyReviewsPage = () => {
 
             {/* UPDATE MODAL */}
             <dialog ref={updateModalRef} className="modal modal-bottom sm:modal-middle">
-                <div className="modal-box">
-                    <h3 className="font-bold text-lg mb-4">Update Your Review</h3>
+                <div className="modal-box
+                    bg-white dark:bg-gray-800
+                    text-gray-800 dark:text-gray-200">
+
+                    <h3 className="font-bold text-lg mb-4">
+                        Update Your Review
+                    </h3>
 
                     <form onSubmit={handleUpdateReview} className="space-y-4">
-                        {/* Rating */}
+
                         <div>
                             <label className="label font-semibold">Rating</label>
                             <select
@@ -226,19 +228,20 @@ const MyReviewsPage = () => {
                                         rating: e.target.value,
                                     })
                                 }
-                                className="select select-bordered w-full"
+                                className="select select-bordered w-full
+                                    bg-white dark:bg-gray-700
+                                    dark:border-gray-600"
                                 required
                             >
                                 <option value="">Select rating</option>
-                                <option value="1">⭐ </option>
-                                <option value="2">⭐⭐ </option>
-                                <option value="3">⭐⭐⭐ </option>
-                                <option value="4">⭐⭐⭐⭐ </option>
-                                <option value="5">⭐⭐⭐⭐⭐ </option>
+                                <option value="1">⭐</option>
+                                <option value="2">⭐⭐</option>
+                                <option value="3">⭐⭐⭐</option>
+                                <option value="4">⭐⭐⭐⭐</option>
+                                <option value="5">⭐⭐⭐⭐⭐</option>
                             </select>
                         </div>
 
-                        {/* Comment */}
                         <div>
                             <label className="label font-semibold">Comment</label>
                             <textarea
@@ -249,7 +252,9 @@ const MyReviewsPage = () => {
                                         comment: e.target.value,
                                     })
                                 }
-                                className="textarea textarea-bordered w-full"
+                                className="textarea textarea-bordered w-full
+                                    bg-white dark:bg-gray-700
+                                    dark:border-gray-600"
                                 rows="4"
                                 required
                             />
@@ -259,10 +264,11 @@ const MyReviewsPage = () => {
                             <button type="submit" className="btn btn-primary">
                                 Update Review
                             </button>
+
                             <button
                                 type="button"
                                 onClick={() => updateModalRef.current.close()}
-                                className="btn"
+                                className="btn dark:bg-gray-700 dark:text-white"
                             >
                                 Cancel
                             </button>

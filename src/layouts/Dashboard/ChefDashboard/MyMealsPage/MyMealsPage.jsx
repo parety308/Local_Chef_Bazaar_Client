@@ -15,10 +15,8 @@ const MyMealsPage = () => {
     const updateModalRef = useRef(null);
     const [selectedMeal, setSelectedMeal] = useState(null);
 
-    // react hook form
     const { register, handleSubmit, reset } = useForm();
 
-    // GET DATA
     const { data: meals = [], isLoading, refetch } = useQuery({
         queryKey: ['meals', user?.email],
         enabled: !!user?.email,
@@ -28,7 +26,6 @@ const MyMealsPage = () => {
         }
     });
 
-    // DELETE
     const handleDelete = (id) => {
         Swal.fire({
             title: "Are you sure?",
@@ -48,14 +45,12 @@ const MyMealsPage = () => {
         });
     };
 
-    // OPEN UPDATE MODAL
     const handleUpdate = (meal) => {
         setSelectedMeal(meal);
-        reset(meal); // set default values automatically
+        reset(meal);
         updateModalRef.current.showModal();
     };
 
-    // UPDATE SUBMIT
     const handleUpdateData = async (data) => {
         try {
             const res = await axiosSecure.patch(`meals/${selectedMeal._id}`, data);
@@ -65,7 +60,7 @@ const MyMealsPage = () => {
                 updateModalRef.current.close();
                 refetch();
             }
-        } catch (error) {
+        } catch {
             Swal.fire("Error!", "Failed to update meal.", "error");
         }
     };
@@ -73,12 +68,16 @@ const MyMealsPage = () => {
     if (isLoading) return <Loading />;
 
     return (
-        <div className="min-h-screen py-10">
+        <div className="min-h-screen py-10 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
             <title>My Meals</title>
+
+            {/* EMPTY STATE */}
             {meals.length === 0 && (
-                <div className="flex flex-col items-center justify-center py-20 bg-white shadow-md rounded-xl mx-5 md:mx-auto max-w-md">
-                    {/* Icon */}
-                    <div className="bg-green-100 p-5 rounded-full mb-6">
+                <div className="flex flex-col items-center justify-center py-20
+                bg-white dark:bg-gray-800
+                shadow-md rounded-xl mx-5 md:mx-auto max-w-md">
+
+                    <div className="bg-green-100 dark:bg-green-900/40 p-5 rounded-full mb-6">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-12 w-12 text-green-500"
@@ -87,29 +86,30 @@ const MyMealsPage = () => {
                             stroke="currentColor"
                             strokeWidth={2}
                         >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M3 12h18M12 3v18"
-                            />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h18M12 3v18" />
                         </svg>
                     </div>
 
-                    {/* Message */}
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 text-center">
+                    <h2 className="text-2xl md:text-3xl font-bold text-center">
                         No Meals Found 🍽️
                     </h2>
-                    <p className="text-gray-500 mb-6 text-center max-w-xs md:max-w-sm">
-                        You haven’t added any meals yet. Start adding your delicious meals to share with everyone!
+
+                    <p className="text-gray-500 dark:text-gray-400 mb-6 text-center max-w-xs md:max-w-sm">
+                        You haven’t added any meals yet. Start adding your delicious meals!
                     </p>
 
-                    {/* Call-to-Action Button */}
-                    <button onClick={() => navigate('/dashboard/create-meals')} className="px-6 py-3 bg-gradient-to-r from-green-400 to-teal-500 hover:from-teal-500 hover:to-green-400 text-white font-semibold rounded-full shadow-lg transition duration-300">
+                    <button
+                        onClick={() => navigate('/dashboard/create-meals')}
+                        className="px-6 py-3 bg-gradient-to-r
+                        from-green-400 to-teal-500
+                        hover:from-teal-500 hover:to-green-400
+                        text-white font-semibold rounded-full shadow-lg transition">
                         Add New Meal ➕
                     </button>
                 </div>
             )}
 
+            {/* MEALS GRID */}
             {meals.length > 0 && (
                 <div className="w-11/12 mx-auto">
 
@@ -119,8 +119,12 @@ const MyMealsPage = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {meals.map(meal => (
-                            <div key={meal._id} className="bg-white rounded-2xl shadow-lg overflow-hidden">
-
+                            <div
+                                key={meal._id}
+                                className="bg-white dark:bg-gray-800
+                                rounded-2xl shadow-lg overflow-hidden
+                                border border-gray-100 dark:border-gray-700"
+                            >
                                 <img
                                     src={meal.foodImg}
                                     alt={meal.foodName}
@@ -128,26 +132,27 @@ const MyMealsPage = () => {
                                 />
 
                                 <div className="p-6 space-y-2">
+
                                     <div className="flex justify-between">
                                         <h3 className="text-xl font-bold">
                                             {meal.foodName}
                                         </h3>
-                                        <span className="font-semibold">
+                                        <span className="font-semibold text-green-600 dark:text-green-400">
                                             ${meal.price}
                                         </span>
                                     </div>
 
-                                    <p>⭐ {meal.rating}</p>
+                                    <p className="text-yellow-500">⭐ {meal.rating}</p>
 
-                                    <p className="text-sm">
+                                    <p className="text-sm text-gray-600 dark:text-gray-300">
                                         <b>Ingredients:</b> {meal.ingredients}
                                     </p>
 
-                                    <p className="text-sm">
+                                    <p className="text-sm text-gray-600 dark:text-gray-300">
                                         <b>Delivery:</b> {meal.estimatedDeliveryTime} mins
                                     </p>
 
-                                    <div className="border-t pt-2 text-sm">
+                                    <div className="border-t border-gray-200 dark:border-gray-700 pt-2 text-sm">
                                         <p><b>Chef:</b> {meal.chefName}</p>
                                         <p><b>Chef ID:</b> {meal.chefId}</p>
                                     </div>
@@ -155,18 +160,17 @@ const MyMealsPage = () => {
                                     <div className="flex gap-2 pt-3">
                                         <button
                                             onClick={() => handleDelete(meal._id)}
-                                            className="btn btn-sm btn-outline btn-error flex-1"
-                                        >
+                                            className="btn btn-sm btn-outline btn-error flex-1">
                                             Delete
                                         </button>
 
                                         <button
                                             onClick={() => handleUpdate(meal)}
-                                            className="btn btn-sm btn-outline btn-primary flex-1"
-                                        >
+                                            className="btn btn-sm btn-outline btn-primary flex-1">
                                             Update
                                         </button>
                                     </div>
+
                                 </div>
                             </div>
                         ))}
@@ -177,7 +181,8 @@ const MyMealsPage = () => {
             {/* UPDATE MODAL */}
             <dialog ref={updateModalRef} className="modal modal-bottom sm:modal-middle">
                 {selectedMeal && (
-                    <div className="modal-box">
+                    <div className="modal-box bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200">
+
                         <h3 className="font-bold text-xl mb-4">
                             Update Meal
                         </h3>
@@ -186,14 +191,16 @@ const MyMealsPage = () => {
 
                             <input
                                 {...register("mealName", { required: true })}
-                                className="input input-bordered w-full"
+                                className="input input-bordered w-full
+                                bg-white dark:bg-gray-900"
                                 placeholder="Meal Name"
                             />
 
                             <input
                                 type="number"
                                 {...register("price", { required: true })}
-                                className="input input-bordered w-full"
+                                className="input input-bordered w-full
+                                bg-white dark:bg-gray-900"
                                 placeholder="Price"
                             />
 
@@ -201,20 +208,23 @@ const MyMealsPage = () => {
                                 type="number"
                                 step="0.1"
                                 {...register("rating")}
-                                className="input input-bordered w-full"
+                                className="input input-bordered w-full
+                                bg-white dark:bg-gray-900"
                                 placeholder="Rating"
                             />
 
                             <textarea
                                 {...register("ingredients")}
-                                className="textarea textarea-bordered w-full"
+                                className="textarea textarea-bordered w-full
+                                bg-white dark:bg-gray-900"
                                 placeholder="Ingredients"
                             />
 
                             <input
                                 type="number"
                                 {...register("estimatedDeliveryTime")}
-                                className="input input-bordered w-full"
+                                className="input input-bordered w-full
+                                bg-white dark:bg-gray-900"
                                 placeholder="Delivery Time"
                             />
 
@@ -226,8 +236,7 @@ const MyMealsPage = () => {
                                 <button
                                     type="button"
                                     className="btn"
-                                    onClick={() => updateModalRef.current.close()}
-                                >
+                                    onClick={() => updateModalRef.current.close()}>
                                     Cancel
                                 </button>
                             </div>
