@@ -17,8 +17,8 @@ const ChefDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
 
                 {/* My Profile */}
-                <div 
-                    className="bg-gradient-to-br from-blue-100 to-blue-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all cursor-pointer"
+                <div
+                    className="bg-gradient-to-br from-blue-100 to-blue-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all hover:cursor-pointer"
                     onClick={() => navigate('/dashboard/my-profile')}
                 >
                     <FaUserCircle className="text-4xl text-blue-500 mb-4" />
@@ -27,8 +27,8 @@ const ChefDashboard = () => {
                 </div>
 
                 {/* Create Meal */}
-                <div 
-                    className="bg-gradient-to-br from-green-100 to-green-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all cursor-pointer"
+                <div
+                    className="bg-gradient-to-br from-green-100 to-green-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all hover:cursor-pointer"
                     onClick={() => navigate('/dashboard/create-meals')}
                 >
                     <FaPlusCircle className="text-4xl text-green-500 mb-4" />
@@ -37,8 +37,8 @@ const ChefDashboard = () => {
                 </div>
 
                 {/* My Meals */}
-                <div 
-                    className="bg-gradient-to-br from-orange-100 to-orange-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all cursor-pointer"
+                <div
+                    className="bg-gradient-to-br from-orange-100 to-orange-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all hover:cursor-pointer"
                     onClick={() => navigate('/dashboard/my-meals')}
                 >
                     <FaUtensils className="text-4xl text-orange-500 mb-4" />
@@ -47,8 +47,8 @@ const ChefDashboard = () => {
                 </div>
 
                 {/* Order Requests */}
-                <div 
-                    className="bg-gradient-to-br from-red-100 to-red-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all cursor-pointer"
+                <div
+                    className="bg-gradient-to-br from-red-100 to-red-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all hover:cursor-pointer"
                     onClick={() => navigate('/dashboard/order-request')}
                 >
                     <FaClipboardList className="text-4xl text-red-500 mb-4" />

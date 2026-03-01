@@ -248,7 +248,7 @@ const MealDetails = () => {
                             className="w-full border rounded-xl p-4 mt-4 focus:outline-none focus:ring-2 focus:ring-orange-400"
                         />
 
-                        <button className="mt-4 bg-orange-500 text-white px-6 py-2 rounded-xl hover:bg-orange-600 transition">
+                        <button className="mt-4 bg-primary text-white px-6 py-2 rounded-xl hover:cursor-pointer transition">
                             Submit Review
                         </button>
                     </form>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router';
 import Logo from '../Logo/Logo';
 import useAuth from '../../hooks/useAuth/useAuth';
@@ -9,9 +9,31 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase/firebase.init';
 
 const Navbar = () => {
-    const { user, logOut } = useAuth();
+
+    const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+
     const [logoutLoading, setLogoutLoading] = useState(false);
+
+    /* ===============================
+       🌙 DARK MODE STATE
+    =============================== */
+    const [theme, setTheme] = useState(
+        localStorage.getItem("theme") || "light"
+    );
+
+    useEffect(() => {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme(theme === "light" ? "dark" : "light");
+    };
+
+    /* ===============================
+       LOGOUT
+    =============================== */
     const handleLogOut = () => {
         setLogoutLoading(true);
         signOut(auth)
@@ -22,8 +44,9 @@ const Navbar = () => {
             });
     };
 
-
-
+    /* ===============================
+       USER ROLE QUERY
+    =============================== */
     const { data: currentUser } = useQuery({
         queryKey: ['user', user?.email],
         enabled: !!user?.email,
@@ -33,13 +56,18 @@ const Navbar = () => {
         }
     });
 
+    /* ===============================
+       NAV LINKS
+    =============================== */
     const links = (
         <>
             <li>
                 <NavLink
                     to="/"
                     className={({ isActive }) =>
-                        isActive ? 'text-primary underline' : 'text-gray-500'
+                        isActive
+                            ? 'text-primary underline'
+                            : 'text-base-content/70'
                     }
                 >
                     Home
@@ -50,10 +78,25 @@ const Navbar = () => {
                 <NavLink
                     to="/meals"
                     className={({ isActive }) =>
-                        isActive ? 'text-primary underline' : 'text-gray-500'
+                        isActive
+                            ? 'text-primary underline'
+                            : 'text-base-content/70'
                     }
                 >
                     Meals
+                </NavLink>
+            </li>
+
+            <li>
+                <NavLink
+                    to="/about-us"
+                    className={({ isActive }) =>
+                        isActive
+                            ? 'text-primary underline'
+                            : 'text-base-content/70'
+                    }
+                >
+                    About Us
                 </NavLink>
             </li>
 
@@ -62,7 +105,9 @@ const Navbar = () => {
                     <NavLink
                         to="/dashboard"
                         className={({ isActive }) =>
-                            isActive ? 'text-primary underline' : 'text-gray-500'
+                            isActive
+                                ? 'text-primary underline'
+                                : 'text-base-content/70'
                         }
                     >
                         Dashboard
@@ -73,8 +118,10 @@ const Navbar = () => {
     );
 
     if (logoutLoading) return <Loading />;
+
     return (
-        <div className="navbar bg-base-100 shadow-sm px-3">
+        <div className="navbar bg-base-100 shadow-sm px-3 sticky top-0 z-50">
+
             {/* -------- LEFT -------- */}
             <div className="navbar-start">
                 <div className="dropdown">
@@ -94,25 +141,29 @@ const Navbar = () => {
                             />
                         </svg>
                     </div>
-                    <ul
-                        tabIndex={0}
-                        className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow z-50"
-                    >
+
+                    <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow z-50">
                         {links}
                     </ul>
                 </div>
-                <Logo />
+
+                <Link to="/">
+                    <Logo />
+                </Link>
             </div>
 
             {/* -------- CENTER -------- */}
             <div className="navbar-center hidden lg:flex">
-                <ul className="menu menu-horizontal gap-10">{links}</ul>
+                <ul className="menu menu-horizontal gap-10">
+                    {links}
+                </ul>
             </div>
 
             {/* -------- RIGHT -------- */}
             {user ? (
                 <div className="navbar-end gap-4">
-                    {/* Avatar dropdown */}
+
+                    {/* Avatar Dropdown */}
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                             <img
@@ -122,28 +173,54 @@ const Navbar = () => {
                             />
                         </div>
 
-                        <ul className="menu dropdown-content bg-base-100 rounded-box w-44 p-2 shadow z-1">
-                            <li className='border-gray-300 font-semibold'>
-                                <NavLink to="/dashboard/my-profile">Profile</NavLink>
+                        <ul className="menu dropdown-content bg-base-100 rounded-box w-56 p-2 shadow z-10">
+
+                            <li className="font-semibold">
+                                <NavLink to="/dashboard/my-profile">
+                                    Profile
+                                </NavLink>
                             </li>
-                            <li className='border-gray-300 font-semibold'>
-                                <NavLink to="/dashboard">Dashboard</NavLink>
+
+                            <li className="font-semibold">
+                                <NavLink to="/dashboard">
+                                    Dashboard
+                                </NavLink>
                             </li>
+
+                            {/* 🌙 DARK MODE TOGGLE */}
+                            <li>
+                                <button
+                                    onClick={toggleTheme}
+                                    className="flex justify-between items-center"
+                                >
+                                    Theme
+                                    <span>
+                                        {theme === "light"
+                                            ? "🌙 Dark"
+                                            : "☀️ Light"}
+                                    </span>
+                                </button>
+                            </li>
+
                         </ul>
                     </div>
 
-                    <button onClick={handleLogOut} className="btn btn-accent">
+                    <button
+                        onClick={handleLogOut}
+                        className="btn btn-secondary"
+                    >
                         Sign Out
                     </button>
                 </div>
             ) : (
                 <div className="navbar-end gap-3">
-                    <Link to="/auth/login" className="btn btn-primary">
+                    <Link to="/auth/login" className="btn btn-secondary">
                         Login
                     </Link>
+
                     <Link
                         to="/auth/signup"
-                        className="btn btn-accent hidden lg:flex"
+                        className="btn btn-secondary hidden lg:flex"
                     >
                         Sign Up
                     </Link>

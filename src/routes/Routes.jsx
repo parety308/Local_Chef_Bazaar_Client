@@ -28,6 +28,7 @@ import PlatformStatistics from "../layouts/Dashboard/AdminDashboard/PlatformStat
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import AdminRoute from "./AdminRoute/AdminRoute";
 import ChefRoute from "./ChefRoute/ChefRoute";
+import AboutUS from "../pages/AboutUS/AboutUS";
 
 export const router = createBrowserRouter([
     {
@@ -43,8 +44,12 @@ export const router = createBrowserRouter([
                 Component: MealsPage
             },
             {
+                path: "/about-us",
+                Component: AboutUS
+            },
+            {
                 path: '/meal-details/:id',
-                element: <PrivateRoutes><MealDetails /></PrivateRoutes>
+                element:<MealDetails />
             },
             {
                 path: '/order/:id',

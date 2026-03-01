@@ -4,7 +4,7 @@ const Footer = () => {
     return (
         <div>
             {/* Main Footer */}
-            <footer className="footer sm:footer-horizontal bg-base-300 text-base-content p-5">
+            <footer className="footer sm:footer-horizontal bg-base-300 text-base-content flex justify-between items-center px-8 py-5">
 
                 {/* Contact Details */}
                 <nav>

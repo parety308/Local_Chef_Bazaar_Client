@@ -54,7 +54,7 @@ const UserDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                 {/* Profile */}
                 <div
-                    className="bg-linear-to-br from-blue-100 to-blue-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all flex items-center gap-4 cursor-pointer"
+                    className="bg-linear-to-br from-blue-100 to-blue-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all flex items-center gap-4 hover:cursor-pointer"
                     onClick={() => navigate('/dashboard/my-profile')}
                 >
                     <FaUserCircle className="text-4xl text-blue-500" />
@@ -66,7 +66,7 @@ const UserDashboard = () => {
 
                 {/* Favorites */}
                 <div
-                    className="bg-linear-to-br from-red-100 to-red-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all flex items-center gap-4 cursor-pointer"
+                    className="bg-linear-to-br from-red-100 to-red-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all flex items-center gap-4 hover:cursor-pointer"
                     onClick={() => navigate('/dashboard/my-favorites')}
                 >
                     <FaHeart className="text-4xl text-red-500" />
@@ -78,7 +78,7 @@ const UserDashboard = () => {
 
                 {/* Reviews */}
                 <div
-                    className="bg-linear-to-br from-yellow-100 to-yellow-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all flex items-center gap-4 cursor-pointer"
+                    className="bg-linear-to-br from-yellow-100 to-yellow-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all flex items-center gap-4 hover:cursor-pointer"
                     onClick={() => navigate('/dashboard/my-reviews')}
                 >
                     <FaStar className="text-4xl text-yellow-500" />
@@ -90,7 +90,7 @@ const UserDashboard = () => {
 
                 {/* Orders */}
                 <div
-                    className="bg-linear-to-br from-green-100 to-green-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all flex items-center gap-4 cursor-pointer"
+                    className="bg-linear-to-br from-green-100 to-green-50 p-6 rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all flex items-center gap-4 hover:cursor-pointer"
                     onClick={() => navigate('/dashboard/my-orders')}
                 >
                     <FaShoppingBag className="text-4xl text-green-500" />

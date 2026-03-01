@@ -182,7 +182,7 @@ const SignUp = () => {
                             <p className="text-red-500">{errors.confirmPassword.message}</p>
                         )}
 
-                        <button type="submit" className="btn bg-lime-300 w-full mt-4">
+                        <button type="submit" className="btn bg-primary w-full mt-4">
                             Sign Up
                         </button>
                     </fieldset>

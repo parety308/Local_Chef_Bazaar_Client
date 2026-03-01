@@ -6,7 +6,7 @@ import MeetOurChef from '../../components/MeetOurChef/MeetOurChef';
 
 const HomeLayout = () => {
     return (
-        <div className='w-11/12 mx-auto my-10'>
+        <div className='w-11/12 mx-auto'>
             <title>Home</title>
             <div className='rounded-xl'> <Banner /></div>
             <div><DailyMeals /></div>

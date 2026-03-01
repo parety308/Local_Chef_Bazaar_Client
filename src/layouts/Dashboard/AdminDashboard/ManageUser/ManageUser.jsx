@@ -73,25 +73,25 @@ const ManageUser = () => {
             {users.length > 0 && (
                 <>
                     <h1 className="text-3xl font-bold mb-6">Manage Users</h1>
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <div className="overflow-x-auto bg-white rounded-xl shadow">
+                        <table className="table flex justify-between items-center">
                             <thead className="bg-gray-100">
                                 <tr>
-                                    <th className="py-3 px-6 text-left border-b">User Name</th>
-                                    <th className="py-3 px-6 text-left border-b">User Email</th>
-                                    <th className="py-3 px-6 text-left border-b">User Role</th>
-                                    <th className="py-3 px-6 text-left border-b">User Status</th>
-                                    <th className="py-3 px-6 text-center border-b">Action</th>
+                                    <th>User Name</th>
+                                    <th>User Email</th>
+                                    <th>User Role</th>
+                                    <th>User Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {users.map((user) => (
                                     <tr key={user.id} className="hover:bg-gray-50">
-                                        <td className="py-4 px-6 border-b">{user.name}</td>
-                                        <td className="py-4 px-6 border-b">{user.email}</td>
-                                        <td className="py-4 px-6 border-b capitalize">{user.role}</td>
-                                        <td className="py-4 px-6 border-b capitalize">{user.status}</td>
-                                        <td className="py-4 px-6 border-b text-center">
+                                        <td >{user.name}</td>
+                                        <td >{user.email}</td>
+                                        <td >{user.role}</td>
+                                        <td >{user.status}</td>
+                                        <td >
                                             {
                                                 user.status !== 'fraud' ? (
                                                     <button

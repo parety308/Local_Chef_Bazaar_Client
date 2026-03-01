@@ -53,7 +53,7 @@ const MyOrderPage = () => {
       return (
         <button
           disabled
-          className="btn w-full bg-gray-400 text-white cursor-not-allowed"
+          className="btn w-full bg-secondary text-white cursor-not-allowed"
         >
           Paid .
         </button>

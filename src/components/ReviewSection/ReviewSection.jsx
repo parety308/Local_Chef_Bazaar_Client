@@ -42,9 +42,10 @@ const ReviewSection = () => {
     swiperRef?.autoplay?.start();
   };
 
+  /* ================= LOADING ================= */
   if (isLoading) {
     return (
-      <div className="text-center py-20 text-xl font-semibold">
+      <div className="text-center py-20 text-xl font-semibold text-base-content">
         Loading reviews...
       </div>
     );
@@ -52,20 +53,22 @@ const ReviewSection = () => {
 
   if (isError) {
     return (
-      <div className="text-center py-20 text-xl font-semibold text-red-500">
+      <div className="text-center py-20 text-xl font-semibold text-error">
         Error loading reviews: {error.message}
       </div>
     );
   }
 
   return (
-    <div className="my-16">
-      {/* Simple Static Title */}
-      <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-gray-800 mb-2">
-          What Our Customers Say
+    <div className="lg:mb-16 mb-8 p-4 bg-base-200 transition-colors duration-300">
+
+      {/* Title */}
+      <div className="text-center mb-10">
+        <h2 className="text-4xl font-bold text-base-content">
+          What Our <span className="text-primary">Customers Say</span>
         </h2>
-        <p className="text-gray-600">
+
+        <p className="text-base-content/70">
           Real feedback from real food lovers 🍽️
         </p>
       </div>
@@ -93,13 +96,12 @@ const ReviewSection = () => {
             slideShadows: true,
           }}
           autoplay={{
-            delay: 1200,
+            delay: 2500,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
           pagination={{ clickable: true }}
           modules={[EffectCoverflow, Pagination, Autoplay]}
-          className="mySwiper"
         >
           {reviews.map((review) => (
             <SwiperSlide key={review._id} className="flex justify-center">
@@ -112,25 +114,25 @@ const ReviewSection = () => {
         </Swiper>
       )}
 
-      {/* Modal */}
+      {/* ================= MODAL ================= */}
       {activeReview && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
           onClick={handleCloseModal}
         >
           <div
-            className="bg-white max-w-lg w-full rounded-2xl p-6 relative shadow-xl"
+            className="bg-base-100 text-base-content max-w-lg w-full rounded-2xl p-6 relative shadow-2xl transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close */}
             <button
               onClick={handleCloseModal}
-              className="absolute top-3 right-4 text-xl font-bold"
+              className="absolute top-3 right-4 text-xl font-bold hover:text-error"
             >
               ✕
             </button>
 
-            <h2 className="text-2xl font-bold text-[#3D2B1F] mb-2">
+            <h2 className="text-2xl font-bold text-primary mb-2">
               {activeReview.mealName}
             </h2>
 
@@ -140,9 +142,13 @@ const ReviewSection = () => {
                 alt={activeReview.reviewerName}
                 className="w-10 h-10 rounded-full"
               />
+
               <div>
-                <p className="font-semibold">{activeReview.reviewerName}</p>
-                <div className="flex gap-1 text-[#F4B400]">
+                <p className="font-semibold">
+                  {activeReview.reviewerName}
+                </p>
+
+                <div className="flex gap-1 text-warning">
                   {[...Array(activeReview.ratings)].map((_, i) => (
                     <FaStar key={i} />
                   ))}
@@ -150,7 +156,9 @@ const ReviewSection = () => {
               </div>
             </div>
 
-            <p className="text-gray-700 leading-relaxed">{activeReview.review}</p>
+            <p className="text-base-content/80 leading-relaxed">
+              {activeReview.review}
+            </p>
           </div>
         </div>
       )}

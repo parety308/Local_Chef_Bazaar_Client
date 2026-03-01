@@ -76,7 +76,6 @@ const Banner = () => {
       showStatus={false}
       showIndicators
       onChange={(index) => setActiveSlide(index)}
-      className="my-5"
     >
       {/* Slide 1 */}
       <div className="relative h-[350px] md:h-[450px]">
@@ -92,7 +91,7 @@ const Banner = () => {
           desc="Discover daily menus from trusted local chefs"
           btnText="Explore Today’s Menu"
           link="/meals"
-          color="bg-orange-500 hover:bg-orange-600"
+          color="bg-primary hover:bg-secondary cursor-pointer"
         />
       </div>
 
@@ -110,7 +109,7 @@ const Banner = () => {
           desc="Join LocalChefBazaar and sell your homemade food"
           btnText="Become a Local Chef"
           link="/dashboard/my-profile"
-          color="bg-green-500 hover:bg-green-600"
+          color="bg-primary hover:bg-secondary cursor-pointer"
         />
       </div>
 
@@ -128,7 +127,7 @@ const Banner = () => {
           desc="Secure payments & real-time order tracking"
           btnText="Order Now"
           link="/dashboard/my-orders"
-          color="bg-blue-500 hover:bg-blue-600"
+          color="bg-primary hover:bg-secondary cursor-pointer"
         />
       </div>
     </Carousel>

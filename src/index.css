@@ -1,10 +1,64 @@
+/* ===============================
+   GOOGLE FONT
+================================ */
 @import url('https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&display=swap');
-@plugin "daisyui";
+
 @import "tailwindcss";
+@plugin "daisyui";
 
+/* =================================================
+   ☀️ LIGHT MODE (DEFAULT)
+================================================= */
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
 
+  /* Brand */
+  --color-primary: #F97316;      /* orange */
+  --color-secondary: #3A8D7B;    /* teal */
+  --color-accent: #FF9F68;
+
+  /* Background system */
+  --color-base-100: #FFFFFF;
+  --color-base-200: #F8FAFC;
+  --color-base-300: #E5E7EB;
+
+  /* Text */
+  --color-base-content: #1F2937;
+  --color-primary-content: #ffffff;
+
+  /* Neutral */
+  --color-neutral: #F3F4F6;
+}
+
+/* =================================================
+   🌙 DARK MODE
+================================================= */
+@plugin "daisyui/theme" {
+  name: "dark";
+
+  /* Brand (slightly brighter for dark UI) */
+  --color-primary: #FB923C;
+  --color-secondary: #4FD1C5;
+  --color-accent: #FDBA74;
+
+  /* Background layers */
+  --color-base-100: #111827;
+  --color-base-200: #1F2937;
+  --color-base-300: #374151;
+
+  /* Text */
+  --color-base-content: #E5E7EB;
+  --color-primary-content: #111827;
+
+  /* Neutral */
+  --color-neutral: #0F172A;
+}
+
+/* ===============================
+   LOGO FONT
+================================ */
 .logo {
   font-family: "Changa One", sans-serif;
   font-weight: 300;
-  font-style: normal;
 }

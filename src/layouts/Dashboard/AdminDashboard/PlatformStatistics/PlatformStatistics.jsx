@@ -32,8 +32,8 @@ const PlatformStatistics = () => {
         }
     });
     const orderData = [
-        { name: "Pending", value: orders?.pending || 0},
-        { name: "Delivered", value: orders?.delivered || 0},
+        { name: "Pending", value: orders?.pending || 0 },
+        { name: "Delivered", value: orders?.delivered || 0 },
     ];
 
     const { data: totalPayment = 0, isLoading: isPaymentLoading } = useQuery({
@@ -64,12 +64,12 @@ const PlatformStatistics = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="bg-white shadow rounded-xl p-6 text-center">
                     <h2 className="text-gray-500">Total Payment</h2>
-                    <p className="text-3xl font-bold text-green-600 mt-2">
+                    <p className="text-3xl font-bold text-secondary mt-2">
                         ৳{totalPaymentAmount.toLocaleString()}
                     </p>
                 </div>
 
-                <div className="bg-white shadow rounded-xl p-6 text-center cursor-pointer" onClick={() => navigation('/admin/users')}>
+                <div className="bg-white shadow rounded-xl p-6 text-center hover:cursor-pointer" onClick={() => navigation('/admin/users')}>
                     <h2 className="text-gray-500">Total Users</h2>
                     <p className="text-3xl font-bold text-blue-600 mt-2">
                         {users.length}
@@ -85,7 +85,7 @@ const PlatformStatistics = () => {
 
                 <div className="bg-white shadow rounded-xl p-6 text-center">
                     <h2 className="text-gray-500">Orders Delivered</h2>
-                    <p className="text-3xl font-bold text-green-500 mt-2">
+                    <p className="text-3xl font-bold text-secondary mt-2">
                         {deliveredOrders}
                     </p>
                 </div>

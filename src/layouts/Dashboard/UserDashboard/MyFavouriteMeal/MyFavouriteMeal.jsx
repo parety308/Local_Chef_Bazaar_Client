@@ -81,45 +81,45 @@ const MyFavouriteMeal = () => {
                     </button>
                 </div>
             )}
-           {
-            favouriteMeals.length > 0 && (
-            <>
-            <h1 className="text-3xl my-10">Favourite Meals : {favouriteMeals.length}</h1>
-            <div className="overflow-x-auto">
-                <table className="table">
-                    {/* head */}
-                    <thead>
-                        <tr>
-                            <th>Meal Image</th>
-                            <th>Meal Name</th>
-                            <th>Chef Name</th>
-                            <th>Price</th>
-                            <th>Date Added</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            favouriteMeals.map(meal => <tr>
-                                <td>
+            {
+                favouriteMeals.length > 0 && (
+                    <>
+                        <h1 className="text-3xl my-6">Favourite Meals : {favouriteMeals.length}</h1>
+                        <div className="overflow-x-auto bg-white rounded-xl shadow">
+                            <table className="table">
+                                {/* head */}
+                                <thead className="bg-gray-100">
+                                    <tr>
+                                        <th>Meal Image</th>
+                                        <th>Meal Name</th>
+                                        <th>Chef Name</th>
+                                        <th>Price</th>
+                                        <th>Date Added</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        favouriteMeals.map(meal => <tr>
+                                            <td>
 
-                                    <img
-                                        className='w-12 h-12 rounded-full'
-                                        src={meal.mealImg}
-                                        alt={meal.mealName} />
-                                </td>
-                                <td><div className="font-bold">{meal.mealName}</div></td>
-                                <td><div className="text-sm opacity-50">{meal.chefName}</div></td>
-                                <td>{meal.price}</td>
-                                <td>{meal.added_date}</td>
-                                <td><button onClick={() => handleDelete(meal._id)} className='btn text-red-500'>Delete</button></td>
-                            </tr>)
-                        }
-                    </tbody>
-                </table>
-            </div>
-            </>
-            )}
+                                                <img
+                                                    className='w-12 h-12 rounded-full'
+                                                    src={meal.mealImg}
+                                                    alt={meal.mealName} />
+                                            </td>
+                                            <td><div className="font-bold">{meal.mealName}</div></td>
+                                            <td><div className="text-sm opacity-50">{meal.chefName}</div></td>
+                                            <td>{meal.price}</td>
+                                            <td>{meal.added_date}</td>
+                                            <td><button onClick={() => handleDelete(meal._id)} className='btn text-red-500'>Delete</button></td>
+                                        </tr>)
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
         </div>
     );
 };

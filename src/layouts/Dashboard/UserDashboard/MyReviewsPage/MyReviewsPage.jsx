@@ -101,11 +101,11 @@ const MyReviewsPage = () => {
     if (isLoading) return <Loading />;
 
     return (
-        <div className="w-11/12 mx-auto my-10">
+        <div className="w-11/12 mx-auto lg:my-10">
             <title>My Reviews - Dashboard</title>
 
             {reviews.length === 0 && (
-                <div className="flex flex-col items-center justify-center py-20 bg-white shadow-md rounded-xl mx-5 md:mx-0">
+                <div className="flex flex-col items-center justify-center  bg-white shadow-md rounded-xl mx-5 md:mx-0">
                     {/* Icon */}
                     <div className="bg-yellow-100 p-5 rounded-full mb-6">
                         <svg
@@ -142,7 +142,7 @@ const MyReviewsPage = () => {
 
             {reviews.length > 0 && (
                 <>
-                    <h1 className="text-4xl mb-6">Total Reviews : {reviews.length}</h1>
+                    <h1 className="text-4xl mb-6 font-semibold">Total Reviews : {reviews.length}</h1>
 
                     <div className="overflow-x-auto bg-white rounded-xl shadow">
                         <table className="table">

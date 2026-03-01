@@ -94,12 +94,12 @@ const MyProfilePage = () => {
                 {/* Action Buttons */}
                 <div className="flex flex-col md:flex-row justify-center gap-4">
                     {
-                        (role !== 'admin' && role !== 'chef') && <button onClick={() => handleRoleChange('chef')} className="btn w-full md:w-auto flex-1 bg-orange-500 hover:bg-orange-600 text-white">
+                        (role !== 'admin' && role !== 'chef') && <button onClick={() => handleRoleChange('chef')} className="btn w-full md:w-auto flex-1 bg-primary hover:cursor-pointer text-white">
                             Be a Chef 👨‍🍳
                         </button>
                     }
                     {
-                        role !== 'admin' && <button onClick={() => handleRoleChange('admin')} className="btn w-full md:w-auto flex-1 bg-blue-500 hover:bg-blue-600 text-white">
+                        role !== 'admin' && <button onClick={() => handleRoleChange('admin')} className="btn w-full md:w-auto flex-1 bg-secondary hover:bg-blue-600 text-white">
                             Be an Admin 🛡️
                         </button>
                     }
